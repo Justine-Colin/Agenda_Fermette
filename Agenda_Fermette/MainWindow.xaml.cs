@@ -31,6 +31,7 @@ namespace Agenda_Fermette
         public void AfficherJourBouton()
         //Change le nom des jours sur les boutons selon le jour d'ajd
         {
+            string Jour;
             DateTime Ajd = new DateTime();
             //Récupère la date du jour
             Ajd = DateTime.Now;
@@ -39,11 +40,19 @@ namespace Agenda_Fermette
             //Boucle pour la semaine
             for(int i = 0; i < 7; i++)
             {
+                int Num = (int)Ajd.DayOfWeek + i; //Détermine le numéro du jour
                 /*Va rechercher le jour d'aujourd'hui en anglais avec DayOfWeek
                  * Puis ajoute i pour arriver au jour souhaité
                  * puis traduit en français 
                  */
-                var Jour = Langue.DateTimeFormat.GetDayName(Ajd.DayOfWeek + i);
+                 if(Num <= 6) //Les numéros des jours vont de 0 à 6 (Dim -> Sam) Si plus haut : out of range
+                 {
+                    Jour = Langue.DateTimeFormat.GetDayName(Ajd.DayOfWeek + i);
+                 }                    
+                 else //Si le num est plus grand que 6, on fait -7 pour le ramener dans le range
+                 {
+                    Jour = Langue.DateTimeFormat.GetDayName(Ajd.DayOfWeek + i - 7);
+                 }
                 //Ajoute les jours pour changer la date
                 DateTime Date = Ajd.AddDays(i);
                 //Remplace la première lettre par une majuscule et ajoute la date derrière /!\ MM donne le mois mm donne les minutes

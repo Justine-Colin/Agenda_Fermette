@@ -6,13 +6,14 @@
         xmlns:local="clr-namespace:Agenda_Fermette"
         mc:Ignorable="d"
         Title="MainWindow" Height="1080" Width="1920">
-    <Grid Margin="0,0,-0.4,0.4">
+    <Grid Margin="0,0,0,0">
         <Grid.ColumnDefinitions>
             <ColumnDefinition/>
         </Grid.ColumnDefinitions>
-        <StackPanel Orientation ="Horizontal" HorizontalAlignment="Left" Height="50" Margin="0,0,-8,0" VerticalAlignment="Top" Width="1920" Name="Semaine"/>
-        <Canvas HorizontalAlignment="Left" Height="270" VerticalAlignment="Bottom" Width="1920" Background="LightCoral" Margin="0,0,-8,-0.4" Grid.ColumnSpan="2"/>
-        <Canvas HorizontalAlignment="Right" Height="730" VerticalAlignment="Top" Width="740" Margin="0,50,0,0" Background="LightBlue" Grid.Column="1"/>
-        <Canvas HorizontalAlignment="Left" Height="730" Margin="0,50,0,0" VerticalAlignment="Top" Width="1175" Background="LightGoldenrodYellow" Grid.ColumnSpan="2"/>
+        <StackPanel Orientation ="Horizontal" HorizontalAlignment="Left" Height="50" Margin="0,0,0,0" VerticalAlignment="Bottom" Width="1920" Name="Semaine"/>
+        <Canvas HorizontalAlignment="Left" Height="270" VerticalAlignment="Bottom" Width="1920" Background="LightCoral" Margin="0,0,0,50"/>
+        <Canvas HorizontalAlignment="Right" Height="730" VerticalAlignment="Top" Width="480" Margin="0,0,0,0" Background="LightBlue" Grid.Column="1"/>
+        <Canvas HorizontalAlignment="Left" Height="730" Margin="480,0,0,0" VerticalAlignment="Top" Width="960" Background="LightGoldenrodYellow" Grid.ColumnSpan="2"/>
+        <Canvas HorizontalAlignment="Left" Height="730" Margin="0,0,0,0" VerticalAlignment="Top" Width="480" Background="LightSeaGreen" Grid.ColumnSpan="3"/>
     </Grid>
 </Window>
