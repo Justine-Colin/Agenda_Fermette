@@ -26,6 +26,8 @@ namespace Agenda_Fermette
         {            
             InitializeComponent();
             AfficherJourBouton();
+            AfficherImportant();
+            Jour_Click(J_0, null);
         }
 
         public void AfficherJourBouton()
@@ -57,22 +59,234 @@ namespace Agenda_Fermette
                 DateTime Date = Ajd.AddDays(i);
                 //Remplace la première lettre par une majuscule et ajoute la date derrière /!\ MM donne le mois mm donne les minutes
                 Jour = char.ToUpper(Jour[0]) + Jour.Substring(1) + " " + Date.ToString("dd/MM");
-                //Prépare le string de la marge
-                //Crée le bouton correspondant
-                Button Bouton = new Button
-                {
-                    Name = "Jour_" + i,                    
-                    //Le place sur la page
-                    HorizontalAlignment = HorizontalAlignment.Left,
-                    VerticalAlignment = VerticalAlignment.Top,
-                    Width = 274,
-                    Height = 50,
-                    Visibility = Visibility.Visible
-                };
-                //Remplit avec le jour qu'il faut
+                //Recrée le nom du bouton à utiliser
+                string Nom = "J_" + i;
+                //Va rechercher ce bouton
+                Button Bouton = (Button)FindName(Nom);
+                //Remplace le texte
                 Bouton.Content = Jour;
-                Semaine.Children.Add(Bouton);
             } 
+        }
+
+        public void AfficherImportant()
+         //Affiche les events importants de la semaine (sur tous les jours)
+        {
+            /*foreach(var Evenement in T_Event)
+            {
+                DateTime Jour = DateTime.MinValue;
+                //Date de demain
+                DateTime Demain = DateTime.Now.AddDays(1);
+                //Date d'une semaine + tard
+                DateTime Semaine = DateTime.Now.AddDays(7);
+                //Evenement à afficher 1 jour à l'avance a priorité 1
+                if (Evenement.Ev_Priorite == 1) 
+                {
+                    //On va rechercher la date
+                    foreach(var Liaison in T_Li_Event)
+                    {
+                        if(Liaison.ID_Event == Evenement.ID_Event)
+                        {
+                            foreach(var Date in T_Date)
+                            {
+                                if(Liaison.ID_Date = Date.ID_Date)
+                                {
+                                    Jour = Date.ID_Date;
+                                }
+                            }
+                        }
+                    }
+                    //On vérifie si on doit afficher l'événement dans important
+                    if(Jour == Demain)
+                    {
+                        //Affichage dans des textbox
+                        Important.Children.Add(new TextBox
+                        {
+                            Text = Evenement.Ev_Titre + " : " + Evenement.Ev_Descriptif
+                        });
+                    }
+                }
+
+                //Evenement à afficher 1 semaine à l'avance a priorité 2
+                if (Evenement.Ev_Priorite == 2)
+                {
+                    foreach (var Liaison in T_Li_Event)
+                    {
+                        if (Liaison.ID_Event == Evenement.ID_Event)
+                        {
+                            foreach (var Date in T_Date)
+                            {
+                                if (Liaison.ID_Date = Date.ID_Date)
+                                {
+                                    Jour = Date.ID_Date;
+                                }
+                            }
+                        }
+                    }
+                    //On vérifie si on doit afficher l'événement dans important
+                    if (Jour == Semaine)
+                    {
+                        //Affichage dans des textbox
+                        Important.Children.Add(new TextBox
+                        {
+                            Text = Evenement.Ev_Titre + " : " + Evenement.Ev_Descriptif
+                        });
+                    }
+                }
+            }*/
+        }
+
+        public void AfficherMenu(DateTime Jour)
+        //Affiche le menu du jour sur la droite
+        {
+            /*DateTime jour = DateTime.MinValue;
+            //On va rechercher la date
+            foreach (var Date in T_Date)
+            {
+                if (Date.D_Jour == Jour)
+                {
+                    foreach(var Menus in T_Menu)
+                    {
+                        if(Menus.ID_Menu == Date.ID_Menu)
+                        {
+                            foreach(var Nour in T_Nourriture)
+                            {
+                                //Affichage entrée
+                                if(Nour.ID_Nourriture == Menus.ID_Entree)
+                                {
+                                    Menu.Children.Add(new TextBox
+                                    {
+                                        Text = "Entrée : " + Nour.No_Nom
+                                    });
+                                    string path = @"Images/Menu/Entrée/" + Nour.No_Nom;
+                                    Menu.Children.Add(new Image
+                                    {
+                                        Source = new BitmapImage(new Uri(path, UriKind.Relative))
+                                    });
+                                }
+                                //Affichage plat
+                                if (Nour.ID_Nourriture == Menus.ID_Plat)
+                                {
+                                    Menu.Children.Add(new TextBox
+                                    {
+                                        Text = "Plat : " + Nour.No_Nom
+                                    });
+                                    string path = @"Images/Menu/Plat/" + Nour.No_Nom;
+                                    Menu.Children.Add(new Image
+                                    {
+                                        Source = new BitmapImage(new Uri(path, UriKind.Relative))
+                                    });
+                                }
+                                //Affichage Dessert
+                                if (Nour.ID_Nourriture == Menus.ID_Dessert)
+                                {
+                                    Menu.Children.Add(new TextBox
+                                    {
+                                        Text = "Dessert : " + Nour.No_Nom
+                                    });
+                                    string path = @"Images/Menu/Dessert/" + Nour.No_Nom;
+                                    Menu.Children.Add(new Image
+                                    {
+                                        Source = new BitmapImage(new Uri(path, UriKind.Relative))
+                                    });
+                                }
+                                //Affichage collation
+                                if (Nour.ID_Nourriture == Menus.ID_Collation)
+                                {
+                                    Menu.Children.Add(new TextBox
+                                    {
+                                        Text = "Collation : " + Nour.No_Nom
+                                    });
+                                    string path = @"Images/Menu/Collation/" + Nour.No_Nom;
+                                    Menu.Children.Add(new Image
+                                    {
+                                        Source = new BitmapImage(new Uri(path, UriKind.Relative))
+                                    });
+                                }
+                            }
+                        }
+
+                    }
+                }
+            }*/            
+        }
+
+        public void AfficherAnnif(DateTime Jour)
+        //Affiche les anniversaires à gauche
+        {
+            /*DateTime jour = DateTime.MinValue;
+            //Evenement à afficher 1 jour à l'avance a priorité 1
+            //On va rechercher la date
+            foreach (var Liaison in T_Li_Event)
+            {
+                if (Liaison.ID_Event == Evenement.ID_Event)
+                {
+                    foreach (var Date in T_Date)
+                    {
+                        if (Liaison.ID_Date = Date.ID_Date)
+                        {
+                            jour = Date.ID_Date;
+                        }
+                    }
+                }
+            }
+            //On vérifie si on doit afficher l'événement
+            if (Jour == jour)
+            {
+                //Affichage dans des textbox
+                Important.Children.Add(new TextBox
+                {
+                    Text = Evenement.Ev_Titre
+                });
+            }*/
+        }
+
+        public void AfficherInfo(DateTime Jour)
+        //Affiche les info au milieu
+        {
+           /* foreach (var Evenement in T_Event)
+            {
+                DateTime jour = DateTime.MinValue;              
+                //Evenement à afficher 1 jour à l'avance a priorité 1
+                //On va rechercher la date
+                foreach (var Liaison in T_Li_Event)
+                {
+                    if (Liaison.ID_Event == Evenement.ID_Event)
+                    {
+                        foreach (var Date in T_Date)
+                        {
+                            if (Liaison.ID_Date = Date.ID_Date)
+                            {
+                                    jour = Date.ID_Date;
+                            }
+                        }
+                    }
+                }
+                //On vérifie si on doit afficher l'événement
+                if (Jour == Jour)
+                {
+                    //Affichage dans des textbox
+                    Important.Children.Add(new TextBox
+                    {
+                        Text = Evenement.Ev_Titre
+                    });
+                }
+            }*/
+        }
+
+        private void Jour_Click(object sender, RoutedEventArgs e)
+        //Clic sur un bouton => changement affichage
+        {
+            //Récupère le contenu du bouton (jour + date)
+            string content = (sender as Button).Content.ToString();
+            //Split sur l'espace pour séparer jour et date dans un tableau
+            string[] tab = content.Split(' ');
+            //Transforme le string en DateTime
+            string Jour = tab[1];
+            DateTime Date = DateTime.Parse(Jour);
+            //Lance les 3 fonctions d'affichage dépendant du jour
+            AfficherMenu(Date);
+            AfficherAnnif(Date);
+            AfficherInfo(Date);
         }
     }
 }

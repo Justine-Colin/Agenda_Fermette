@@ -5,15 +5,41 @@
         xmlns:mc="http://schemas.openxmlformats.org/markup-compatibility/2006"
         xmlns:local="clr-namespace:Agenda_Fermette"
         mc:Ignorable="d"
-        Title="MainWindow" Height="1080" Width="1920">
+        Title="MainWindow">
     <Grid Margin="0,0,0,0">
         <Grid.ColumnDefinitions>
-            <ColumnDefinition/>
+            <ColumnDefinition Width="1*"/>
+            <ColumnDefinition Width="1*"/>
+            <ColumnDefinition Width="1*"/>
+            <ColumnDefinition Width="1*"/>
+            <ColumnDefinition Width="1*"/>
+            <ColumnDefinition Width="1*"/>
+            <ColumnDefinition Width="1*"/>
         </Grid.ColumnDefinitions>
-        <StackPanel Orientation ="Horizontal" HorizontalAlignment="Left" Height="50" Margin="0,0,0,0" VerticalAlignment="Bottom" Width="1920" Name="Semaine"/>
-        <Canvas HorizontalAlignment="Left" Height="270" VerticalAlignment="Bottom" Width="1920" Background="LightCoral" Margin="0,0,0,50"/>
-        <Canvas HorizontalAlignment="Right" Height="730" VerticalAlignment="Top" Width="480" Margin="0,0,0,0" Background="LightBlue" Grid.Column="1"/>
-        <Canvas HorizontalAlignment="Left" Height="730" Margin="480,0,0,0" VerticalAlignment="Top" Width="960" Background="LightGoldenrodYellow" Grid.ColumnSpan="2"/>
-        <Canvas HorizontalAlignment="Left" Height="730" Margin="0,0,0,0" VerticalAlignment="Top" Width="480" Background="LightSeaGreen" Grid.ColumnSpan="3"/>
+        <Grid.RowDefinitions>
+            <RowDefinition Height="10*" />
+            <RowDefinition Height="3*" />
+            <RowDefinition Height="1*" />
+        </Grid.RowDefinitions>
+        
+        <ScrollViewer Grid.ColumnSpan="2" VerticalScrollBarVisibility="Hidden">
+            <StackPanel Background="LightSeaGreen" Name="Annif"/>
+        </ScrollViewer>
+        <ScrollViewer Grid.ColumnSpan="3" Grid.Column="2" VerticalScrollBarVisibility="Hidden">
+            <StackPanel Background="LightGoldenrodYellow" Name="Info"/>
+        </ScrollViewer>
+        <ScrollViewer Grid.Column="5" Grid.ColumnSpan="2" VerticalScrollBarVisibility="Hidden">
+            <StackPanel Background="LightBlue" Name="Menu"/>
+        </ScrollViewer>
+        <ScrollViewer Grid.Column="0" Grid.ColumnSpan="7" Grid.Row="1" VerticalScrollBarVisibility="Hidden">
+            <StackPanel Background="LightCoral" Name="Important"/>
+        </ScrollViewer>
+        <Button Grid.Row="2" Name="J_0" Click="Jour_Click"></Button>
+        <Button  Grid.Row="2" Grid.Column="1" Name="J_1" Click="Jour_Click"></Button>
+        <Button  Grid.Row="2" Grid.Column="2" Name="J_2" Click="Jour_Click"></Button>
+        <Button  Grid.Row="2" Grid.Column="3" Name="J_3" Click="Jour_Click"></Button>
+        <Button  Grid.Row="2" Grid.Column="4" Name="J_4" Click="Jour_Click"></Button>
+        <Button  Grid.Row="2" Grid.Column="5" Name="J_5" Click="Jour_Click"></Button>
+        <Button  Grid.Row="2" Grid.Column="6" Name="J_6" Click="Jour_Click"></Button>
     </Grid>
 </Window>
