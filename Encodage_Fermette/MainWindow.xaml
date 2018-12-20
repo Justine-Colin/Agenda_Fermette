@@ -8,33 +8,68 @@
         Title="MainWindow" Height="450" Width="800">
     
     
-    <Grid>
+    <Grid Name="GridFenetre">
         <Grid.RowDefinitions>
             <RowDefinition Height="20"/>
             <RowDefinition Height="*"/>
             <RowDefinition Height="*"/>
+            <RowDefinition Height="Auto"/>
         </Grid.RowDefinitions>
         <Grid.ColumnDefinitions>
             <ColumnDefinition Width="*"/>
             <ColumnDefinition Width="*"/>
             <ColumnDefinition Width="*"/>
         </Grid.ColumnDefinitions>
-        <DockPanel Grid.Row="0" >
+        <DockPanel Grid.Row="0">
             <Menu DockPanel.Dock="Top">
-                <MenuItem Header="_File">
-                    <MenuItem Header="_New" />
-                    <MenuItem Header="_Open" />
-                    <MenuItem Header="_Save" />
+                <MenuItem Header="Gestion">
+                    <MenuItem Header="Evenements" />
+                    <MenuItem Header="Beneficiaires" />
+                    <MenuItem Header="Staff" />
+                    <MenuItem Header="Menu" />
                     <Separator />
-                    <MenuItem Header="_Exit" />
+                    <MenuItem Header="Quitter_Menu" />
                 </MenuItem>
             </Menu>
             <TextBox AcceptsReturn="True" />
         </DockPanel>
-
-        <Calendar Grid.Row="1" Grid.Column="0" />
-        <StackPanel Grid.Row="1" Grid.Column="1">
-
+        <Calendar Grid.Row="1" Grid.Column="0" Width="auto" Margin="5" />
+        <DataGrid Grid.Row="2" Grid.Column="0" VerticalScrollBarVisibility="Visible">
+            <DataGrid.Columns>
+                <DataGridTextColumn Visibility="Hidden" Binding="{Binding Path=ID}" />
+                <DataGridTextColumn Header="Titre" Binding="{Binding Path=Pre}" Width="*" />
+                <DataGridTextColumn Header="Lieu" Binding="{Binding Path=Nom}" Width="*" />
+                <DataGridTextColumn Header="Heure_Debut" Binding="{Binding Path=Nom}" Width="*" />
+                <DataGridTextColumn Header="Heure_Fin" Binding="{Binding Path=Nom}" Width="*" />
+            </DataGrid.Columns>
+        </DataGrid>
+        <StackPanel Orientation="Horizontal" Grid.Row="3" HorizontalAlignment="Center" Margin="3">
+            <Button Name="bAjouter" Content="Ajouter" Margin="3" IsEnabled="{Binding Path=ActiverBcpFiche, Mode=OneWay}"
+           Command="{Binding cAjouter}" />
+            <Button Name="bModifier" Content="Modifier" Margin="3" IsEnabled="{Binding Path=ActiverBcpFiche, Mode=OneWay}"
+           Command="{Binding cModifier}" />
+            <Button Name="bSupprimer" Content="Supprimer" Margin="3" IsEnabled="{Binding Path=ActiverBcpFiche, Mode=OneWay}"
+           Command="{Binding cSupprimer}" />
         </StackPanel>
+        <Grid Name="GridEvenement" Grid.Row="1" Grid.Column="1">
+            <Grid.RowDefinitions>
+                <RowDefinition Height="Auto" />
+                <RowDefinition Height="Auto" />
+                <RowDefinition Height="Auto" />
+                <RowDefinition Height="Auto" />
+            </Grid.RowDefinitions>
+            <Grid.ColumnDefinitions>
+                <ColumnDefinition Width="Auto" />
+                <ColumnDefinition Width="*" />
+            </Grid.ColumnDefinitions>
+            
+            <TextBlock Name="tTitre" Text="Identifiant" VerticalAlignment="Center" />
+            <TextBox Name="tbTitre" Grid.Column="1" Margin="3"/>
+            <TextBlock Name="tPriorite" Text="Priorite" VerticalAlignment="Center" />
+            <ListBox Name="LbPriorite"/>
+            <TextBlock Name="tRecurrent" Text="Identifiant" VerticalAlignment="Center" />
+            <CheckBox/>
+
+        </Grid>
     </Grid>
 </Window>
