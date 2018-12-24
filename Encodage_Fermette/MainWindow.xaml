@@ -33,7 +33,10 @@
             </Menu>
             <TextBox AcceptsReturn="True" />
         </DockPanel>
-        <Calendar Grid.Row="1" Grid.Column="0" Width="auto" Margin="5" />
+        <!-- <Calendar Grid.Row="1" Grid.Column="0" Width="auto" Margin="5" /> -->
+        <Viewbox Grid.Row="1" Grid.Column="0" Width="auto" Margin="5" >
+            <Calendar/>
+        </Viewbox>
         <DataGrid Grid.Row="2" Grid.Column="0" VerticalScrollBarVisibility="Visible">
             <DataGrid.Columns>
                 <DataGridTextColumn Visibility="Hidden" Binding="{Binding Path=ID}" />
@@ -53,23 +56,34 @@
         </StackPanel>
         <Grid Name="GridEvenement" Grid.Row="1" Grid.Column="1">
             <Grid.RowDefinitions>
-                <RowDefinition Height="Auto" />
-                <RowDefinition Height="Auto" />
-                <RowDefinition Height="Auto" />
-                <RowDefinition Height="Auto" />
+                <RowDefinition Height="30" />
+                <RowDefinition Height="30" />
+                <RowDefinition Height="30" />
+                <RowDefinition Height="50" />
+                <RowDefinition Height="20" />
+                <RowDefinition Height="25" />
+                <RowDefinition Height="25" />
+
+
             </Grid.RowDefinitions>
             <Grid.ColumnDefinitions>
                 <ColumnDefinition Width="Auto" />
                 <ColumnDefinition Width="*" />
             </Grid.ColumnDefinitions>
+            <TextBlock Name="tTitreEvent" Text="Titre" VerticalAlignment="Center" />
+            <TextBox Name="tbTitreEvent" Grid.Column="1" Margin="3"/>
+            <TextBlock Name="tPrioriteEvent" Text="Priorite" Grid.Row="1" VerticalAlignment="Center" />
+            <ListBox Name="LbPrioriteEvent" Grid.Row="1" Grid.Column="1" Margin="3"/>
+            <TextBlock Name="tRecurrent" Text="Recurrent" Grid.Row="2" VerticalAlignment="Center" />
+            <CheckBox Grid.Row="2" Grid.Column="1" Margin="3"/>
+            <TextBlock Name="tDescriptifEvent" Text="Descriptif" Grid.Row="3" VerticalAlignment="Top" />
+            <TextBox Name="tbDescpritfEvent"  Grid.Row="3" Grid.Column="1" Margin="3"/>
+            <TextBlock Name="tLieuEvent" Grid.Row="4" Text="Lieu"  VerticalAlignment="Center" />
+            <ListBox Name="LbLieu" Grid.Row="4" Grid.Column="1" Margin="3"/>
+            <TextBlock Name="tHeureDebutEvent" Grid.Row="5" Text="Heure Début"  VerticalAlignment="Center" />
+            <DatePicker Grid.Row="5" Grid.Column="1" Margin="3"/>
+            <TextBlock Name="tHeureFinEvent" Grid.Row="6" Text="Heure Fin"  VerticalAlignment="Center" />
             
-            <TextBlock Name="tTitre" Text="Identifiant" VerticalAlignment="Center" />
-            <TextBox Name="tbTitre" Grid.Column="1" Margin="3"/>
-            <TextBlock Name="tPriorite" Text="Priorite" VerticalAlignment="Center" />
-            <ListBox Name="LbPriorite"/>
-            <TextBlock Name="tRecurrent" Text="Identifiant" VerticalAlignment="Center" />
-            <CheckBox/>
-
         </Grid>
     </Grid>
 </Window>
