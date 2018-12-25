@@ -62,6 +62,22 @@ namespace Encodage_Fermette.ViewModel
         public BaseCommande cSupprimer { get; set; }
         #endregion
 
+        public VM_Staff()
+        {
+            UnStaff = new VM_Un_Staff();
+            UnStaff.ID = 24;
+            UnStaff.Pre = "Prenom";
+            UnStaff.Nom = "Nom";
+            UnStaff.Nai = DateTime.Today;
+            BcpStaff = ChargerStaff(chConnexion);
+            ActiverUneFiche = false;
+            cConfirmer = new BaseCommande(Confirmer);
+            cAnnuler = new BaseCommande(Annuler);
+            cAjouter = new BaseCommande(Ajouter);
+            cModifier = new BaseCommande(Modifier);
+            cSupprimer = new BaseCommande(Supprimer);
+        }
+
         private ObservableCollection<C_T_Staff> ChargerStaff(string chConn)
         {
             ObservableCollection<C_T_Staff> rep = new ObservableCollection<C_T_Staff>();
@@ -84,9 +100,48 @@ namespace Encodage_Fermette.ViewModel
             }
             ActiverUneFiche = false;
         }
-
-        public class VM_Un_Staff : BasePropriete
+        public void Annuler()
+        { ActiverUneFiche = false; }
+        public void Ajouter()
         {
+            UnStaff = new VM_Un_Staff();
+            nAjout = -1;
+            ActiverUneFiche = true;
+        }
+        public void Modifier()
+        {
+            if (StaffSelectionne != null)
+            {
+                C_T_Staff Tmp = new CoucheGestion.G_T_Staff(chConnexion).Lire_ID(StaffSelectionne.ID_Staff);
+                UnStaff = new VM_Un_Staff();
+                UnStaff.ID = Tmp.ID_Staff;
+                UnStaff.Pre = Tmp.S_Prenom;
+                UnStaff.Nom = Tmp.S_Nom;
+                UnStaff.Nai = Tmp.S_Annif;
+                UnStaff.Poste = Tmp.S_Poste;
+                nAjout = BcpStaff.IndexOf(StaffSelectionne);
+                ActiverUneFiche = true;
+            }
+        }
+        public void Supprimer()
+        {
+            if (StaffSelectionne != null)
+            {
+                new CoucheGestion.G_T_Staff(chConnexion).Supprimer(StaffSelectionne.ID_Staff);
+                BcpStaff.Remove(StaffSelectionne);
+            }
+        }
+        public void PersonneSelectionnee2UnePersonne()
+        {
+            UnStaff.Nom = StaffSelectionne.S_Nom;
+            UnStaff.Pre = StaffSelectionne.S_Prenom;
+            UnStaff.Nai = StaffSelectionne.S_Annif;
+            UnStaff.Sexe = StaffSelectionne.S_Sexe;
+            UnStaff.Poste = StaffSelectionne.S_Poste;
+        }
+    }
+    public class VM_Un_Staff : BasePropriete
+    {
             private int _ID;
             private string _Nom, _Pre, _Poste;
             private DateTime _Nai;
@@ -124,7 +179,5 @@ namespace Encodage_Fermette.ViewModel
                 set { AssignerChamp<bool>(ref _Sexe, value  , System.Reflection.MethodBase.GetCurrentMethod().Name); }
             }
            
-        }
-
     }
 }

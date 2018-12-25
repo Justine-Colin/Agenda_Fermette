@@ -24,5 +24,10 @@ namespace Encodage_Fermette
         {
             InitializeComponent();
         }
+        public void btn_Gestion_Personne(object sender, RoutedEventArgs e)
+        {
+            View.GestionPersonne f = new View.GestionPersonne();
+            f.ShowDialog();
+        }
     }
 }
