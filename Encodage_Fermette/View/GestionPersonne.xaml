@@ -31,7 +31,7 @@
             </Grid.ColumnDefinitions>
             <TextBlock Name="tNom" Text="Nom" VerticalAlignment="Center" />
             <TextBox Name="tbNom" Grid.Column="1" Margin="3"
-            Text="{Binding Path=UnStaff.ID, Mode=TwoWay}" />
+            Text="{Binding Path=UnStaff.Nom, Mode=TwoWay}" TextChanged="TbNom_TextChanged" />
 
             <TextBlock Name="tPre" Text="Prenom"  Grid.Row="1" VerticalAlignment="Center" />
             <TextBox Name="tbPre" Grid.Row="1" Grid.Column="1" Margin="3"
@@ -65,6 +65,15 @@
                 <DataGridTextColumn Header="Nom" Binding="{Binding Path=Nom}" Width="*" />
             </DataGrid.Columns>
         </DataGrid>
+        <StackPanel Orientation="Horizontal" Grid.Row="3" HorizontalAlignment="Center" Margin="3">
+            <Button Name="bAjouter" Content="Ajouter" Margin="3" IsEnabled="{Binding Path=ActiverBcpFiche, Mode=OneWay}"
+           Command="{Binding cAjouter}" />
+            <Button Name="bModifier" Content="Modifier" Margin="3" IsEnabled="{Binding Path=ActiverBcpFiche, Mode=OneWay}"
+           Command="{Binding cModifier}" />
+            <Button Name="bSupprimer" Content="Supprimer" Margin="3" IsEnabled="{Binding Path=ActiverBcpFiche, Mode=OneWay}"
+           Command="{Binding cSupprimer}" />
+        </StackPanel>
+
 
     </Grid>
 </Window>

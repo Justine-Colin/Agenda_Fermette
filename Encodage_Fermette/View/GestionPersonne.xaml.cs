@@ -25,7 +25,6 @@ namespace Encodage_Fermette.View
     public partial class GestionPersonne : Window
     {
         private ViewModel.VM_Staff LocalStaff;
-
         public GestionPersonne()
         {
             InitializeComponent();
@@ -34,6 +33,5 @@ namespace Encodage_Fermette.View
         }
         private void dgStaff_SelectionChanged(object sender, SelectionChangedEventArgs e)
         { if (dgStaff.SelectedIndex >= 0) LocalStaff.PersonneSelectionnee2UnePersonne(); }
-
     }
 }
