@@ -68,6 +68,7 @@ namespace Encodage_Fermette.ViewModel
             UnStaff.ID = 24;
             UnStaff.Pre = "Prenom";
             UnStaff.Nom = "Nom";
+            UnStaff.Sexe = false;
             UnStaff.Nai = DateTime.Today;
             BcpStaff = ChargerStaff(chConnexion);
             ActiverUneFiche = false;
@@ -82,7 +83,6 @@ namespace Encodage_Fermette.ViewModel
         {
             ObservableCollection<C_T_Staff> rep = new ObservableCollection<C_T_Staff>();
             List<C_T_Staff> lTmp = new CoucheGestion.G_T_Staff(chConn).Lire("ID");
-
             foreach (C_T_Staff Tmp in lTmp)
                 rep.Add(Tmp);
             return rep;

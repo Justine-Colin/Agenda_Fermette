@@ -82,9 +82,16 @@
     </ApplicationDefinition>
     <Compile Include="ViewModel\Base.cs" />
     <Compile Include="ViewModel\Beneficiaire.cs" />
+    <Compile Include="ViewModel\Menu.cs" />
     <Compile Include="ViewModel\Staff.cs" />
-    <Compile Include="View\GestionPersonne.xaml.cs">
-      <DependentUpon>GestionPersonne.xaml</DependentUpon>
+    <Compile Include="View\GestionBeneficiaires.xaml.cs">
+      <DependentUpon>GestionBeneficiaires.xaml</DependentUpon>
+    </Compile>
+    <Compile Include="View\GestionStaff.xaml.cs">
+      <DependentUpon>GestionStaff.xaml</DependentUpon>
+    </Compile>
+    <Compile Include="View\GestionMenu.xaml.cs">
+      <DependentUpon>GestionMenu.xaml</DependentUpon>
     </Compile>
     <Page Include="MainWindow.xaml">
       <Generator>MSBuild:Compile</Generator>
@@ -98,7 +105,15 @@
       <DependentUpon>MainWindow.xaml</DependentUpon>
       <SubType>Code</SubType>
     </Compile>
-    <Page Include="View\GestionPersonne.xaml">
+    <Page Include="View\GestionBeneficiaires.xaml">
+      <SubType>Designer</SubType>
+      <Generator>MSBuild:Compile</Generator>
+    </Page>
+    <Page Include="View\GestionStaff.xaml">
+      <SubType>Designer</SubType>
+      <Generator>MSBuild:Compile</Generator>
+    </Page>
+    <Page Include="View\GestionMenu.xaml">
       <SubType>Designer</SubType>
       <Generator>MSBuild:Compile</Generator>
     </Page>

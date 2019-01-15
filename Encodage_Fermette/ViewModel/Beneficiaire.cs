@@ -62,6 +62,23 @@ namespace Encodage_Fermette.ViewModel
         public BaseCommande cSupprimer { get; set; }
         #endregion
 
+        public VM_Beneficiaire()
+        {
+            UnBeneficiaire = new VM_Un_Beneficiaire();
+            UnBeneficiaire.ID = 24;
+            UnBeneficiaire.Pre = "Prenom";
+            UnBeneficiaire.Nom = "Nom";
+            UnBeneficiaire.Sexe = false;
+            UnBeneficiaire.Nai = DateTime.Today;
+            BcpBeneficiaire = ChargerBeneficaire(chConnexion);
+            ActiverUneFiche = false;
+            cConfirmer = new BaseCommande(Confirmer);
+            cAnnuler = new BaseCommande(Annuler);
+            cAjouter = new BaseCommande(Ajouter);
+            cModifier = new BaseCommande(Modifier);
+            cSupprimer = new BaseCommande(Supprimer);
+        }
+
         private ObservableCollection<C_T_Beneficiaire> ChargerBeneficaire(string chConn)
         {
             ObservableCollection<C_T_Beneficiaire> rep = new ObservableCollection<C_T_Beneficiaire>();
@@ -84,7 +101,43 @@ namespace Encodage_Fermette.ViewModel
             }
             ActiverUneFiche = false;
         }
-
+        public void Annuler()
+        { ActiverUneFiche = false; }
+        public void Ajouter()
+        {
+            UnBeneficiaire = new VM_Un_Beneficiaire();
+            nAjout = -1;
+            ActiverUneFiche = true;
+        }
+        public void Modifier()
+        {
+            if (BeneficiairefSelectionne != null)
+            {
+                C_T_Beneficiaire Tmp = new CoucheGestion.G_T_Beneficiaire(chConnexion).Lire_ID(BeneficiairefSelectionne.ID_Beneficiaire);
+                UnBeneficiaire = new VM_Un_Beneficiaire();
+                UnBeneficiaire.ID = Tmp.ID_Beneficiaire;
+                UnBeneficiaire.Pre = Tmp.B_Prenom;
+                UnBeneficiaire.Nom = Tmp.B_Nom;
+                UnBeneficiaire.Nai = Tmp.B_Annif;
+                nAjout = BcpBeneficiaire.IndexOf(BeneficiairefSelectionne);
+                ActiverUneFiche = true;
+            }
+        }
+        public void Supprimer()
+        {
+            if (BeneficiairefSelectionne != null)
+            {
+                new CoucheGestion.G_T_Beneficiaire(chConnexion).Supprimer(BeneficiairefSelectionne.ID_Beneficiaire);
+                BcpBeneficiaire.Remove(BeneficiairefSelectionne);
+            }
+        }
+        public void PersonneSelectionnee2UnePersonne()
+        {
+            UnBeneficiaire.Nom = BeneficiairefSelectionne.B_Nom;
+            UnBeneficiaire.Pre = BeneficiairefSelectionne.B_Prenom;
+            UnBeneficiaire.Nai = BeneficiairefSelectionne.B_Annif;
+            UnBeneficiaire.Sexe = BeneficiairefSelectionne.B_Sexe;
+        }
         public class VM_Un_Beneficiaire : BasePropriete
         {
             private int _ID;

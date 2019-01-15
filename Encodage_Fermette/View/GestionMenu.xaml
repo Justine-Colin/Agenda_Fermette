@@ -1,0 +1,121 @@
+﻿<Window x:Class="Encodage_Fermette.View.GestionMenu"
+        xmlns="http://schemas.microsoft.com/winfx/2006/xaml/presentation"
+        xmlns:x="http://schemas.microsoft.com/winfx/2006/xaml"
+        xmlns:d="http://schemas.microsoft.com/expression/blend/2008"
+        xmlns:mc="http://schemas.openxmlformats.org/markup-compatibility/2006"
+        xmlns:local="clr-namespace:Encodage_Fermette.View"
+        mc:Ignorable="d"
+        Title="Gestion Menu" Height="800" Width="450">
+    <Grid Name="Menu">
+        <Grid.RowDefinitions>
+            <RowDefinition Height="*" />
+            <RowDefinition Height="*" />
+            <RowDefinition Height="*" />
+            <RowDefinition Height="*" />
+            <RowDefinition Height="auto" />
+        </Grid.RowDefinitions>
+        <Grid.ColumnDefinitions>
+            <ColumnDefinition Width="*" />
+        </Grid.ColumnDefinitions>
+
+        <Grid Name="GridEntree" Grid.Row ="0">
+            <Grid.RowDefinitions>
+                <RowDefinition Height="auto" />
+                <RowDefinition Height="*" />
+                <RowDefinition Height="*" />
+            </Grid.RowDefinitions>
+            <Grid.ColumnDefinitions>
+                <ColumnDefinition Width="Auto" />
+                <ColumnDefinition Width="*" />
+            </Grid.ColumnDefinitions>
+            
+            <TextBlock Name="tEntree" Text="Entree"  Grid.Row="0" VerticalAlignment="Center" />
+            <TextBlock Name="tENom" Text="Nom"  Grid.Row="1" VerticalAlignment="Center" />
+            <StackPanel VerticalAlignment="Center" Grid.Row="1" Grid.Column="1" >
+                <ComboBox 
+                  IsEditable="True"
+                  ItemsSource="{Binding Items}"
+                  SelectedItem="{Binding SelectedItem}"
+                  Text="{Binding NewItem, UpdateSourceTrigger=LostFocus}"/>
+            </StackPanel>
+            <TextBlock Name="tEDescr" Text="Descriptif"  Grid.Row="2" VerticalAlignment="Center" />
+            <TextBox Name="tbEDescr" Grid.Row="2" Grid.Column="1" Margin="3"
+            Text="{Binding Path=UnStaff.Pre, Mode=TwoWay}" />
+            
+        </Grid>
+        <Grid Name="GridPlat" Grid.Row ="1">
+            <Grid.RowDefinitions>
+                <RowDefinition Height="auto" />
+                <RowDefinition Height="*" />
+                <RowDefinition Height="*" />
+            </Grid.RowDefinitions>
+            <Grid.ColumnDefinitions>
+                <ColumnDefinition Width="Auto" />
+                <ColumnDefinition Width="*" />
+            </Grid.ColumnDefinitions>
+
+            <TextBlock Name="tPlat" Text="Entree"  Grid.Row="0" VerticalAlignment="Center" />
+            <TextBlock Name="tPNom" Text="Nom"  Grid.Row="1" VerticalAlignment="Center" />
+            <StackPanel VerticalAlignment="Center" Grid.Row="1" Grid.Column="1" >
+                <ComboBox 
+                  IsEditable="True"
+                  ItemsSource="{Binding Items}"
+                  SelectedItem="{Binding SelectedItem}"
+                  Text="{Binding NewItem, UpdateSourceTrigger=LostFocus}"/>
+            </StackPanel>
+            <TextBlock Name="tPDescr" Text="Descriptif"  Grid.Row="2" VerticalAlignment="Center" />
+            <TextBox Name="tbPDescr" Grid.Row="2" Grid.Column="1" Margin="3"
+            Text="{Binding Path=UnStaff.Pre, Mode=TwoWay}" />
+        </Grid>
+        <Grid Name="GridDessert" Grid.Row ="2">
+            <Grid.RowDefinitions>
+                <RowDefinition Height="auto" />
+                <RowDefinition Height="*" />
+                <RowDefinition Height="*" />
+            </Grid.RowDefinitions>
+            <Grid.ColumnDefinitions>
+                <ColumnDefinition Width="Auto" />
+                <ColumnDefinition Width="*" />
+            </Grid.ColumnDefinitions>
+
+            <TextBlock Name="tDessert" Text="Entree"  Grid.Row="0" VerticalAlignment="Center" />
+            <TextBlock Name="tDNom" Text="Nom"  Grid.Row="1" VerticalAlignment="Center" />
+            <StackPanel VerticalAlignment="Center" Grid.Row="1" Grid.Column="1" >
+                <ComboBox 
+                  IsEditable="True"
+                  ItemsSource="{Binding Items}"
+                  SelectedItem="{Binding SelectedItem}"
+                  Text="{Binding NewItem, UpdateSourceTrigger=LostFocus}"/>
+            </StackPanel>
+            <TextBlock Name="tDDescr" Text="Descriptif"  Grid.Row="2" VerticalAlignment="Center" />
+            <TextBox Name="tbDDescr" Grid.Row="2" Grid.Column="1" Margin="3"
+            Text="{Binding Path=UnStaff.Pre, Mode=TwoWay}" />
+
+        </Grid>
+        <Grid Name="GridCollation" Grid.Row ="3">
+            <Grid.RowDefinitions>
+                <RowDefinition Height="auto" />
+                <RowDefinition Height="*" />
+                <RowDefinition Height="*" />
+            </Grid.RowDefinitions>
+            <Grid.ColumnDefinitions>
+                <ColumnDefinition Width="Auto" />
+                <ColumnDefinition Width="*" />
+            </Grid.ColumnDefinitions>
+
+            <TextBlock Name="tCollation" Text="Entree"  Grid.Row="0" VerticalAlignment="Center" />
+            <TextBlock Name="tCNom" Text="Nom"  Grid.Row="1" VerticalAlignment="Center" />
+            <StackPanel VerticalAlignment="Center" Grid.Row="1" Grid.Column="1" >
+                <ComboBox 
+                  IsEditable="True"
+                  ItemsSource="{Binding Items}"
+                  SelectedItem="{Binding SelectedItem}"
+                  Text="{Binding NewItem, UpdateSourceTrigger=LostFocus}"/>
+            </StackPanel>
+            <TextBlock Name="tCDescr" Text="Descriptif"  Grid.Row="2" VerticalAlignment="Center" />
+            <TextBox Name="tbCDescr" Grid.Row="2" Grid.Column="1" Margin="3"
+            Text="{Binding Path=UnStaff.Pre, Mode=TwoWay}" />
+
+        </Grid>
+    </Grid>
+</Window>

@@ -22,16 +22,17 @@ namespace Encodage_Fermette.View
     /// Logique d'interaction pour GestionPersonne.xaml
     /// </summary>
     /// 
-    public partial class GestionPersonne : Window
+    public partial class GestionStaff : Window
     {
         private ViewModel.VM_Staff LocalStaff;
 
-        public GestionPersonne()
+        public GestionStaff()
         {
             InitializeComponent();
             LocalStaff = new ViewModel.VM_Staff();
             DataContext = LocalStaff;
         }
+        
         private void dgStaff_SelectionChanged(object sender, SelectionChangedEventArgs e)
         { if (dgStaff.SelectedIndex >= 0) LocalStaff.PersonneSelectionnee2UnePersonne(); }
 
