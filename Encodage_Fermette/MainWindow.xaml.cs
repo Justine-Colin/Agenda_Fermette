@@ -34,5 +34,11 @@ namespace Encodage_Fermette
             View.GestionBeneficiaires f = new View.GestionBeneficiaires();
             f.ShowDialog();
         }
+
+        private void btn_Gestion_Menu(object sender, RoutedEventArgs e)
+        {
+            View.GestionMenu f = new View.GestionMenu();
+            f.ShowDialog();
+        }
     }
 }

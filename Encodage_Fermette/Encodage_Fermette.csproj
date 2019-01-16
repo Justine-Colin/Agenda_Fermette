@@ -50,14 +50,17 @@
     <WarningLevel>4</WarningLevel>
   </PropertyGroup>
   <ItemGroup>
-    <Reference Include="CoucheAcces">
-      <HintPath>..\CoucheAcces.dll</HintPath>
+    <Reference Include="CoucheAcces, Version=1.0.0.0, Culture=neutral, processorArchitecture=MSIL">
+      <SpecificVersion>False</SpecificVersion>
+      <HintPath>..\..\BD\CAG\CoucheGestion\CoucheGestion\bin\Debug\CoucheAcces.dll</HintPath>
     </Reference>
-    <Reference Include="CoucheClasse">
-      <HintPath>..\CoucheClasse.dll</HintPath>
+    <Reference Include="CoucheClasse, Version=1.0.0.0, Culture=neutral, processorArchitecture=MSIL">
+      <SpecificVersion>False</SpecificVersion>
+      <HintPath>..\..\BD\CAG\CoucheGestion\CoucheGestion\bin\Debug\CoucheClasse.dll</HintPath>
     </Reference>
-    <Reference Include="CoucheGestion">
-      <HintPath>..\CoucheGestion.dll</HintPath>
+    <Reference Include="CoucheGestion, Version=1.0.0.0, Culture=neutral, processorArchitecture=MSIL">
+      <SpecificVersion>False</SpecificVersion>
+      <HintPath>..\..\BD\CAG\CoucheGestion\CoucheGestion\bin\Debug\CoucheGestion.dll</HintPath>
     </Reference>
     <Reference Include="System" />
     <Reference Include="System.Data" />
@@ -165,6 +168,8 @@
       <Install>false</Install>
     </BootstrapperPackage>
   </ItemGroup>
-  <ItemGroup />
+  <ItemGroup>
+    <Folder Include="Model\" />
+  </ItemGroup>
   <Import Project="$(MSBuildToolsPath)\Microsoft.CSharp.targets" />
 </Project>

@@ -19,9 +19,14 @@ namespace Encodage_Fermette.View
     /// </summary>
     public partial class GestionMenu : Window
     {
+        private ViewModel.VM_Menu LocalMenu;
         public GestionMenu()
         {
             InitializeComponent();
+            LocalMenu = new ViewModel.VM_Menu();
+            DataContext = LocalMenu;
         }
+        private void dgMenu_SelectionChanged(object sender, SelectionChangedEventArgs e)
+        { if (dgMenu.SelectedIndex >= 0) LocalMenu.MenuSelectionne2UnMenu();}
     }
 }

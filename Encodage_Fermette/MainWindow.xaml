@@ -5,7 +5,7 @@
         xmlns:mc="http://schemas.openxmlformats.org/markup-compatibility/2006"
         xmlns:local="clr-namespace:Encodage_Fermette"
         mc:Ignorable="d"
-        Title="MainWindow" Height="450" Width="800">
+        Title="MainWindow" Height="600" Width="800">
     
     
     <Grid Name="GridFenetre">
@@ -22,11 +22,10 @@
         </Grid.ColumnDefinitions>
         <DockPanel Grid.Row="0">
             <Menu DockPanel.Dock="Top">
-                <MenuItem Header="Gestion">
-                    <MenuItem Header="Evenements" Click="btn_Gestion_Beneficiaire"/>
-                    <MenuItem Header="Beneficiaires" Click="btn_Gestion_Staff" />
-                    <MenuItem Header="Staff" />
-                    <MenuItem Header="Menu" />
+                <MenuItem Header="Gestion" >
+                    <MenuItem Header="Menu" Click="btn_Gestion_Menu" />
+                    <MenuItem Header="Beneficiaires" Click="btn_Gestion_Beneficiaire" />
+                    <MenuItem Header="Staff" Click="btn_Gestion_Staff" />
                     <Separator />
                     <MenuItem Header="Quitter_Menu" />
                 </MenuItem>

@@ -141,10 +141,9 @@ namespace Encodage_Fermette.ViewModel
         public class VM_Un_Beneficiaire : BasePropriete
         {
             private int _ID;
-            private string _Nom, _Pre, _Poste;
+            private string _Nom, _Pre;
             private DateTime _Nai;
             private bool _Sexe;
-
             public int ID
             {
                 get { return _ID; }
@@ -165,19 +164,11 @@ namespace Encodage_Fermette.ViewModel
                 get { return _Nai; }
                 set { AssignerChamp<DateTime>(ref _Nai, value, System.Reflection.MethodBase.GetCurrentMethod().Name); }
             }
-            public string Poste
-            {
-                get { return _Poste; }
-                set { AssignerChamp<string>(ref _Poste, value, System.Reflection.MethodBase.GetCurrentMethod().Name); }
-            }
-
             public bool Sexe
             {
                 get { return _Sexe; }
                 set { AssignerChamp<bool>(ref _Sexe, value, System.Reflection.MethodBase.GetCurrentMethod().Name); }
             }
-
         }
-
     }
 }

@@ -132,6 +132,7 @@ namespace Encodage_Fermette.ViewModel
                 BcpStaff.Remove(StaffSelectionne);
             }
         }
+
         public void PersonneSelectionnee2UnePersonne()
         {
             UnStaff.Nom = StaffSelectionne.S_Nom;

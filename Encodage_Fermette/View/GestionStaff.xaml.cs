@@ -25,16 +25,13 @@ namespace Encodage_Fermette.View
     public partial class GestionStaff : Window
     {
         private ViewModel.VM_Staff LocalStaff;
-
         public GestionStaff()
         {
             InitializeComponent();
             LocalStaff = new ViewModel.VM_Staff();
             DataContext = LocalStaff;
         }
-        
         private void dgStaff_SelectionChanged(object sender, SelectionChangedEventArgs e)
         { if (dgStaff.SelectedIndex >= 0) LocalStaff.PersonneSelectionnee2UnePersonne(); }
-
     }
 }
