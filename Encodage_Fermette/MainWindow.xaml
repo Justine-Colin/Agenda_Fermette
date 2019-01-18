@@ -40,7 +40,8 @@
             <Calendar SelectedDatesChanged="CalendrierDateChanged" Name="Calendrier"/>
         </Viewbox>
         <DataGrid
-             AutoGenerateColumns="False" IsReadOnly="True"
+            
+            SelectedItem="{Binding EventSelectionne, Mode=TwoWay}" SelectionChanged="dgEvent_SelectionChanged" AutoGenerateColumns="False" IsReadOnly="True"
             ItemsSource="{Binding Path=ListEvent, Mode=OneWay}"  Name="dgEvent" Grid.Row="2" Grid.Column="0" VerticalScrollBarVisibility="Visible">
             <DataGrid.Columns>
                 <DataGridTextColumn Visibility="Hidden" Binding="{Binding Path=ID_Ev}" />
@@ -212,6 +213,56 @@
             </GroupBox>
         </Grid>
         <GroupBox Grid.Row="2" Grid.Column="2" Header="Classement" >
+            <Grid>
+                <Grid.RowDefinitions>
+                    <RowDefinition Height="auto" />
+                    <RowDefinition Height="auto" />
+                    <RowDefinition Height="auto" />
+                </Grid.RowDefinitions>
+                <Grid.ColumnDefinitions>
+                    <ColumnDefinition Width="*" />
+                </Grid.ColumnDefinitions>
+                <GroupBox Header="Equipe 1" Grid.Row="0">
+                    <Grid>
+                        <Grid.RowDefinitions>
+                            <RowDefinition Height="*" />
+                        </Grid.RowDefinitions>
+                        <Grid.ColumnDefinitions>
+                            <ColumnDefinition Width="*" />
+                            <ColumnDefinition Width="auto" />
+                        </Grid.ColumnDefinitions>
+                        <ComboBox Grid.Column="0"/>
+                        <Button Content="supprimer" Grid.Column="1"/>
+                    </Grid>
+                </GroupBox>
+                <GroupBox Header="Equipe 2" Grid.Row="1">
+                    <Grid>
+                        <Grid.RowDefinitions>
+                            <RowDefinition Height="*" />
+                        </Grid.RowDefinitions>
+                        <Grid.ColumnDefinitions>
+                            <ColumnDefinition Width="*" />
+                            <ColumnDefinition Width="auto" />
+                        </Grid.ColumnDefinitions>
+                        <ComboBox Grid.Column="0"/>
+                        <Button Content="supprimer" Grid.Column="1"/>
+                    </Grid>
+                </GroupBox>
+                <GroupBox Header="Equipe 3" Grid.Row="2">
+                    <Grid>
+                        <Grid.RowDefinitions>
+                            <RowDefinition Height="*" />
+                        </Grid.RowDefinitions>
+                        <Grid.ColumnDefinitions>
+                            <ColumnDefinition Width="*" />
+                            <ColumnDefinition Width="auto" />
+                        </Grid.ColumnDefinitions>
+                        <ComboBox Grid.Column="0"/>
+                        <Button Content="supprimer" Grid.Column="1"/>
+                    </Grid>
+                </GroupBox>
+
+            </Grid>
         </GroupBox>
         <StackPanel Orientation="Horizontal" HorizontalAlignment="Center" Grid.Row="3" Grid.Column="1"  Grid.ColumnSpan="2"  Margin="3">
             <Button Name="bConforimer" Content="Ajouter" Margin="3" IsEnabled="{Binding Path=ActiverBcpFiche, Mode=OneWay}"
@@ -219,6 +270,5 @@
             <Button Name="CAnnuler" Content="Modifier" Margin="3" IsEnabled="{Binding Path=ActiverBcpFiche, Mode=OneWay}"
            Command="{Binding cModifier}" />
         </StackPanel>
-
     </Grid>
 </Window>

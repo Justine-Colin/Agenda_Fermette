@@ -47,7 +47,12 @@ namespace Encodage_Fermette
         }
         private void CalendrierDateChanged(object sender, SelectionChangedEventArgs e)
         {
+            // attention la méthode pue 
             if (Calendrier.SelectedDate != null) LocalEvent.ChargementEvenementDujour((DateTime) Calendrier.SelectedDate);
+        }
+        private void dgEvent_SelectionChanged(object sender, SelectionChangedEventArgs e)
+        {
+            if (dgEvent.SelectedIndex >= 0) LocalEvent.ChargementEvenement();
         }
     }
 }
