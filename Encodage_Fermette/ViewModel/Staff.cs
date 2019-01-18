@@ -78,7 +78,6 @@ namespace Encodage_Fermette.ViewModel
             cModifier = new BaseCommande(Modifier);
             cSupprimer = new BaseCommande(Supprimer);
         }
-
         private ObservableCollection<C_T_Staff> ChargerStaff(string chConn)
         {
             ObservableCollection<C_T_Staff> rep = new ObservableCollection<C_T_Staff>();
@@ -91,7 +90,7 @@ namespace Encodage_Fermette.ViewModel
         {
             if (nAjout == -1)
             {
-                UnStaff.ID = new G_T_Staff(chConnexion).Ajouter(UnStaff.Nom,UnStaff.Pre,UnStaff.Nai,UnStaff.Sexe,UnStaff.Poste);
+                UnStaff.ID = new CoucheGestion.G_T_Staff(chConnexion).Ajouter(UnStaff.Nom,UnStaff.Pre,UnStaff.Nai,UnStaff.Sexe,UnStaff.Poste);
                 BcpStaff.Add(new C_T_Staff(UnStaff.ID, UnStaff.Nom, UnStaff.Pre, UnStaff.Nai, UnStaff.Sexe, UnStaff.Poste));
             }
             else
@@ -174,7 +173,6 @@ namespace Encodage_Fermette.ViewModel
                 get { return _Poste; }
                 set { AssignerChamp<string>(ref _Poste, value, System.Reflection.MethodBase.GetCurrentMethod().Name); }
             }
-
             public bool Sexe
             {
                 get { return _Sexe; }

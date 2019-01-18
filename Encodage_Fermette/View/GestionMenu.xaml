@@ -16,6 +16,7 @@
             <RowDefinition Height="*" />
             <RowDefinition Height="auto" />
             <RowDefinition Height="auto" />
+            <RowDefinition Height="auto" />
         </Grid.RowDefinitions>
         <Grid.ColumnDefinitions>
             <ColumnDefinition Width="*" />
@@ -30,9 +31,9 @@
                     <ColumnDefinition Width="auto" />
                     <ColumnDefinition Width="auto" />
                 </Grid.ColumnDefinitions>
-                <TextBox  Grid.Column="0" Margin="0,0,16.8,0.4" Grid.ColumnSpan="3"/>
-                <Button Margin="3" Grid.Column="1" Name="cConfirmerNourriture" Content="V"  IsEnabled="{Binding Path=ActiverFicheNourriture, Mode=OneWay}" Command="{Binding cSupprimerEntree}" />
-                <Button Margin="3" Grid.Column="2" Name="cAnnulerNourriture" Content="X"  IsEnabled="{Binding Path=ActiverFicheNourriture, Mode=OneWay}" Command="{Binding cSupprimerEntree}" />
+                <TextBox  Grid.Column="0" Margin="3" Text="{Binding Path=NouveauNourriture.No_Descriptif}" IsEnabled="{Binding Path=ActiverFicheNourriture}"/>
+                <Button Margin="3" Grid.Column="1" Name="cConfirmerNourriture" Content="V"  IsEnabled="{Binding Path=ActiverFicheNourriture, Mode=OneWay}" Command="{Binding cConfirmerNourriture}" HorizontalAlignment="Right" Width="12" />
+                <Button Margin="3" Grid.Column="2" Name="cAnnulerNourriture" Content="X"  IsEnabled="{Binding Path=ActiverFicheNourriture, Mode=OneWay}" Command="{Binding cAnnulerNourriture}" />
             </Grid>
         </GroupBox>
 
@@ -58,9 +59,9 @@
                   DisplayMemberPath="Descr"                        
                   Text="{Binding UnMenu.NomE}" Margin="3"
                  />
-                <Button Margin="3,3,3,3" Grid.Column="2" Name="cAjouterEntree" Content="Add"  IsEnabled="{Binding Path=ActiverUneFiche, Mode=OneWay}" Command="{Binding cSupprimerEntree}" />
+                <Button Margin="3,3,3,3" Grid.Column="2" Name="cAjouterEntree" Content="Add"  IsEnabled="{Binding Path=ActiverUneFiche, Mode=OneWay}" Command="{Binding cAjouterEntree}" />
                 <Button Margin="3,3,3,3" Grid.Column="3" Name="cSupprimerEntree" Content="Del"  IsEnabled="{Binding Path=ActiverUneFiche, Mode=OneWay}" Command="{Binding cSupprimerEntree}" />
-                <Button Margin="3,3,3,3" Grid.Column="4" Name="cModifierEntree" Content="Modif"  IsEnabled="{Binding Path=ActiverUneFiche, Mode=OneWay}" Command="{Binding cSupprimerEntree}" />
+                <Button Margin="3,3,3,3" Grid.Column="4" Name="cModifierEntree" Content="Modif"  IsEnabled="{Binding Path=ActiverUneFiche, Mode=OneWay}" Command="{Binding cModifierEntree}" />
             </Grid>
         </GroupBox>
 
@@ -143,7 +144,7 @@
            Command="{Binding cAnnuler}" />
         </StackPanel>
         <DataGrid Name="dgMenu" ItemsSource="{Binding Path=BcpMenu}" Grid.Row="5" VerticalScrollBarVisibility="Visible"
-            IsReadOnly="True" AutoGenerateColumns="False" IsEnabled="{Binding Path=ActiverBcpFiche, Mode=OneWay}"
+             IsEnabled="{Binding Path=ActiverBcpFiche, Mode=OneWay}" IsReadOnly="True" AutoGenerateColumns="False"
             SelectedItem="{Binding MenuSelectionne, Mode=TwoWay}" SelectionChanged="dgMenu_SelectionChanged" >
             <DataGrid.Columns>
                 <DataGridTextColumn Visibility="Hidden" Binding="{Binding Path=ID_Menu}" />
@@ -165,6 +166,12 @@
            Command="{Binding cModifier}" />
             <Button Name="bSupprimer" Content="Supprimer" Margin="3" IsEnabled="{Binding Path=ActiverBcpFiche, Mode=OneWay}"
            Command="{Binding cSupprimer}" />
+        </StackPanel>
+        <StackPanel Orientation="Horizontal" Grid.Row="7" HorizontalAlignment="Center" Margin="3">
+            <Button Name="cConfirmer" Content="V" Margin="3" IsEnabled="{Binding Path=ActiverUneFiche, Mode=OneWay}"
+           Command="{Binding cConfirmer}" />
+            <Button Name="cAnnuler" Content="X" Margin="3" IsEnabled="{Binding Path=ActiverUneFiche, Mode=OneWay}"
+           Command="{Binding cAnnuler}" />
         </StackPanel>
 
     </Grid>

@@ -15,6 +15,8 @@ namespace Encodage_Fermette.ViewModel
         #region Données Ecran 
         private string chConnexion = @"Data Source=(LocalDB)\MSSQLLocalDB;AttachDbFilename='" + System.Windows.Forms.Application.StartupPath + @"\Database1.mdf';Integrated Security=True;Connect Timeout=30";
         private int nAjout;
+        private int nNourriteAjout;
+        private int typeNourriture;
         private bool _ActiverUneFiche;
         public bool ActiverUneFiche
         {
@@ -22,6 +24,7 @@ namespace Encodage_Fermette.ViewModel
             set
             {
                 AssignerChamp<bool>(ref _ActiverUneFiche, value, System.Reflection.MethodBase.GetCurrentMethod().Name);
+                if ( !ActiverFicheNourriture)
                 ActiverBcpFiche = !ActiverUneFiche;
             }
         }
@@ -30,6 +33,12 @@ namespace Encodage_Fermette.ViewModel
         {
             get { return _ActiverBcpFiche; }
             set { AssignerChamp<bool>(ref _ActiverBcpFiche, value, System.Reflection.MethodBase.GetCurrentMethod().Name); }
+        }
+        private bool _ActiverFicheNourriture;
+        public bool ActiverFicheNourriture
+        {
+            get { return _ActiverFicheNourriture; }
+            set { AssignerChamp<bool>(ref _ActiverFicheNourriture, value, System.Reflection.MethodBase.GetCurrentMethod().Name); }
         }
         private C_Vue_Menu _MenuSelectionne;
         public C_Vue_Menu MenuSelectionne
@@ -61,58 +70,36 @@ namespace Encodage_Fermette.ViewModel
             get { return _CollationSelectionne; }
             set { AssignerChamp<C_Vue_ID_Descr>(ref _CollationSelectionne, value, System.Reflection.MethodBase.GetCurrentMethod().Name); }
         }
-        public string NouvelleEntree
+        private C_T_Nourriture _NouveauNourriture;
+        public C_T_Nourriture NouveauNourriture
         {
-
-            set
-            {
-                if ( EntreeSelectionne != null)
-                {
-                    return;
-                }
-                if (!string.IsNullOrEmpty(value))
-                {
-                    // test avant d'entrer dans la base
-                    C_Vue_ID_Descr tmpentree = new C_Vue_ID_Descr(0, value);
-                    ListEntree.Add(tmpentree);
-                    EntreeSelectionne = tmpentree;
-                }
-            }
+            get { return _NouveauNourriture; }
+            set { AssignerChamp<C_T_Nourriture>(ref _NouveauNourriture, value, System.Reflection.MethodBase.GetCurrentMethod().Name); }
         }
-        public string NouveauPlat
+        private C_Vue_ID_Descr _NouvelleEntree;
+        public C_Vue_ID_Descr NouvelleEntree
         {
-            set
-            {
-                if (!string.IsNullOrEmpty(value))
-                {
-                    // test avant d'entrer dans la base
-                    ListPlat.Add(new C_Vue_ID_Descr(0, value));
-                }
-            }
+            get { return _NouvelleEntree; }
+            set { AssignerChamp<C_Vue_ID_Descr>(ref _NouvelleEntree, value, System.Reflection.MethodBase.GetCurrentMethod().Name); }
         }
-        public string NouveauDessert
+        private C_Vue_ID_Descr _NouveauPlat;
+        public C_Vue_ID_Descr NouveauPlat
         {
-            set
-            {
-                if (!string.IsNullOrEmpty(value))
-                {
-                    // test avant d'entrer dans la base
-                    ListDessert.Add(new C_Vue_ID_Descr(0, value));
-                }
-            }
+            get { return _NouveauPlat; }
+            set { AssignerChamp<C_Vue_ID_Descr>(ref _NouveauPlat, value, System.Reflection.MethodBase.GetCurrentMethod().Name); }
         }
-        public string NouvelleCollation
+        private C_Vue_ID_Descr _NouveauDessert;
+        public C_Vue_ID_Descr NouveauDessert
         {
-            set
-            {
-                if (!string.IsNullOrEmpty(value))
-                {
-                    // test avant d'entrer dans la base
-                    ListCollation.Add(new C_Vue_ID_Descr(0, value));
-                }
-            }
+            get { return _NouveauDessert; }
+            set { AssignerChamp<C_Vue_ID_Descr>(ref _NouveauDessert, value, System.Reflection.MethodBase.GetCurrentMethod().Name); }
         }
-
+        private C_Vue_ID_Descr _NouvelleCollation;
+        public C_Vue_ID_Descr NouvelleCollation
+        {
+            get { return _NouvelleCollation; }
+            set { AssignerChamp<C_Vue_ID_Descr>(ref _NouvelleCollation, value, System.Reflection.MethodBase.GetCurrentMethod().Name); }
+        }
         #endregion
         #region Donnees Extérieurs
         private VM_Un_Menu _UnMenu;
@@ -159,10 +146,24 @@ namespace Encodage_Fermette.ViewModel
         public BaseCommande cAjouter { get; set; }
         public BaseCommande cModifier { get; set; }
         public BaseCommande cSupprimer { get; set; }
+
+        public BaseCommande cConfirmerNourriture { get; set; }
+        public BaseCommande cAnnulerNourriture { get; set; }
+
+        public BaseCommande cAjouterEntree { get; set; }
+        public BaseCommande cAjoutePlat { get; set; }
+        public BaseCommande cAjouteDessert { get; set; }
+        public BaseCommande cAjouteCollation { get; set; }
+
         public BaseCommande cSupprimerEntree { get; set; }
         public BaseCommande cSupprimerPlat { get; set; }
         public BaseCommande cSupprimerDessert { get; set; }
-        public BaseCommande cSupprimerCollatione { get; set; }
+        public BaseCommande cSupprimerCollation { get; set; }
+
+        public BaseCommande cModifierEntree { get; set; }
+        public BaseCommande cModifierPlat { get; set; }
+        public BaseCommande cModifierDessert { get; set; }
+        public BaseCommande cModifierCollation { get; set; }
         #endregion
 
         public VM_Menu()
@@ -178,7 +179,8 @@ namespace Encodage_Fermette.ViewModel
             UnMenu.NomC = "Ecrire/choisir le nom de la collation ";
             UnMenu.DescrC = "Ecrire le descriptif de la collation";
             */
-            ActiverUneFiche = false;
+
+            ActiverUneFiche = ActiverFicheNourriture = false;
             BcpMenu = ChargerMenu(chConnexion);
             ListEntree = ChargerEntree(chConnexion);
             ListPlat = ChargerPlat(chConnexion);
@@ -190,43 +192,49 @@ namespace Encodage_Fermette.ViewModel
             cAjouter = new BaseCommande(Ajouter);
             cModifier = new BaseCommande(Modifier);
             cSupprimer = new BaseCommande(Supprimer);
+
+            cAjouterEntree = new BaseCommande(AjouteurEntree);
             cSupprimerEntree = new BaseCommande(SupprimerEntree);
-            cSupprimerPlat = new BaseCommande(Supprimer);
-            cSupprimerDessert = new BaseCommande(Supprimer);
-            cSupprimerCollatione = new BaseCommande(Supprimer);
+            cModifierEntree = new BaseCommande(ModifierEntree);
+
+            cConfirmerNourriture = new BaseCommande(ConfirmerNourriture);
+            cAnnulerNourriture = new BaseCommande(AnnulerNourriture);
         }
         public void Confirmer()
         {
             if (nAjout == -1)
             {
-                UnMenu.ID = new G_T_Menu(chConnexion).Ajouter(UnMenu.IDE,UnMenu.IDP,UnMenu.IDD,UnMenu.IDC);
+                // ajout
+                //System.Windows.Forms.MessageBox.Show(EntreeSelectionne.ID.ToString() + PlatSelectionne.ID.ToString() + DessertSelectionne.ID.ToString() + CollationSelectionne.ID.ToString());
+                UnMenu.ID = new CoucheGestion.G_T_Menu(chConnexion).Ajouter((int)EntreeSelectionne.ID, (int)PlatSelectionne.ID, (int)DessertSelectionne.ID,(int)CollationSelectionne.ID);
                 // on ajout notre menu
                 C_Vue_Menu tmpMenu = new C_Vue_Menu();
-                tmpMenu.ID_Menu = UnMenu.IDE;
-                tmpMenu.ID_Entree = UnMenu.IDE;
-                tmpMenu.ID_Plat = UnMenu.IDP;
-                tmpMenu.ID_Dessert = UnMenu.IDD;
-                tmpMenu.ID_Collation = UnMenu.IDC;
-                tmpMenu.E_Descr = UnMenu.DescrE;
-                tmpMenu.P_Descr = UnMenu.DescrP;
-                tmpMenu.D_Descr = UnMenu.DescrD;
-                tmpMenu.C_Descr = UnMenu.DescrC;
+                tmpMenu.ID_Menu = UnMenu.ID;
+                tmpMenu.ID_Entree = EntreeSelectionne.ID;
+                tmpMenu.ID_Plat = PlatSelectionne.ID;
+                tmpMenu.ID_Dessert = DessertSelectionne.ID;
+                tmpMenu.ID_Collation = CollationSelectionne.ID;
+                tmpMenu.E_Descr = EntreeSelectionne.Descr;
+                tmpMenu.P_Descr = PlatSelectionne.Descr;
+                tmpMenu.D_Descr = DessertSelectionne.Descr;
+                tmpMenu.C_Descr = CollationSelectionne.Descr;
 
                 BcpMenu.Add(tmpMenu);
             }
             else
             {
-                new CoucheGestion.G_T_Menu(chConnexion).Modifier(UnMenu.ID, UnMenu.IDE, UnMenu.IDP, UnMenu.IDD, UnMenu.IDC);
+                // modification
+                new CoucheGestion.G_T_Menu(chConnexion).Modifier(MenuSelectionne.ID_Menu, EntreeSelectionne.ID, PlatSelectionne.ID, DessertSelectionne.ID, CollationSelectionne.ID);
                 C_Vue_Menu tmpMenu = new C_Vue_Menu();
-                tmpMenu.ID_Menu = UnMenu.IDE;
-                tmpMenu.ID_Entree = UnMenu.IDE;
-                tmpMenu.ID_Plat = UnMenu.IDP;
-                tmpMenu.ID_Dessert = UnMenu.IDD;
-                tmpMenu.ID_Collation = UnMenu.IDC;
-                tmpMenu.E_Descr = UnMenu.DescrE;
-                tmpMenu.P_Descr = UnMenu.DescrP;
-                tmpMenu.D_Descr = UnMenu.DescrD;
-                tmpMenu.C_Descr = UnMenu.DescrC;
+                tmpMenu.ID_Menu = MenuSelectionne.ID_Menu;
+                tmpMenu.ID_Entree = EntreeSelectionne.ID;
+                tmpMenu.ID_Plat = PlatSelectionne.ID;
+                tmpMenu.ID_Dessert = DessertSelectionne.ID;
+                tmpMenu.ID_Collation = CollationSelectionne.ID;
+                tmpMenu.E_Descr = EntreeSelectionne.Descr;
+                tmpMenu.P_Descr = PlatSelectionne.Descr;
+                tmpMenu.D_Descr = DessertSelectionne.Descr;
+                tmpMenu.C_Descr = CollationSelectionne.Descr;
 
                 BcpMenu[nAjout] = tmpMenu;
             }
@@ -244,7 +252,6 @@ namespace Encodage_Fermette.ViewModel
         {
             if (MenuSelectionne != null)
             {
-                // C_T_Staff Tmp = new CoucheGestion.G_T_Staff(chConnexion).Lire_ID(StaffSelectionne.ID_Staff);
                 UnMenu = new VM_Un_Menu();
                 UnMenu.ID = MenuSelectionne.ID_Menu;
                 UnMenu.IDE = MenuSelectionne.ID_Entree;
@@ -274,7 +281,6 @@ namespace Encodage_Fermette.ViewModel
                         System.Windows.MessageBox.Show("Votre menu est utilisé pour une date");
                     }
                 }
-
                 if (!found)
                 {
                     new CoucheGestion.G_T_Menu(chConnexion).Supprimer(MenuSelectionne.ID_Menu);
@@ -282,6 +288,65 @@ namespace Encodage_Fermette.ViewModel
                 }
             }
         }
+        public void AjouteurEntree()
+        {
+                NouveauNourriture = new C_T_Nourriture("Ajouter Entree",0);
+            ActiverFicheNourriture = true;
+
+            ActiverUneFiche = false;
+                nNourriteAjout = -1;
+        }
+        public void ConfirmerNourriture()
+        {
+            if (nNourriteAjout == -1) // ajout
+            {
+                NouveauNourriture.ID_Nourriture = new CoucheGestion.G_T_Nourriture(chConnexion).Ajouter(NouveauNourriture.No_Descriptif, NouveauNourriture.No_Type);
+                C_Vue_ID_Descr tmp = new C_Vue_ID_Descr(NouveauNourriture.ID_Nourriture, NouveauNourriture.No_Descriptif);
+                if (NouveauNourriture.No_Type ==0)
+                    ListEntree.Add(tmp);
+                else if (NouveauNourriture.No_Type==1)
+                    ListPlat.Add(tmp);
+                else if (NouveauNourriture.No_Type == 2)
+                    ListDessert.Add(tmp);
+                else if (NouveauNourriture.No_Type == 3)
+                    ListCollation.Add(tmp);
+            }
+            else // modification 
+            {
+                 new CoucheGestion.G_T_Nourriture(chConnexion).Modifier(NouveauNourriture.ID_Nourriture, NouveauNourriture.No_Descriptif, NouveauNourriture.No_Type);
+                ListEntree[nAjout] = new C_Vue_ID_Descr(NouveauNourriture.ID_Nourriture, NouveauNourriture.No_Descriptif);
+
+            }
+            ActiverFicheNourriture = false;
+            ActiverUneFiche = true;
+
+        }
+        public void ModifierEntree()
+        {
+           // if (EntreeSelectionne != null)
+            {
+                /*C_T_Nourriture tmp = new CoucheGestion.G_T_Nourriture(chConnexion).Lire_ID(EntreeSelectionne.ID);
+                NouveauNourriture = new C_T_Nourriture();
+                NouveauNourriture.ID_Nourriture = tmp.ID_Nourriture;
+                NouveauNourriture.No_Descriptif = tmp.No_Descriptif;
+                NouveauNourriture.No_Type = tmp.No_Type;*/
+
+                NouveauNourriture = new C_T_Nourriture( EntreeSelectionne.ID ,EntreeSelectionne.Descr,0);
+
+                nAjout = ListEntree.IndexOf(EntreeSelectionne);
+                ActiverFicheNourriture = true;
+                ActiverUneFiche = false;
+
+            }
+        }
+
+        public void AnnulerNourriture()
+        {
+            ActiverFicheNourriture = false;
+            ActiverUneFiche = true;
+            NouveauNourriture = new C_T_Nourriture();
+        }
+
         public void SupprimerEntree()
         {
             if (EntreeSelectionne != null)
@@ -296,14 +361,12 @@ namespace Encodage_Fermette.ViewModel
                         System.Windows.MessageBox.Show("Votre entrée est utilisée dans un plat");
                     }
                 }
-
                 if (!found)
                 {
-                    new CoucheGestion.G_T_Menu(chConnexion).Supprimer(MenuSelectionne.ID_Menu);
-                    BcpMenu.Remove(MenuSelectionne);
+                    new CoucheGestion.G_T_Nourriture(chConnexion).Supprimer(EntreeSelectionne.ID);
+                    ListEntree.Remove(EntreeSelectionne);
                 }
             }
-
         }
         public void SupprimerPlat()
         {
@@ -316,8 +379,8 @@ namespace Encodage_Fermette.ViewModel
         }
         public void MenuSelectionne2UnMenu()
         {
-            EntreeSelectionne = new C_Vue_ID_Descr(MenuSelectionne.ID_Entree, MenuSelectionne.E_Descr);
-            NouvelleEntree = MenuSelectionne.E_Descr;
+            UnMenu.ID = MenuSelectionne.ID_Menu;
+            UnMenu.IDE = MenuSelectionne.ID_Entree;
             UnMenu.IDP = MenuSelectionne.ID_Plat;
             UnMenu.IDD = MenuSelectionne.ID_Dessert;
             UnMenu.IDC = MenuSelectionne.ID_Collation;
@@ -382,12 +445,11 @@ namespace Encodage_Fermette.ViewModel
             }
             return rep;
         }
-
         #endregion
 
         #region Modif Data 
-
         #endregion
+
         public class VM_Un_Menu : BasePropriete
         {
             private int _ID, _IDE, _IDP, _IDD, _IDC;

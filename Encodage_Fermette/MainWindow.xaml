@@ -37,15 +37,17 @@
         </DockPanel>
         <!-- <Calendar Grid.Row="1" Grid.Column="0" Width="auto" Margin="5" /> -->
         <Viewbox Grid.Row="1" Grid.Column="0" Width="auto" Margin="5" >
-            <Calendar/>
+            <Calendar SelectedDatesChanged="CalendrierDateChanged" Name="Calendrier"/>
         </Viewbox>
-        <DataGrid Grid.Row="2" Grid.Column="0" VerticalScrollBarVisibility="Visible">
+        <DataGrid
+             AutoGenerateColumns="False" IsReadOnly="True"
+            ItemsSource="{Binding Path=ListEvent, Mode=OneWay}"  Name="dgEvent" Grid.Row="2" Grid.Column="0" VerticalScrollBarVisibility="Visible">
             <DataGrid.Columns>
-                <DataGridTextColumn Visibility="Hidden" Binding="{Binding Path=ID}" />
-                <DataGridTextColumn Header="Titre" Binding="{Binding Path=Pre}" Width="*" />
-                <DataGridTextColumn Header="Lieu" Binding="{Binding Path=Nom}" Width="*" />
-                <DataGridTextColumn Header="Heure_Debut" Binding="{Binding Path=Nom}" Width="*" />
-                <DataGridTextColumn Header="Heure_Fin" Binding="{Binding Path=Nom}" Width="*" />
+                <DataGridTextColumn Visibility="Hidden" Binding="{Binding Path=ID_Ev}" />
+                <DataGridTextColumn Header="Titre" Binding="{Binding Path=Ti_Descr}" Width="*" />
+                <DataGridTextColumn Header="Lieu" Binding="{Binding Path=Li_Descr}" Width="*" />
+                <DataGridTextColumn Header="Heure_Debut" Binding="{Binding Path=Ev_HeureDebut}" Width="*" />
+                <DataGridTextColumn Header="Heure_Fin" Binding="{Binding Path=Ev_HeureFin}" Width="*" />
             </DataGrid.Columns>
         </DataGrid>
         <StackPanel Orientation="Horizontal" Grid.Row="3" HorizontalAlignment="Center" Margin="3">

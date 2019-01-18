@@ -45,5 +45,9 @@ namespace Encodage_Fermette
             View.GestionMenu f = new View.GestionMenu();
             f.ShowDialog();
         }
+        private void CalendrierDateChanged(object sender, SelectionChangedEventArgs e)
+        {
+            if (Calendrier.SelectedDate != null) LocalEvent.ChargementEvenementDujour((DateTime) Calendrier.SelectedDate);
+        }
     }
 }
