@@ -63,12 +63,19 @@ namespace Encodage_Fermette.ViewModel
         }
         public string NouvelleEntree
         {
+
             set
             {
+                if ( EntreeSelectionne != null)
+                {
+                    return;
+                }
                 if (!string.IsNullOrEmpty(value))
                 {
                     // test avant d'entrer dans la base
-                    ListEntree.Add(new C_Vue_ID_Descr(0, value));
+                    C_Vue_ID_Descr tmpentree = new C_Vue_ID_Descr(0, value);
+                    ListEntree.Add(tmpentree);
+                    EntreeSelectionne = tmpentree;
                 }
             }
         }
@@ -120,29 +127,29 @@ namespace Encodage_Fermette.ViewModel
             get { return _BcpMenu; }
             set { _BcpMenu = value; }
         }
-        private ObservableCollection<C_Vue_ID_Descr> _ListEntree = new ObservableCollection<C_Vue_ID_Descr>();
+        private ObservableCollection<C_Vue_ID_Descr> _ListEntree;
         public ObservableCollection<C_Vue_ID_Descr> ListEntree
         {
             get { return _ListEntree; }
-            set { _ListEntree = value; }
+            set { AssignerChamp<ObservableCollection<C_Vue_ID_Descr>>(ref _ListEntree, value, System.Reflection.MethodBase.GetCurrentMethod().Name); }
         }
-        private ObservableCollection<C_Vue_ID_Descr> _ListPlat = new ObservableCollection<C_Vue_ID_Descr>();
+        private ObservableCollection<C_Vue_ID_Descr> _ListPlat;
         public ObservableCollection<C_Vue_ID_Descr> ListPlat
         {
             get { return _ListPlat; }
-            set { _ListPlat = value; }
+            set { AssignerChamp<ObservableCollection<C_Vue_ID_Descr>>(ref _ListPlat, value, System.Reflection.MethodBase.GetCurrentMethod().Name); }
         }
-        private ObservableCollection<C_Vue_ID_Descr> _ListDessert = new ObservableCollection<C_Vue_ID_Descr>();
+        private ObservableCollection<C_Vue_ID_Descr> _ListDessert;
         public ObservableCollection<C_Vue_ID_Descr> ListDessert
         {
             get { return _ListDessert; }
-            set { _ListDessert = value; }
+            set { AssignerChamp<ObservableCollection<C_Vue_ID_Descr>>(ref _ListDessert, value, System.Reflection.MethodBase.GetCurrentMethod().Name); }
         }
-        private ObservableCollection<C_Vue_ID_Descr> _ListCollation = new ObservableCollection<C_Vue_ID_Descr>();
+        private ObservableCollection<C_Vue_ID_Descr> _ListCollation ;
         public ObservableCollection<C_Vue_ID_Descr> ListCollation
         {
             get { return _ListCollation; }
-            set { _ListCollation = value; }
+            set { AssignerChamp<ObservableCollection<C_Vue_ID_Descr>>(ref _ListCollation, value, System.Reflection.MethodBase.GetCurrentMethod().Name); }
         }
 
 
@@ -162,6 +169,7 @@ namespace Encodage_Fermette.ViewModel
         public VM_Menu()
         {
             UnMenu = new VM_Un_Menu();
+            /*
             UnMenu.NomE = "Ecrire/choisir le nom de l'entrée";
             UnMenu.DescrE = "Ecrire le descriptif de l'entrée";
             UnMenu.NomP = "Ecrire/choisir le nom du plat";
@@ -170,6 +178,7 @@ namespace Encodage_Fermette.ViewModel
             UnMenu.DescrD = "Ecrire le descriptif du Dessert";
             UnMenu.NomC = "Ecrire/choisir le nom de la collation ";
             UnMenu.DescrC = "Ecrire le descriptif de la collation";
+            */
             ActiverUneFiche = false;
             BcpMenu = ChargerMenu(chConnexion);
             ListEntree = ChargerEntree(chConnexion);
@@ -186,7 +195,6 @@ namespace Encodage_Fermette.ViewModel
             cSupprimerPlat = new BaseCommande(Supprimer);
             cSupprimerDessert = new BaseCommande(Supprimer);
             cSupprimerCollatione = new BaseCommande(Supprimer);
-
         }
         public void Confirmer()
         {
@@ -309,8 +317,8 @@ namespace Encodage_Fermette.ViewModel
         }
         public void MenuSelectionne2UnMenu()
         {
-            UnMenu.ID = MenuSelectionne.ID_Menu;
-            UnMenu.IDE = MenuSelectionne.ID_Entree;
+            EntreeSelectionne = new C_Vue_ID_Descr(MenuSelectionne.ID_Entree, MenuSelectionne.E_Descr);
+            NouvelleEntree = MenuSelectionne.E_Descr;
             UnMenu.IDP = MenuSelectionne.ID_Plat;
             UnMenu.IDD = MenuSelectionne.ID_Dessert;
             UnMenu.IDC = MenuSelectionne.ID_Collation;
