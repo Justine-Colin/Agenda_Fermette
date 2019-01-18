@@ -20,9 +20,14 @@ namespace Encodage_Fermette
     /// </summary>
     public partial class MainWindow : Window
     {
+        private ViewModel.VM_GestionEvenement LocalEvent;
+
         public MainWindow()
         {
             InitializeComponent();
+            LocalEvent = new ViewModel.VM_GestionEvenement();
+            DataContext = LocalEvent;
+            LocalEvent.DateDebut = new DateTime();
         }
         public void btn_Gestion_Staff(object sender, RoutedEventArgs e)
         {

@@ -151,9 +151,8 @@ namespace Encodage_Fermette.ViewModel
             get { return _ListCollation; }
             set { AssignerChamp<ObservableCollection<C_Vue_ID_Descr>>(ref _ListCollation, value, System.Reflection.MethodBase.GetCurrentMethod().Name); }
         }
-
-
         #endregion
+
         #region Commandes 
         public BaseCommande cConfirmer { get; set; }
         public BaseCommande cAnnuler { get; set; }
@@ -164,8 +163,8 @@ namespace Encodage_Fermette.ViewModel
         public BaseCommande cSupprimerPlat { get; set; }
         public BaseCommande cSupprimerDessert { get; set; }
         public BaseCommande cSupprimerCollatione { get; set; }
-
         #endregion
+
         public VM_Menu()
         {
             UnMenu = new VM_Un_Menu();

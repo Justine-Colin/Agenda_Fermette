@@ -26,19 +26,16 @@
                     <RowDefinition Height="auto" />
                 </Grid.RowDefinitions>
                 <Grid.ColumnDefinitions>
-                    <ColumnDefinition Width="*" />
+                    <ColumnDefinition Width="*"/>
                     <ColumnDefinition Width="auto" />
                     <ColumnDefinition Width="auto" />
                 </Grid.ColumnDefinitions>
-                <TextBox  Grid.Column="0" Margin="0,0,0,0.4"/>
-                <Button Margin="3,3,3,3" Grid.Column="1"
- Name="cConfirmerNourriture" Content="V"  IsEnabled="{Binding Path=ActiverBcpFiche, Mode=OneWay}" Command="{Binding cSupprimerEntree}" />
-                <Button Margin="3,3,3,3" Grid.Column="2"
- Name="cAnnulerNourriture" Content="X"  IsEnabled="{Binding Path=ActiverBcpFiche, Mode=OneWay}" Command="{Binding cSupprimerEntree}" />
+                <TextBox  Grid.Column="0" Margin="0,0,16.8,0.4" Grid.ColumnSpan="3"/>
+                <Button Margin="3" Grid.Column="1" Name="cConfirmerNourriture" Content="V"  IsEnabled="{Binding Path=ActiverFicheNourriture, Mode=OneWay}" Command="{Binding cSupprimerEntree}" />
+                <Button Margin="3" Grid.Column="2" Name="cAnnulerNourriture" Content="X"  IsEnabled="{Binding Path=ActiverFicheNourriture, Mode=OneWay}" Command="{Binding cSupprimerEntree}" />
             </Grid>
-
         </GroupBox>
-        
+
         <GroupBox Name="GbEntree" Header="Entree" Grid.Row ="1" >
             <Grid Name="GridEntree" >
                 <Grid.RowDefinitions>
@@ -48,21 +45,22 @@
                     <ColumnDefinition Width="auto" />
                     <ColumnDefinition Width="*" />
                     <ColumnDefinition Width="auto" />
-
                     <ColumnDefinition Width="auto" />
                     <ColumnDefinition Width="auto" />
                 </Grid.ColumnDefinitions>
                 <TextBlock  Grid.Column="0" Name="tENom" Text="Nom"  Grid.Row="0" VerticalAlignment="Center" />
-                <ComboBox  Grid.Column="1"
+                <ComboBox Grid.Column="1" Grid.Row="0"
+                  IsEnabled="{Binding Path=ActiverUneFiche}" 
                   IsEditable="True"
                   ItemsSource="{Binding ListEntree}"
                   SelectedValuePath="ID" 
                   SelectedItem="{Binding EntreeSelectionne}"
                   DisplayMemberPath="Descr"                        
-                  Text="{Binding NouvelleEntree, UpdateSourceTrigger=LostFocus}" Margin="0,0,0,0.4" Width="334"/>
-                <Button Margin="3,3,3,3" Grid.Column="2" Name="cAjouterEntree" Content="Add"  IsEnabled="{Binding Path=ActiverBcpFiche, Mode=OneWay}" Command="{Binding cSupprimerEntree}" />
-                <Button Margin="3,3,3,3" Grid.Column="3" Name="cSupprimerEntree" Content="Del"  IsEnabled="{Binding Path=ActiverBcpFiche, Mode=OneWay}" Command="{Binding cSupprimerEntree}" />
-                <Button Margin="3,3,3,3" Grid.Column="4" Name="cModifierEntree" Content="Modif"  IsEnabled="{Binding Path=ActiverBcpFiche, Mode=OneWay}" Command="{Binding cSupprimerEntree}" />
+                  Text="{Binding UnMenu.NomE}" Margin="3"
+                 />
+                <Button Margin="3,3,3,3" Grid.Column="2" Name="cAjouterEntree" Content="Add"  IsEnabled="{Binding Path=ActiverUneFiche, Mode=OneWay}" Command="{Binding cSupprimerEntree}" />
+                <Button Margin="3,3,3,3" Grid.Column="3" Name="cSupprimerEntree" Content="Del"  IsEnabled="{Binding Path=ActiverUneFiche, Mode=OneWay}" Command="{Binding cSupprimerEntree}" />
+                <Button Margin="3,3,3,3" Grid.Column="4" Name="cModifierEntree" Content="Modif"  IsEnabled="{Binding Path=ActiverUneFiche, Mode=OneWay}" Command="{Binding cSupprimerEntree}" />
             </Grid>
         </GroupBox>
 
@@ -79,12 +77,14 @@
                 <TextBlock Name="tPNom" Text="Nom"  Grid.Row="0" VerticalAlignment="Center" />
                 <StackPanel VerticalAlignment="Center" Grid.Row="0" Grid.Column="1" >
                     <ComboBox 
+                  IsEnabled="{Binding Path=ActiverUneFiche}" 
                   IsEditable="True"
                   ItemsSource="{Binding ListPlat}"
                   SelectedValuePath="ID" 
-                  SelectedItem="{Binding SelectedItem}"
+                  SelectedItem="{Binding PlatSelectionne}"
                   DisplayMemberPath="Descr"                        
-                  Text="{Binding UnMenu.NomP, UpdateSourceTrigger=LostFocus}" />
+                  Text="{Binding UnMenu.NomP, UpdateSourceTrigger=LostFocus}" 
+                        />
                 </StackPanel>
             </Grid>
         </GroupBox>
@@ -106,7 +106,7 @@
                   IsEditable="True"
                   ItemsSource="{Binding ListDessert}"
                   SelectedValuePath="ID" 
-                  SelectedItem="{Binding SelectedItem}"
+                  SelectedItem="{Binding DessertSelectionne}"
                   DisplayMemberPath="Descr"                        
                   Text="{Binding UnMenu.NomD, UpdateSourceTrigger=LostFocus}"/>
                 </StackPanel>
@@ -130,7 +130,7 @@
                   IsEditable="True"
                   ItemsSource="{Binding ListCollation}"
                   SelectedValuePath="ID" 
-                  SelectedItem="{Binding SelectedItem}"
+                  SelectedItem="{Binding CollationSelectionne}"
                         DisplayMemberPath="Descr"
                   Text="{Binding UnMenu.NomC, UpdateSourceTrigger=LostFocus}"/>
                 </StackPanel>

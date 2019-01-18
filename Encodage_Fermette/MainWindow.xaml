@@ -5,6 +5,9 @@
         xmlns:mc="http://schemas.openxmlformats.org/markup-compatibility/2006"
         xmlns:local="clr-namespace:Encodage_Fermette"
         mc:Ignorable="d"
+        xmlns:system="clr-namespace:System;assembly=mscorlib"
+    xmlns:wpfTool="clr-namespace:Xceed.Wpf.Toolkit;assembly=Xceed.Wpf.Toolkit"               
+    xmlns:customName="wpftool" 
         Title="MainWindow" Height="800" Width="1400">
 
 
@@ -20,8 +23,8 @@
             <ColumnDefinition Width="*"/>
             <ColumnDefinition Width="*"/>
         </Grid.ColumnDefinitions>
-        <DockPanel Grid.Row="0">
-            <Menu DockPanel.Dock="Top">
+        <DockPanel Grid.Row="0" >
+            <Menu DockPanel.Dock="Top" >
                 <MenuItem Header="Gestion" >
                     <MenuItem Header="Menu" Click="btn_Gestion_Menu" />
                     <MenuItem Header="Beneficiaires" Click="btn_Gestion_Beneficiaire" />
@@ -55,13 +58,13 @@
         </StackPanel>
         <Grid Name="GridEvenement" Grid.Row="1" Grid.Column="1">
             <Grid.RowDefinitions>
-                <RowDefinition Height="30" />
-                <RowDefinition Height="30" />
-                <RowDefinition Height="30" />
-                <RowDefinition Height="50" />
-                <RowDefinition Height="20" />
-                <RowDefinition Height="25" />
-                <RowDefinition Height="25" />
+                <RowDefinition Height="*" />
+                <RowDefinition Height="*" />
+                <RowDefinition Height="*" />
+                <RowDefinition Height="*" />
+                <RowDefinition Height="*" />
+                <RowDefinition Height="auto" />
+                <RowDefinition Height="*" />
 
             </Grid.RowDefinitions>
             <Grid.ColumnDefinitions>
@@ -69,58 +72,151 @@
                 <ColumnDefinition Width="*" />
             </Grid.ColumnDefinitions>
             <TextBlock Name="tTitreEvent" Text="Titre" VerticalAlignment="Center" />
-            <TextBox Name="tbTitreEvent" Grid.Column="1" Margin="3"/>
+            <ComboBox Grid.Column="1" Margin="3" 
+                  IsEditable="True"
+                  ItemsSource="{Binding ListEntree}"
+                  SelectedValuePath="ID" 
+                  SelectedItem="{Binding EntreeSelectionne}"
+                  DisplayMemberPath="Descr"                        
+                  Text="{Binding NouvelleEntree, UpdateSourceTrigger=LostFocus}"  Grid.ColumnSpan="2"/>
+
             <TextBlock Name="tPrioriteEvent" Text="Priorite" Grid.Row="1" VerticalAlignment="Center" />
             <ListBox Name="LbPrioriteEvent" Grid.Row="1" Grid.Column="1" Margin="3"/>
-            <TextBlock Name="tRecurrent" Text="Recurrent" Grid.Row="2" VerticalAlignment="Center" />
-            <CheckBox Grid.Row="2" Grid.Column="1" Margin="3"/>
-            <TextBlock Name="tDescriptifEvent" Text="Descriptif" Grid.Row="3" VerticalAlignment="Top" />
-            <TextBox Name="tbDescpritfEvent"  Grid.Row="3" Grid.Column="1" Margin="3"/>
-            <TextBlock Name="tLieuEvent" Grid.Row="4" Text="Lieu"  VerticalAlignment="Center" />
-            <ListBox Name="LbLieu" Grid.Row="4" Grid.Column="1" Margin="3"/>
-            <TextBlock Name="tHeureDebutEvent" Grid.Row="5" Text="Heure Début"  VerticalAlignment="Center" />
-            <DatePicker Grid.Row="5" Grid.Column="1" Margin="3"/>
-            <TextBlock Name="tHeureFinEvent" Grid.Row="6" Text="Heure Fin"  VerticalAlignment="Center" />
 
+            <TextBlock Name="tRecurrent" Text="Recurrent" Grid.Row="2" VerticalAlignment="Center" />
+            <ComboBox Grid.Row="2" Grid.Column="1" SelectedValuePath="Tag" VerticalAlignment="Center"
+                  SelectedValue="{Binding UnStaff.Sexe}">
+                <ComboBoxItem Content="Pas-Recurrent">
+                    <ComboBoxItem.Tag>
+                        <system:Boolean>False</system:Boolean>
+                    </ComboBoxItem.Tag>
+                </ComboBoxItem>
+                <ComboBoxItem Content="Recurrent">
+                    <ComboBoxItem.Tag>
+                        <system:Boolean>True</system:Boolean>
+                    </ComboBoxItem.Tag>
+                </ComboBoxItem>
+            </ComboBox>
+
+            <TextBlock Name="tDescriptifEvent" Text="Descriptif" Grid.Row="3" VerticalAlignment="Top" />
+            <RichTextBox Name="tbDescpritfEvent"  Grid.Row="3" Grid.Column="1" Margin="3"/>
+            <TextBlock Name="tLieuEvent" Grid.Row="4" Text="Lieu"  VerticalAlignment="Center" />
+            <ComboBox Grid.Row="4" Grid.Column="1" 
+                  IsEditable="True"
+                  ItemsSource="{Binding ListEntree}"
+                  SelectedValuePath="ID" 
+                  SelectedItem="{Binding EntreeSelectionne}"
+                  DisplayMemberPath="Descr"                        
+                  Text="{Binding NouvelleEntree, UpdateSourceTrigger=LostFocus}" Margin="3" Grid.ColumnSpan="2"
+             />
+
+            <StackPanel Orientation="Horizontal" HorizontalAlignment="Center" Grid.Row="5" Grid.RowSpan="6"  Grid.Column="1">
+                
+
+                <TextBlock Name="tHeureDebutEvent" Grid.Row="5" Text="Heure Début"  VerticalAlignment="Center" />
+                <wpfTool:TimePicker Grid.Row="5" Grid.Column="1" Text="{Binding DateFin}" Margin="0,0,0,0.2" Width="130"/>
+                <TextBlock Name="tHeureFinEvent" Grid.Row="6" Text="Heure Fin"  Margin="10" VerticalAlignment="Center" />
+                <wpfTool:TimePicker Grid.Row="5" Grid.Column="1" Text="{Binding DateFin}" Margin="0,0,0,0.2" Width="130"/>
+
+            </StackPanel>
         </Grid>
         <GroupBox Grid.Row="2" Grid.Column="1" Header="MenuDujour" >
             <Grid Name="GridMenu">
                 <Grid.RowDefinitions>
-                <RowDefinition Height="*" />
-                <RowDefinition Height="auto" />
-            </Grid.RowDefinitions>
-            <Grid.ColumnDefinitions>
-                <ColumnDefinition Width="*" />
-            </Grid.ColumnDefinitions>
-            <DataGrid Grid.Row="0"/>
-            <StackPanel  Grid.Row="1" Orientation="Horizontal" HorizontalAlignment="Center">
-                <Button Content="Modifier" Margin="3"/>
-                <Button Content="Supprimer" Margin="3"/>
-            </StackPanel>
-        </Grid>
+                    <RowDefinition Height="*" />
+                    <RowDefinition Height="auto" />
+                </Grid.RowDefinitions>
+                <Grid.ColumnDefinitions>
+                    <ColumnDefinition Width="*" />
+                </Grid.ColumnDefinitions>
+                <DataGrid Grid.Row="0">
+                    <DataGrid.Columns>
+                        <DataGridTextColumn Visibility="Hidden" Binding="{Binding Path=ID_Menu}" />
+                        <DataGridTextColumn Header="Entree" Binding="{Binding Path=E_Descr}" Width="*" />
+                        <DataGridTextColumn Header="Plat" Binding="{Binding Path=P_Descr}" Width="*" />
+                        <DataGridTextColumn Header="Dessert" Binding="{Binding Path=D_Descr}" Width="*" />
+                        <DataGridTextColumn Header="Collation" Binding="{Binding Path=C_Descr}" Width="*" />
+                    </DataGrid.Columns>
+
+                </DataGrid>
+                <StackPanel  Grid.Row="1" Orientation="Horizontal" HorizontalAlignment="Center">
+                    <Button Content="Modifier" Margin="3"/>
+                    <Button Content="Supprimer" Margin="3"/>
+                </StackPanel>
+            </Grid>
         </GroupBox>
-        <GroupBox Grid.Row="1" Grid.Column="2" Header="Gestion staff" >
-            <Grid>
+        <Grid Grid.Row="1" Grid.Column="2" >
                 <Grid.RowDefinitions>
                     <RowDefinition Height="*" />
                     <RowDefinition Height="*" />
                 </Grid.RowDefinitions>
                 <Grid.ColumnDefinitions>
                     <ColumnDefinition Width="*" />
-                    <ColumnDefinition Width="auto" />
-                    <ColumnDefinition Width="*" />
                 </Grid.ColumnDefinitions>
-                <DataGrid Grid.Row="0" Grid.Column="0" Name="dgListeStaffDispo"/>
-                <Button Grid.Row="0" Grid.Column="1" Name="btnSwitchStaff"/>
-                <DataGrid Grid.Row="0" Grid.Column="2" Name="dgListeStaffEvent"/>
+            <GroupBox Header="Gestion Staff" Grid.Row="0" Grid.Column="0">
+                <Grid>
+                    <Grid.RowDefinitions>
+                        <RowDefinition Height="*" />
+                    </Grid.RowDefinitions>
+                    <Grid.ColumnDefinitions>
+                        <ColumnDefinition Width="*" />
+                        <ColumnDefinition Width="auto" />
+                        <ColumnDefinition Width="*" />
+                    </Grid.ColumnDefinitions>
+                    <DataGrid Grid.Row="0" Grid.Column="0" Name="dgListeStaffDispo">
+                        <DataGrid.Columns>
+                            <DataGridTextColumn Visibility="Hidden" Binding="{Binding Path=ID_Staff}" />
+                            <DataGridTextColumn Header="Prénom" Binding="{Binding Path=S_Prenom}" Width="*" />
+                            <DataGridTextColumn Header="Nom" Binding="{Binding Path=S_Nom}" Width="*" />
+                        </DataGrid.Columns>
+                    </DataGrid>
+                    <Button Width="40" Content="switch" Grid.Row="0" Grid.Column="1" Name="btnSwitchStaff"/>
+                    <DataGrid Grid.Row="0" Grid.Column="2" Name="dgListeStaffEvent">
+                        <DataGrid.Columns>
+                            <DataGridTextColumn Visibility="Hidden" Binding="{Binding Path=ID_Staff}" />
+                            <DataGridTextColumn Header="Prénom" Binding="{Binding Path=S_Prenom}" Width="*" />
+                            <DataGridTextColumn Header="Nom" Binding="{Binding Path=S_Nom}" Width="*" />
+                        </DataGrid.Columns>
+                    </DataGrid>
+                </Grid>
+            </GroupBox>
+            <GroupBox Header="Gestion Beneficiaire" Grid.Row="1" Grid.Column="0">
+                <Grid>
+                    <Grid.RowDefinitions>
+                        <RowDefinition Height="*" />
+                    </Grid.RowDefinitions>
+                    <Grid.ColumnDefinitions>
+                        <ColumnDefinition Width="*" />
+                        <ColumnDefinition Width="auto" />
+                        <ColumnDefinition Width="*" />
+                    </Grid.ColumnDefinitions>
 
-                <DataGrid Grid.Row="1" Grid.Column="0" Name="dgListeBeneffDispo"/>
-                <Button Grid.Row="1" Grid.Column="1" Name="btnSwitchBenef"/>
-                <DataGrid Grid.Row="1" Grid.Column="2" Name="dgListeBeneffEvent"/>
-            </Grid>
-        </GroupBox>
+                    <DataGrid  Name="dgListeBeneffDispo">
+                    <DataGrid.Columns>
+                        <DataGridTextColumn Visibility="Hidden" Binding="{Binding Path=ID_Beneficiaire}" />
+                        <DataGridTextColumn Header="Prénom" Binding="{Binding Path=B_Prenom}" Width="*" />
+                        <DataGridTextColumn Header="Nom" Binding="{Binding Path=B_Nom}" Width="*" />
+                    </DataGrid.Columns>
+                </DataGrid>
+                <Button Grid.Row="1" Grid.Column="1" Width="40" Content="switch" Name="btnSwitchBenef"/>
+                <DataGrid Grid.Row="1" Grid.Column="2" Name="dgListeBeneffEvent">
+                    <DataGrid.Columns>
+                        <DataGridTextColumn Visibility="Hidden" Binding="{Binding Path=ID_Beneficiaire}" />
+                        <DataGridTextColumn Header="Prénom" Binding="{Binding Path=B_Prenom}" Width="*" />
+                        <DataGridTextColumn Header="Nom" Binding="{Binding Path=B_Nom}" Width="*" />
+                    </DataGrid.Columns>
+                </DataGrid>
+                </Grid>
+            </GroupBox>
+        </Grid>
         <GroupBox Grid.Row="2" Grid.Column="2" Header="Classement" >
-
         </GroupBox>
+        <StackPanel Orientation="Horizontal" HorizontalAlignment="Center" Grid.Row="3" Grid.Column="1"  Grid.ColumnSpan="2"  Margin="3">
+            <Button Name="bConforimer" Content="Ajouter" Margin="3" IsEnabled="{Binding Path=ActiverBcpFiche, Mode=OneWay}"
+           Command="{Binding cAjouter}" />
+            <Button Name="CAnnuler" Content="Modifier" Margin="3" IsEnabled="{Binding Path=ActiverBcpFiche, Mode=OneWay}"
+           Command="{Binding cModifier}" />
+        </StackPanel>
+
     </Grid>
 </Window>
