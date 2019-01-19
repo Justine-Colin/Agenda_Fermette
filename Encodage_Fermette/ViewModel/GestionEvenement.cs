@@ -7,7 +7,6 @@ using System.Collections.ObjectModel;
 using CoucheClasse;
 using CoucheAcces;
 using CoucheGestion;
-using Encodage_Fermette.ViewModel;
 using CoucheClasse;
 using CoucheAcces;
 using CoucheGestion;
@@ -37,14 +36,31 @@ namespace Encodage_Fermette.ViewModel
         {
             get { return _EventSelectionne; }
             set { AssignerChamp<C_Vue_Event>(ref _EventSelectionne, value, System.Reflection.MethodBase.GetCurrentMethod().Name); }
-
         }
-
         private List<C_Vue_Event> _ListEvent;
         public List<C_Vue_Event> ListEvent
         {
             get { return _ListEvent; }
             set { AssignerChamp<List<C_Vue_Event>>(ref _ListEvent, value, System.Reflection.MethodBase.GetCurrentMethod().Name); }
+        }
+        private C_Vue_ID_Descr _Titre;
+        public C_Vue_ID_Descr Titre
+        {
+            get { return _Titre; }
+            set { AssignerChamp<C_Vue_ID_Descr>(ref _Titre, value, System.Reflection.MethodBase.GetCurrentMethod().Name); }
+        }
+        private ObservableCollection<C_Vue_ID_Descr> _ListTitre;
+        public ObservableCollection<C_Vue_ID_Descr> ListeTitre
+        {
+            get { return _ListTitre; }
+            set { AssignerChamp<ObservableCollection<C_Vue_ID_Descr>>(ref _ListTitre, value, System.Reflection.MethodBase.GetCurrentMethod().Name); }
+        }
+
+        private ObservableCollection<C_Vue_ID_Descr> _ListLieux;
+        public ObservableCollection<C_Vue_ID_Descr> ListLieux
+        {
+            get { return _ListLieux; }
+            set { AssignerChamp<ObservableCollection<C_Vue_ID_Descr>>(ref _ListLieux, value, System.Reflection.MethodBase.GetCurrentMethod().Name); }
         }
 
         public void ChargementEvenementDujour(DateTime Datetime)
@@ -55,11 +71,45 @@ namespace Encodage_Fermette.ViewModel
         }
         public void ChargementEvenement()
         {
+            C_T_Event tmp = new CoucheGestion.G_T_Event(chConnexion).Lire_ID(EventSelectionne.ID_Ev);
             UnEvent.ID_Event = EventSelectionne.ID_Ev;
             UnEvent.Lieu = EventSelectionne.Li_Descr; 
         }
+        public ObservableCollection<C_Vue_ID_Descr> ChargerTitres( string co)
+        {
+            ObservableCollection<C_Vue_ID_Descr> rep = new ObservableCollection<C_Vue_ID_Descr>();
+            List<C_Vue_ID_Descr> lTmp = new CoucheGestion.G_Vue_ID_Descr(chConnexion).Lire_All_Titre();
+            foreach (C_Vue_ID_Descr Tmp in lTmp)
+            {
+                C_Vue_ID_Descr titretmp = new C_Vue_ID_Descr(Tmp.ID, Tmp.Descr);
+                rep.Add(titretmp);
+            }
+            return rep;
 
+        }
+        public ObservableCollection<C_Vue_ID_Descr> ChargerLieux()
+        {
+            ObservableCollection<C_Vue_ID_Descr> rep = new ObservableCollection<C_Vue_ID_Descr>();
+            List<C_Vue_ID_Descr> lTmp = new CoucheGestion.G_Vue_ID_Descr(chConnexion).Lire_All_Lieux();
+            foreach (C_Vue_ID_Descr Tmp in lTmp)
+            {
+                C_Vue_ID_Descr lieuxtmp = new C_Vue_ID_Descr(Tmp.ID, Tmp.Descr);
+                rep.Add(lieuxtmp);
+            }
+            return rep;
+
+        }
+        public VM_GestionEvenement()
+        {
+            UnEvent = new VM_Un_Event();
+            ListeTitre = ChargerTitres(chConnexion);
+            ListLieux = ChargerLieux();
+            foreach (C_Vue_ID_Descr t in ListLieux)
+                System.Windows.MessageBox.Show(t.Descr);
+
+        }
     }
+
     public class VM_Un_Event : BasePropriete
     {
         private int _ID_Event, _ID_Titre, _ID_Lieu, _Priorite;

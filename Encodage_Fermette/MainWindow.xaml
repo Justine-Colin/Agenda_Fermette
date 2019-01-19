@@ -29,6 +29,8 @@
                     <MenuItem Header="Menu" Click="btn_Gestion_Menu" />
                     <MenuItem Header="Beneficiaires" Click="btn_Gestion_Beneficiaire" />
                     <MenuItem Header="Staff" Click="btn_Gestion_Staff" />
+                    <MenuItem Header="Param Event" Click="btn_Gestion_Staff" />
+
                     <Separator />
                     <MenuItem Header="Quitter_Menu" />
                 </MenuItem>
@@ -39,18 +41,20 @@
         <Viewbox Grid.Row="1" Grid.Column="0" Width="auto" Margin="5" >
             <Calendar SelectedDatesChanged="CalendrierDateChanged" Name="Calendrier"/>
         </Viewbox>
+        <GroupBox Header="Liste evenement du jour" Grid.Row="2" Grid.Column="0">
         <DataGrid
             
             SelectedItem="{Binding EventSelectionne, Mode=TwoWay}" SelectionChanged="dgEvent_SelectionChanged" AutoGenerateColumns="False" IsReadOnly="True"
-            ItemsSource="{Binding Path=ListEvent, Mode=OneWay}"  Name="dgEvent" Grid.Row="2" Grid.Column="0" VerticalScrollBarVisibility="Visible">
+            ItemsSource="{Binding Path=ListEvent, Mode=OneWay}"  Name="dgEvent" VerticalScrollBarVisibility="Visible">
             <DataGrid.Columns>
-                <DataGridTextColumn Visibility="Hidden" Binding="{Binding Path=ID_Ev}" />
-                <DataGridTextColumn Header="Titre" Binding="{Binding Path=Ti_Descr}" Width="*" />
+                    <DataGridTextColumn Visibility="Hidden" Binding="{Binding Path=ID_Ev}" />
+                    <DataGridTextColumn Header="Titre" Binding="{Binding Path=Ti_Descr}" Width="*" />
                 <DataGridTextColumn Header="Lieu" Binding="{Binding Path=Li_Descr}" Width="*" />
                 <DataGridTextColumn Header="Heure_Debut" Binding="{Binding Path=Ev_HeureDebut}" Width="*" />
                 <DataGridTextColumn Header="Heure_Fin" Binding="{Binding Path=Ev_HeureFin}" Width="*" />
             </DataGrid.Columns>
         </DataGrid>
+            </GroupBox>
         <StackPanel Orientation="Horizontal" Grid.Row="3" HorizontalAlignment="Center" Margin="3">
             <Button Name="bAjouter" Content="Ajouter" Margin="3" IsEnabled="{Binding Path=ActiverBcpFiche, Mode=OneWay}"
            Command="{Binding cAjouter}" />
@@ -77,11 +81,10 @@
             <TextBlock Name="tTitreEvent" Text="Titre" VerticalAlignment="Center" />
             <ComboBox Grid.Column="1" Margin="3" 
                   IsEditable="True"
-                  ItemsSource="{Binding ListEntree}"
+                  ItemsSource="{Binding ListeTitre}"
                   SelectedValuePath="ID" 
-                  SelectedItem="{Binding EntreeSelectionne}"
                   DisplayMemberPath="Descr"                        
-                  Text="{Binding NouvelleEntree, UpdateSourceTrigger=LostFocus}"  Grid.ColumnSpan="2"/>
+                  Text="{Binding UnEvent.Titre, UpdateSourceTrigger=LostFocus}"  Grid.ColumnSpan="2"/>
 
             <TextBlock Name="tPrioriteEvent" Text="Priorite" Grid.Row="1" VerticalAlignment="Center" />
             <ListBox Name="LbPrioriteEvent" Grid.Row="1" Grid.Column="1" Margin="3"/>
@@ -106,11 +109,11 @@
             <TextBlock Name="tLieuEvent" Grid.Row="4" Text="Lieu"  VerticalAlignment="Center" />
             <ComboBox Grid.Row="4" Grid.Column="1" 
                   IsEditable="True"
-                  ItemsSource="{Binding ListEntree}"
+                  ItemsSource="{Binding ListLieux}"
                   SelectedValuePath="ID" 
                   SelectedItem="{Binding EntreeSelectionne}"
                   DisplayMemberPath="Descr"                        
-                  Text="{Binding NouvelleEntree, UpdateSourceTrigger=LostFocus}" Margin="3" Grid.ColumnSpan="2"
+                  Text="{Binding UnEvent.Lieu, UpdateSourceTrigger=LostFocus}" Margin="3" Grid.ColumnSpan="2"
              />
 
             <StackPanel Orientation="Horizontal" HorizontalAlignment="Center" Grid.Row="5" Grid.RowSpan="6"  Grid.Column="1">
