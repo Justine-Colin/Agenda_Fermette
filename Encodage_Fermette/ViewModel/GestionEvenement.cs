@@ -55,25 +55,52 @@ namespace Encodage_Fermette.ViewModel
             get { return _ListTitre; }
             set { AssignerChamp<ObservableCollection<C_Vue_ID_Descr>>(ref _ListTitre, value, System.Reflection.MethodBase.GetCurrentMethod().Name); }
         }
+        private C_Vue_ID_Descr _TitreSelectionne;
+        public C_Vue_ID_Descr TitreSelectionne
+        {
+            get { return _TitreSelectionne; }
+            set { AssignerChamp<C_Vue_ID_Descr>(ref _TitreSelectionne, value, System.Reflection.MethodBase.GetCurrentMethod().Name); }
 
+        }
         private ObservableCollection<C_Vue_ID_Descr> _ListLieux;
         public ObservableCollection<C_Vue_ID_Descr> ListLieux
         {
             get { return _ListLieux; }
             set { AssignerChamp<ObservableCollection<C_Vue_ID_Descr>>(ref _ListLieux, value, System.Reflection.MethodBase.GetCurrentMethod().Name); }
         }
-
+        private List<C_Vue_Menu> _ListMenu;
+        public List<C_Vue_Menu> ListMenu
+        {
+            get { return _ListMenu; }
+            set { AssignerChamp<List<C_Vue_Menu>>(ref _ListMenu, value, System.Reflection.MethodBase.GetCurrentMethod().Name); }
+        }
+        private C_Vue_Menu _MenuDuJour;
+        public C_Vue_Menu MenuDuJour
+        {
+            get { return _MenuDuJour; }
+            set { AssignerChamp<C_Vue_Menu>(ref _MenuDuJour, value, System.Reflection.MethodBase.GetCurrentMethod().Name); }
+        }
+        private C_Vue_Menu _MenuSelectionne;
+        public C_Vue_Menu MenuSelectionne
+        {
+            get { return _MenuSelectionne; }
+            set { AssignerChamp<C_Vue_Menu>(ref _MenuSelectionne, value, System.Reflection.MethodBase.GetCurrentMethod().Name); }
+        }
         public void ChargementEvenementDujour(DateTime Datetime)
         {
             var date = Datetime.Date;
             // System.Windows.MessageBox.Show(date.Date.ToString());
             ListEvent = new CoucheGestion.G_Vue_Event(chConnexion).Lire_Event_Dujour(date);
+            ListMenu = new CoucheGestion.G_Vue_Menu(chConnexion).Lire_All_Menu();
+            MenuDuJour = new CoucheGestion.G_Vue_Menu(chConnexion).Lire_Menu_DuJour(date);
         }
         public void ChargementEvenement()
         {
             C_T_Event tmp = new CoucheGestion.G_T_Event(chConnexion).Lire_ID(EventSelectionne.ID_Ev);
             UnEvent.ID_Event = EventSelectionne.ID_Ev;
+
             UnEvent.Lieu = EventSelectionne.Li_Descr; 
+
         }
         public ObservableCollection<C_Vue_ID_Descr> ChargerTitres( string co)
         {
@@ -85,7 +112,6 @@ namespace Encodage_Fermette.ViewModel
                 rep.Add(titretmp);
             }
             return rep;
-
         }
         public ObservableCollection<C_Vue_ID_Descr> ChargerLieux()
         {
@@ -97,19 +123,14 @@ namespace Encodage_Fermette.ViewModel
                 rep.Add(lieuxtmp);
             }
             return rep;
-
         }
         public VM_GestionEvenement()
         {
             UnEvent = new VM_Un_Event();
             ListeTitre = ChargerTitres(chConnexion);
             ListLieux = ChargerLieux();
-            foreach (C_Vue_ID_Descr t in ListLieux)
-                System.Windows.MessageBox.Show(t.Descr);
-
         }
     }
-
     public class VM_Un_Event : BasePropriete
     {
         private int _ID_Event, _ID_Titre, _ID_Lieu, _Priorite;

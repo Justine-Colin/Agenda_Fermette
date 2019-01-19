@@ -118,6 +118,9 @@
     <Compile Include="View\GestionBeneficiaires.xaml.cs">
       <DependentUpon>GestionBeneficiaires.xaml</DependentUpon>
     </Compile>
+    <Compile Include="View\GestionEventParam.xaml.cs">
+      <DependentUpon>GestionEventParam.xaml</DependentUpon>
+    </Compile>
     <Compile Include="View\GestionStaff.xaml.cs">
       <DependentUpon>GestionStaff.xaml</DependentUpon>
     </Compile>
@@ -137,6 +140,10 @@
       <SubType>Code</SubType>
     </Compile>
     <Page Include="View\GestionBeneficiaires.xaml">
+      <SubType>Designer</SubType>
+      <Generator>MSBuild:Compile</Generator>
+    </Page>
+    <Page Include="View\GestionEventParam.xaml">
       <SubType>Designer</SubType>
       <Generator>MSBuild:Compile</Generator>
     </Page>
