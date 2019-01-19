@@ -19,9 +19,12 @@ namespace Encodage_Fermette.View
     /// </summary>
     public partial class GestionEventParam : Window
     {
+        ViewModel.VM_GestionEventParam LocalEventParam;
         public GestionEventParam()
         {
             InitializeComponent();
+            LocalEventParam = new ViewModel.VM_GestionEventParam();
+            DataContext = LocalEventParam;
         }
     }
 }

@@ -29,7 +29,7 @@
                     <MenuItem Header="Menu" Click="btn_Gestion_Menu" />
                     <MenuItem Header="Beneficiaires" Click="btn_Gestion_Beneficiaire" />
                     <MenuItem Header="Staff" Click="btn_Gestion_Staff" />
-                    <MenuItem Header="Param Event" Click="btn_Gestion_Staff" />
+                    <MenuItem Header="Param Event" Click="btn_Gestion_Event_Param" />
 
                     <Separator />
                     <MenuItem Header="Quitter_Menu" />

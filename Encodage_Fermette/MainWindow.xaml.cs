@@ -45,6 +45,11 @@ namespace Encodage_Fermette
             View.GestionMenu f = new View.GestionMenu();
             f.ShowDialog();
         }
+        private void btn_Gestion_Event_Param(object sender, RoutedEventArgs e)
+        {
+            View.GestionEventParam f = new View.GestionEventParam();
+            f.ShowDialog();
+        }
         private void CalendrierDateChanged(object sender, SelectionChangedEventArgs e)
         {
             // attention la méthode pue 

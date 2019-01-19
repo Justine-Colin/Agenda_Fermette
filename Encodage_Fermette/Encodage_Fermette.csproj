@@ -113,6 +113,7 @@
     <Compile Include="ViewModel\Base.cs" />
     <Compile Include="ViewModel\Beneficiaire.cs" />
     <Compile Include="ViewModel\GestionEvenement.cs" />
+    <Compile Include="ViewModel\GestionEventParam.cs" />
     <Compile Include="ViewModel\Menu.cs" />
     <Compile Include="ViewModel\Staff.cs" />
     <Compile Include="View\GestionBeneficiaires.xaml.cs">

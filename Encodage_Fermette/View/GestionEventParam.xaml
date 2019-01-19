@@ -44,12 +44,11 @@
                 </Grid.ColumnDefinitions>
                 <ComboBox Grid.Column="0" Grid.Row="0"
                   IsEnabled="{Binding Path=ActiverUneFiche}" 
-                  IsEditable="True"
-                  ItemsSource="{Binding ListEntree}"
+                  ItemsSource="{Binding ListTitre}"
                   SelectedValuePath="ID" 
-                  SelectedItem="{Binding EntreeSelectionne}"
+                  SelectedItem="{Binding TitreSelectionne}"
                   DisplayMemberPath="Descr"                        
-                  Text="{Binding UnMenu.NomE}" Margin="3"
+                   Margin="3"
                  />
                 <Button Grid.Column="1" Content="add" Margin="3"/>
                 <Button Grid.Column="2" Content="del" Margin="3"/>
@@ -69,12 +68,11 @@
                 </Grid.ColumnDefinitions>
                 <ComboBox Grid.Column="0" Grid.Row="0"
                   IsEnabled="{Binding Path=ActiverUneFiche}" 
-                  IsEditable="True"
-                  ItemsSource="{Binding ListEntree}"
+                  ItemsSource="{Binding ListLieux}"
                   SelectedValuePath="ID" 
-                  SelectedItem="{Binding EntreeSelectionne}"
+                  SelectedItem="{Binding LieuxSelectionne}"
                   DisplayMemberPath="Descr"                        
-                  Text="{Binding UnMenu.NomE}" Margin="3"
+                  Margin="3"
                  />
                 <Button Grid.Column="1" Content="add" Margin="3"/>
                 <Button Grid.Column="2" Content="del" Margin="3"/>
@@ -104,12 +102,11 @@
                     </Grid.ColumnDefinitions>
                     <ComboBox Grid.Column="0" Grid.Row="0"
                   IsEnabled="{Binding Path=ActiverUneFiche}" 
-                  IsEditable="True"
-                  ItemsSource="{Binding ListEntree}"
+                  ItemsSource="{Binding ListEquipe}"
                   SelectedValuePath="ID" 
-                  SelectedItem="{Binding EntreeSelectionne}"
-                  DisplayMemberPath="Descr"                        
-                  Text="{Binding UnMenu.NomE}" Margin="3"
+                  SelectedItem="{Binding EquipeSelectionne}"
+                  DisplayMemberPath="Eq_Nom"                        
+                  Margin="3"
                  />
                     <Button Grid.Column="1" Content="add" Margin="3"/>
                     <Button Grid.Column="2" Content="del" Margin="3"/>
@@ -122,13 +119,17 @@
                             <RowDefinition Height="*" />
                         </Grid.RowDefinitions>
                         <Grid.ColumnDefinitions>
-                            <ColumnDefinition Width="*"/>
-                            <ColumnDefinition Width="auto"/>
-                            <ColumnDefinition Width="*"/>
+                            <ColumnDefinition Width="157*"/>
+                            <ColumnDefinition Width="37*"/>
+                            <ColumnDefinition Width="157*"/>
                         </Grid.ColumnDefinitions>
-                        <DataGrid/>
+                        <DataGrid Name="dgBeneficiaireList" ItemsSource="{Binding Path=ListBeneficiaire}"  VerticalScrollBarVisibility="Visible"
+            IsReadOnly="True" AutoGenerateColumns="False" IsEnabled="{Binding Path=ActiverBcpFiche, Mode=OneWay}"
+            SelectedItem="{Binding BeneficiaireSelectionneList, Mode=TwoWay}"  />
                         <Button Content="switch" Grid.Column="1"/>
-                        <DataGrid Grid.Column="2"/>
+                        <DataGrid Grid.Column="2" Name="dgBebeficiaireEq" ItemsSource="{Binding Path=ListBenefiaireEq}"  VerticalScrollBarVisibility="Visible"
+            IsReadOnly="True" AutoGenerateColumns="False" IsEnabled="{Binding Path=ActiverBcpFiche, Mode=OneWay}"
+            SelectedItem="{Binding BeneficiaireSelectionneEq, Mode=TwoWay}"/>
                     </Grid>
                 </GroupBox>
                 <StackPanel Orientation="Horizontal" Grid.Row="2" HorizontalAlignment="Center" Margin="3">
