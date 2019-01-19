@@ -16,7 +16,6 @@ namespace Encodage_Fermette.ViewModel
         private string chConnexion = @"Data Source=(LocalDB)\MSSQLLocalDB;AttachDbFilename='" + System.Windows.Forms.Application.StartupPath + @"\Database1.mdf';Integrated Security=True;Connect Timeout=30";
         private int nAjout;
         private int nNourriteAjout;
-        private int typeNourriture;
         private bool _ActiverUneFiche;
         public bool ActiverUneFiche
         {

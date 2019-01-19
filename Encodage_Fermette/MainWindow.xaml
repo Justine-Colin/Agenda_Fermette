@@ -63,7 +63,7 @@
             <Button Name="bSupprimer" Content="Supprimer" Margin="3" IsEnabled="{Binding Path=ActiverBcpFiche, Mode=OneWay}"
            Command="{Binding cSupprimer}" />
         </StackPanel>
-        <Grid Name="GridEvenement" Grid.Row="1" Grid.Column="1">
+        <Grid Name="GridEvenement" Grid.Row="2" Grid.Column="1">
             <Grid.RowDefinitions>
                 <RowDefinition Height="*" />
                 <RowDefinition Height="*" />
@@ -127,7 +127,7 @@
 
             </StackPanel>
         </Grid>
-        <GroupBox Grid.Row="2" Grid.Column="1" Header="MenuDujour" >
+        <GroupBox Grid.Row="1" Grid.Column="1" Header="MenuDujour" >
             <Grid Name="GridMenu">
                 <Grid.RowDefinitions>
                     <RowDefinition Height="*" />
@@ -197,19 +197,23 @@
                         <ColumnDefinition Width="auto" />
                         <ColumnDefinition Width="*" />
                     </Grid.ColumnDefinitions>
-                    <DataGrid Grid.Row="0" Grid.Column="0" Name="dgListeStaffDispo">
+                    <DataGrid Name="dgStaffList"  ItemsSource="{Binding Path=ListStaff}"  VerticalScrollBarVisibility="Visible"
+            IsReadOnly="True" AutoGenerateColumns="False" IsEnabled="{Binding Path=ActiverBcpFiche, Mode=OneWay}"
+            SelectedItem="{Binding BeneficiaireSelectionneList, Mode=TwoWay}"  >
                         <DataGrid.Columns>
-                            <DataGridTextColumn Visibility="Hidden" Binding="{Binding Path=ID_Staff}" />
-                            <DataGridTextColumn Header="Prénom" Binding="{Binding Path=S_Prenom}" Width="*" />
-                            <DataGridTextColumn Header="Nom" Binding="{Binding Path=S_Nom}" Width="*" />
+                            <DataGridTextColumn Visibility="Hidden" Binding="{Binding Path=ID_Personne1}" />
+                            <DataGridTextColumn Header="Prénom" Binding="{Binding Path=Nom1}" Width="*" />
+                            <DataGridTextColumn Header="Nom" Binding="{Binding Path=Pre1}" Width="*" />
                         </DataGrid.Columns>
                     </DataGrid>
                     <Button Width="40" Content="switch" Grid.Row="0" Grid.Column="1" Name="btnSwitchStaff"/>
-                    <DataGrid Grid.Row="0" Grid.Column="2" Name="dgListeStaffEvent">
+                    <DataGrid Name="dgStaffParticipant" Grid.Column="2" ItemsSource="{Binding Path=ListStaffParticipant}"  VerticalScrollBarVisibility="Visible"
+            IsReadOnly="True" AutoGenerateColumns="False" IsEnabled="{Binding Path=ActiverBcpFiche, Mode=OneWay}"
+            SelectedItem="{Binding BeneficiaireSelectionneList, Mode=TwoWay}"  >
                         <DataGrid.Columns>
-                            <DataGridTextColumn Visibility="Hidden" Binding="{Binding Path=ID_Staff}" />
-                            <DataGridTextColumn Header="Prénom" Binding="{Binding Path=S_Prenom}" Width="*" />
-                            <DataGridTextColumn Header="Nom" Binding="{Binding Path=S_Nom}" Width="*" />
+                            <DataGridTextColumn Visibility="Hidden" Binding="{Binding Path=ID_Personne1}" />
+                            <DataGridTextColumn Header="Prénom" Binding="{Binding Path=Nom1}" Width="*" />
+                            <DataGridTextColumn Header="Nom" Binding="{Binding Path=Pre1}" Width="*" />
                         </DataGrid.Columns>
                     </DataGrid>
                 </Grid>
@@ -224,22 +228,25 @@
                         <ColumnDefinition Width="auto" />
                         <ColumnDefinition Width="*" />
                     </Grid.ColumnDefinitions>
-
-                    <DataGrid  Name="dgListeBeneffDispo">
-                    <DataGrid.Columns>
-                        <DataGridTextColumn Visibility="Hidden" Binding="{Binding Path=ID_Beneficiaire}" />
-                        <DataGridTextColumn Header="Prénom" Binding="{Binding Path=B_Prenom}" Width="*" />
-                        <DataGridTextColumn Header="Nom" Binding="{Binding Path=B_Nom}" Width="*" />
-                    </DataGrid.Columns>
-                </DataGrid>
+                        <DataGrid Name="dgBeneficiaireList"  ItemsSource="{Binding Path=ListBeneficiaire}"  VerticalScrollBarVisibility="Visible"
+            IsReadOnly="True" AutoGenerateColumns="False" IsEnabled="{Binding Path=ActiverBcpFiche, Mode=OneWay}"
+            SelectedItem="{Binding BeneficiaireSelectionneList, Mode=TwoWay}"  >
+                            <DataGrid.Columns>
+                                <DataGridTextColumn Visibility="Hidden" Binding="{Binding Path=ID_Personne1}" />
+                                <DataGridTextColumn Header="Prénom" Binding="{Binding Path=Nom1}" Width="*" />
+                                <DataGridTextColumn Header="Nom" Binding="{Binding Path=Pre1}" Width="*" />
+                            </DataGrid.Columns>
+                        </DataGrid>
                 <Button Grid.Row="1" Grid.Column="1" Width="40" Content="switch" Name="btnSwitchBenef"/>
-                <DataGrid Grid.Row="1" Grid.Column="2" Name="dgListeBeneffEvent">
-                    <DataGrid.Columns>
-                        <DataGridTextColumn Visibility="Hidden" Binding="{Binding Path=ID_Beneficiaire}" />
-                        <DataGridTextColumn Header="Prénom" Binding="{Binding Path=B_Prenom}" Width="*" />
-                        <DataGridTextColumn Header="Nom" Binding="{Binding Path=B_Nom}" Width="*" />
-                    </DataGrid.Columns>
-                </DataGrid>
+                    <DataGrid Name="dgBeneficiaireParticipant" Grid.Column="2"  ItemsSource="{Binding Path=ListBenefiaireParticipant}"  VerticalScrollBarVisibility="Visible"
+            IsReadOnly="True" AutoGenerateColumns="False" IsEnabled="{Binding Path=ActiverBcpFiche, Mode=OneWay}"
+            SelectedItem="{Binding BeneficiaireSelectionneList, Mode=TwoWay}"  >
+                        <DataGrid.Columns>
+                            <DataGridTextColumn Visibility="Hidden" Binding="{Binding Path=ID_Personne1}" />
+                            <DataGridTextColumn Header="Prénom" Binding="{Binding Path=Nom1}" Width="*" />
+                            <DataGridTextColumn Header="Nom" Binding="{Binding Path=Pre1}" Width="*" />
+                        </DataGrid.Columns>
+                    </DataGrid>
                 </Grid>
             </GroupBox>
         </Grid>
@@ -262,7 +269,15 @@
                             <ColumnDefinition Width="*" />
                             <ColumnDefinition Width="auto" />
                         </Grid.ColumnDefinitions>
-                        <ComboBox Grid.Column="0"/>
+                        <ComboBox Grid.Column="0" Grid.Row="0"
+                  ItemsSource="{Binding ListEquipe}"
+                  SelectedValuePath="ID" 
+                  SelectedItem="{Binding Equipe1Selectionne}"
+                  DisplayMemberPath="Descr" 
+                          Text= " {Binding Eq_Nom}"
+                   Margin="3"
+                 IsEnabled="{Binding Path=ActiverChampsModif, Mode=OneWay}"/>
+
                         <Button Content="supprimer" Grid.Column="1"/>
                     </Grid>
                 </GroupBox>

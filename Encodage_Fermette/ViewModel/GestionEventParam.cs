@@ -16,7 +16,31 @@ namespace Encodage_Fermette.ViewModel
         private string chConnexion = @"Data Source=(LocalDB)\MSSQLLocalDB;AttachDbFilename='" + System.Windows.Forms.Application.StartupPath + @"\Database1.mdf';Integrated Security=True;Connect Timeout=30";
         private int nAjoutDonne;
         private int typedonnes;
-        bool ActiverNouvelleDonnées;
+        private bool _ActiverChampsModif;
+        public bool ActiverChampsModif
+        {
+            get { return _ActiverChampsModif; }
+            set { AssignerChamp<bool>(ref _ActiverChampsModif, value, System.Reflection.MethodBase.GetCurrentMethod().Name);}
+            
+        }
+        private bool _ActiverNouvelleDonnées;
+        public bool ActiverNouvelleDonnées
+        {
+            get { return _ActiverNouvelleDonnées; }
+            set { AssignerChamp<bool>(ref _ActiverNouvelleDonnées, value, System.Reflection.MethodBase.GetCurrentMethod().Name);
+                ActiverChampsModif = !ActiverNouvelleDonnées;
+            }
+        }
+        private bool _ActiverGestionEquipe;
+        public bool ActiverGestionEquipe
+        {
+            get { return _ActiverGestionEquipe; }
+            set
+            {
+                AssignerChamp<bool>(ref _ActiverGestionEquipe, value, System.Reflection.MethodBase.GetCurrentMethod().Name);
+                ActiverChampsModif = !ActiverGestionEquipe;
+            }
+        }
 
         private C_Vue_ID_Descr _TitreSelectionne;
         public C_Vue_ID_Descr TitreSelectionne
@@ -74,6 +98,13 @@ namespace Encodage_Fermette.ViewModel
             get { return _ListBeneficiaireEq; }
             set { AssignerChamp<ObservableCollection<C_Personne>>(ref _ListBeneficiaireEq, value, System.Reflection.MethodBase.GetCurrentMethod().Name); }
         }
+        private ObservableCollection<C_Personne> _ListBeneficiaireEqSave;
+        public ObservableCollection<C_Personne> ListBeneficiaireEqSave
+        {
+            get { return _ListBeneficiaireEq; }
+            set { AssignerChamp<ObservableCollection<C_Personne>>(ref _ListBeneficiaireEq, value, System.Reflection.MethodBase.GetCurrentMethod().Name); }
+        }
+
         // beneficiaire selectionné dans la liste de ceux disponibles
         private C_Personne _BeneficiaireSelectionneList;
         public C_Personne BeneficiaireSelectionneList
@@ -160,8 +191,20 @@ namespace Encodage_Fermette.ViewModel
                 rep.Add(Tmp);
             return rep;
         }
+        public void RemplirdgmembreEquipe()
+        {
+            ObservableCollection<C_Personne> rep = new ObservableCollection<C_Personne>();
+            if (EquipeSelectionne.ID_Equipe != 0 || EquipeSelectionne != null)
+            {
+                List<C_Personne> lTmp = new CoucheGestion.G_Vue_Event(chConnexion).Lire_Classement_Membre_Equipe(EquipeSelectionne.ID_Equipe);
+                foreach (C_Personne Tmp in lTmp)
+                    rep.Add(Tmp);
+                ListBenefiaireEq = rep;
+            }
+        }
+
         #endregion
-        #region methode bouton
+        #region Methode Bouton
         public void ConfirmerInfo()
         {
             if (nAjoutDonne == -1) // ajout
@@ -198,12 +241,12 @@ namespace Encodage_Fermette.ViewModel
                 else if (typedonnes == 1) // modif lieux
                 {
                     new CoucheGestion.G_T_Lieu(chConnexion).Modifier(NouvelleInfo.ID, NouvelleInfo.Descr);
-                    ListTitre[nAjoutDonne] = new C_Vue_ID_Descr(NouvelleInfo.ID, NouvelleInfo.Descr);
+                    ListLieux[nAjoutDonne] = new C_Vue_ID_Descr(NouvelleInfo.ID, NouvelleInfo.Descr);
                 }
                 else if (typedonnes == 2) // modif equipe
                 {
                     new CoucheGestion.G_T_Equipe(chConnexion).Modifier(NouvelleInfo.ID, NouvelleInfo.Descr);
-                    ListTitre[nAjoutDonne] = new C_Vue_ID_Descr(NouvelleInfo.ID, NouvelleInfo.Descr);
+                    ListEquipe[nAjoutDonne] = new C_T_Equipe(NouvelleInfo.ID, NouvelleInfo.Descr);
                 }
                 NouvelleInfo = new C_Vue_ID_Descr();
             }
@@ -237,37 +280,51 @@ namespace Encodage_Fermette.ViewModel
         }
         public void ModifierTitre()
         {
-            if (TitreSelectionne != null)
+            if (TitreSelectionne != null && TitreSelectionne.ID !=0)
             {
                 NouvelleInfo = new C_Vue_ID_Descr(TitreSelectionne.ID, TitreSelectionne.Descr);
                 nAjoutDonne = ListTitre.IndexOf(TitreSelectionne);
                 ActiverNouvelleDonnées = true;
                 typedonnes = 0;
             }
+            else
+            {
+                System.Windows.MessageBox.Show("Il n'y a pas de titre ");
+            }
+
         }
         public void ModifierLieux()
         {
-            if (LieuxSelectionne != null)
+            if (LieuxSelectionne != null && LieuxSelectionne.ID != 0)
             {
                 NouvelleInfo = new C_Vue_ID_Descr(LieuxSelectionne.ID, LieuxSelectionne.Descr);
                 nAjoutDonne = ListLieux.IndexOf(LieuxSelectionne);
                 ActiverNouvelleDonnées = true;
                 typedonnes = 1;
             }
+            else
+            {
+                System.Windows.MessageBox.Show("Il n'y a pas de lieux");
+            }
         }
         public void ModifierEquipe()
         {
-            if (EquipeSelectionne != null)
+            if (EquipeSelectionne != null && EquipeSelectionne.ID_Equipe != 0)
             {
                 NouvelleInfo = new C_Vue_ID_Descr(EquipeSelectionne.ID_Equipe, EquipeSelectionne.Eq_Nom);
                 nAjoutDonne = ListEquipe.IndexOf(EquipeSelectionne);
                 ActiverNouvelleDonnées = true;
                 typedonnes = 2;
             }
+            else
+            {
+                System.Windows.MessageBox.Show("Il n'y a pas d'équipe ");
+            }
+
         }
         public void SupprimerTitre()
         {
-            if (TitreSelectionne != null)
+            if (TitreSelectionne != null && TitreSelectionne.ID != 0)
             {
                 bool found = false;
                 List<C_T_Titre> tmp = new CoucheGestion.G_T_Titre(chConnexion).Lire("");
@@ -284,11 +341,14 @@ namespace Encodage_Fermette.ViewModel
                     new CoucheGestion.G_T_Titre(chConnexion).Supprimer(TitreSelectionne.ID);
                     ListTitre.Remove(TitreSelectionne);
                 }
+                TitreSelectionne = new C_Vue_ID_Descr(0, "");
             }
+            else
+                System.Windows.MessageBox.Show("pas de titres a supprimer");
         }
         public void SupprimerLieux()
         {
-            if (LieuxSelectionne != null)
+            if (LieuxSelectionne != null && LieuxSelectionne.ID != 0)
             {
                 bool found = false;
                 List<C_T_Lieu> tmp = new CoucheGestion.G_T_Lieu(chConnexion).Lire("");
@@ -305,11 +365,15 @@ namespace Encodage_Fermette.ViewModel
                     new CoucheGestion.G_T_Lieu(chConnexion).Supprimer(LieuxSelectionne.ID);
                     ListTitre.Remove(LieuxSelectionne);
                 }
+                LieuxSelectionne = new C_Vue_ID_Descr(0, "Lieux");
+
             }
+            else
+                System.Windows.MessageBox.Show("pas de lieux a supprimer");
         }
         public void SupprimerEquipe()
         {
-            if (EquipeSelectionne != null)
+            if (EquipeSelectionne != null && EquipeSelectionne.ID_Equipe !=0 )
             {
                 bool found = false;
                 List<C_T_Equipe> tmp = new CoucheGestion.G_T_Equipe(chConnexion).Lire("");
@@ -333,17 +397,80 @@ namespace Encodage_Fermette.ViewModel
                     new CoucheGestion.G_T_Equipe(chConnexion).Supprimer(EquipeSelectionne.ID_Equipe);
                     ListEquipe.Remove(EquipeSelectionne);
                 }
+                EquipeSelectionne = new C_T_Equipe(0, "Equipe");
+            }
+            else
+                System.Windows.MessageBox.Show("pas d'équipe a supprimer");
+
+        }
+        public void ModifierEquipeMembres()
+        {
+            if (EquipeSelectionne != null && EquipeSelectionne.ID_Equipe != 0)
+            {
+                ListBeneficiaireEqSave = ListBenefiaireEq; // on sauvegarde, ça nous permettra de faire nos suppressions tout a l'heure
+                ActiverGestionEquipe = true;
+            }
+            else
+                System.Windows.MessageBox.Show("Pas d'équipe");
+        }
+        public void ConfirmerInfoEquipe()
+        {
+            ActiverGestionEquipe = false;
+            EquipeSelectionne = new C_T_Equipe(0, "Equipe");
+        }
+        public void AnnulerInfoEquipe()
+        {
+
+            ActiverGestionEquipe = false;
+            EquipeSelectionne = new C_T_Equipe(0, "Equipe");
+        }
+        public void Switch()
+        {
+            if(BeneficiaireSelectionneList!=null) // on va envoyer dans l'équipe
+            {
+
+                if ( ListBenefiaireEq.FirstOrDefault(item => item.ID_Personne1 == BeneficiaireSelectionneList.ID_Personne1) == null) // si il n'est pas présent dans l'équipe
+                {
+                    ListBenefiaireEq.Add(BeneficiaireSelectionneList);
+                }
+                else
+                    System.Windows.MessageBox.Show("Il est déjà dans l'équipe");
+            }
+            else if (BeneficiaireSelectionneEq!=null) // on va retirer de l'équipe
+            {
+                ListBenefiaireEq.Remove(BeneficiaireSelectionneEq);
             }
         }
         #endregion
-
-
         public VM_GestionEventParam()
         {
             ListTitre = ChargerTItre(chConnexion);
             ListLieux = ChargerLieux(chConnexion);
             ListEquipe = ChargerEquipe(chConnexion);
             ListBeneficiaire = ChargerBenefiaires(chConnexion);
+            TitreSelectionne = new C_Vue_ID_Descr(0, "Titres");
+            LieuxSelectionne = new C_Vue_ID_Descr(0, "Lieux");
+            EquipeSelectionne = new C_T_Equipe(0, "Equipe");
+            ActiverNouvelleDonnées = false;
+
+            cConfirmerInfo = new BaseCommande(ConfirmerInfo);
+            cAnnulerInfo = new BaseCommande(AnnulerInfo);
+            cConfirmerEquipeMembres = new BaseCommande(ConfirmerInfoEquipe);
+            cAnnulerEquipeMembres = new BaseCommande(AnnulerInfoEquipe);
+            cSwitchEquipe = new BaseCommande(Switch);
+
+            cAjouterTitre = new BaseCommande(AjouterTitre);
+            cAjouterLieux = new BaseCommande(AjouteurLieux);
+            cAjouterEquipe = new BaseCommande(AjouterEquipe);
+
+            cModifierTitre = new BaseCommande(ModifierTitre);
+            cModifierLieux = new BaseCommande(ModifierLieux);
+            cModifierEquipe = new BaseCommande(ModifierEquipe);
+            cModifierEquipeMembres = new BaseCommande(ModifierEquipeMembres);
+
+            cSupprimerTitre = new BaseCommande(SupprimerTitre);
+            cSupprimerLieux = new BaseCommande(SupprimerLieux);
+            cSupprimerEquipe = new BaseCommande(SupprimerEquipe);
         }
     }
 }

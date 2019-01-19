@@ -26,5 +26,22 @@ namespace Encodage_Fermette.View
             LocalEventParam = new ViewModel.VM_GestionEventParam();
             DataContext = LocalEventParam;
         }
+
+        private void Cbequipe_SelectionChanged(object sender, SelectionChangedEventArgs e)
+        {
+            { if (LocalEventParam.EquipeSelectionne.ID_Equipe !=0 ) 
+             LocalEventParam.RemplirdgmembreEquipe(); }
+
+        }
+
+        private void DgBeneficiaireList_SelectionChanged(object sender, SelectionChangedEventArgs e)
+        {
+            dgBeneficiaireEq.SelectedItem = null;
+        }
+
+        private void DgBeneficiaireEq_SelectionChanged(object sender, SelectionChangedEventArgs e)
+        {
+            dgBeneficiaireList.SelectedItem = null;
+        }
     }
 }

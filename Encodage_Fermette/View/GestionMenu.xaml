@@ -31,7 +31,7 @@
                     <ColumnDefinition Width="auto" />
                     <ColumnDefinition Width="auto" />
                 </Grid.ColumnDefinitions>
-                <TextBox  Grid.Column="0" Margin="3" Text="{Binding Path=NouveauNourriture.No_Descriptif}" IsEnabled="{Binding Path=ActiverFicheNourriture}"/>
+                <TextBox  Grid.Column="0" Margin="3" Text="{Binding Path=NouveauNourriture.No_Descriptif}" IsEnabled="{Binding Path=ActiverFicheNourriture }"/>
                 <Button Margin="3" Grid.Column="1" Name="cConfirmerNourriture" Content="V"  IsEnabled="{Binding Path=ActiverFicheNourriture, Mode=OneWay}" Command="{Binding cConfirmerNourriture}" HorizontalAlignment="Right" Width="12" />
                 <Button Margin="3" Grid.Column="2" Name="cAnnulerNourriture" Content="X"  IsEnabled="{Binding Path=ActiverFicheNourriture, Mode=OneWay}" Command="{Binding cAnnulerNourriture}" />
             </Grid>
