@@ -371,6 +371,5 @@ namespace Encodage_Fermette.ViewModel
             get { return _Equipe3; }
             set { AssignerChamp<C_T_Equipe>(ref _Equipe3, value, System.Reflection.MethodBase.GetCurrentMethod().Name); }
         }
-
     }
 }
