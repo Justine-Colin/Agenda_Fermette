@@ -1,0 +1,201 @@
+﻿<Window x:Class="Agenda_Fermette.MainWindow"
+        xmlns="http://schemas.microsoft.com/winfx/2006/xaml/presentation"
+        xmlns:x="http://schemas.microsoft.com/winfx/2006/xaml"
+        xmlns:d="http://schemas.microsoft.com/expression/blend/2008"
+        xmlns:mc="http://schemas.openxmlformats.org/markup-compatibility/2006"
+        xmlns:local="clr-namespace:Agenda_Fermette"
+        mc:Ignorable="d"
+        Title="MainWindow" Loaded="Window_Loaded" KeyDown="Window_KeyDown"
+        Style="{StaticResource Police}">
+    <Window.Resources>
+        <ImageBrush x:Key="Steak" ImageSource="C:\Users\Justine\Source\Repos\Agenda_Fermette2\Agenda_Fermette\Resources\Pics\steak.png"/>
+    </Window.Resources>
+
+    <Grid Margin="0,0,0,0" Background="LightGoldenrodYellow">
+        <Grid.ColumnDefinitions>
+            <ColumnDefinition Width="1*"/>
+            <ColumnDefinition Width="1*"/>
+            <ColumnDefinition Width="1*"/>
+            <ColumnDefinition Width="1*"/>
+            <ColumnDefinition Width="1*"/>
+            <ColumnDefinition Width="1*"/>
+            <ColumnDefinition Width="1*"/>
+        </Grid.ColumnDefinitions>
+        <Grid.RowDefinitions>
+            <RowDefinition Height="10*" />
+            <RowDefinition Height="3*" />
+            <RowDefinition Height="1*" />
+        </Grid.RowDefinitions>
+        
+        <!--Anniversaires-->
+        <Border Grid.ColumnSpan="2" BorderBrush="MidnightBlue" BorderThickness="2">            
+            <ScrollViewer Grid.ColumnSpan="2" VerticalScrollBarVisibility="Hidden">
+                <Grid x:Name="Annif">
+                    <Grid.ColumnDefinitions>
+                        <ColumnDefinition/>
+                    </Grid.ColumnDefinitions>
+                    <Grid.RowDefinitions>
+                        <RowDefinition/>
+                    </Grid.RowDefinitions>
+                    
+                    <Border Background="MediumPurple">
+                        <Viewbox>
+                            <TextBlock>Anniversaires</TextBlock>
+                        </Viewbox>
+                    </Border>
+                </Grid>
+            </ScrollViewer>
+        </Border>
+        
+        <!--Infos du jour-->
+        <Border Grid.ColumnSpan="3" Grid.Column="2" BorderBrush="MidnightBlue" BorderThickness="2">
+            <Grid x:Name="Infos">
+                <Grid.RowDefinitions>
+                    <RowDefinition/>
+                </Grid.RowDefinitions>
+                <Border Background="MediumPurple">
+                    <Viewbox>
+                        <TextBlock>Informations</TextBlock>
+                    </Viewbox>
+                </Border>
+            </Grid>
+        </Border>
+    
+        
+        <!--Menu-->
+        <Border Grid.ColumnSpan="2" Grid.Column="5" BorderBrush="MidnightBlue" BorderThickness="2">
+            <Grid Grid.Row="0" Grid.Column="5" Grid.ColumnSpan="2">
+                <Grid.ColumnDefinitions>
+                    <ColumnDefinition Width="1*"/>
+                </Grid.ColumnDefinitions>
+                <Grid.RowDefinitions>
+                    <RowDefinition Height="1*" />
+                    <RowDefinition Height="1*" />
+                    <RowDefinition Height="1*" />
+                    <RowDefinition Height="1*" />
+                </Grid.RowDefinitions>
+
+                <!--Entrée-->
+                <Grid>
+                    <Grid.ColumnDefinitions>
+                        <ColumnDefinition Width="1*"/>
+                        <ColumnDefinition Width="1*"/>
+                    </Grid.ColumnDefinitions>
+                    <Grid.RowDefinitions>
+                        <RowDefinition Height="1*" />
+                        <RowDefinition Height="5*" />
+                    </Grid.RowDefinitions>
+
+                    <Border Background="MediumPurple" Grid.ColumnSpan="2"></Border>
+                    <Viewbox>
+                        <TextBlock>Entrée :</TextBlock>
+                    </Viewbox>
+                    <Viewbox Grid.Column="1">
+                        <TextBlock x:Name="Entree"></TextBlock>
+                    </Viewbox>
+                    <Image Grid.ColumnSpan="2" Grid.Row="1"></Image>
+                </Grid>
+                <!--Plat-->
+                <Grid Grid.Row="1">
+                    <Grid.ColumnDefinitions>
+                        <ColumnDefinition Width="1*"/>
+                        <ColumnDefinition Width="1*"/>
+                    </Grid.ColumnDefinitions>
+                    <Grid.RowDefinitions>
+                        <RowDefinition Height="1*" />
+                        <RowDefinition Height="5*" />
+                    </Grid.RowDefinitions>
+
+                    <Border Background="MediumPurple" Grid.ColumnSpan="2"></Border>
+                    <Viewbox>
+                        <TextBlock>Plat :</TextBlock>
+                    </Viewbox>
+                    <Viewbox Grid.Column="1">
+                        <TextBlock x:Name="Plat"></TextBlock>
+                    </Viewbox>
+                    <Image Grid.ColumnSpan="2" Grid.Row="1"></Image>
+                </Grid>
+                <!--Dessert-->
+                <Grid Grid.Row="2">
+                    <Grid.ColumnDefinitions>
+                        <ColumnDefinition Width="1*"/>
+                        <ColumnDefinition Width="1*"/>
+                    </Grid.ColumnDefinitions>
+                    <Grid.RowDefinitions>
+                        <RowDefinition Height="1*" />
+                        <RowDefinition Height="5*" />
+                    </Grid.RowDefinitions>
+
+                    <Border Background="MediumPurple" Grid.ColumnSpan="2"></Border>
+                    <Viewbox>
+                        <TextBlock>Dessert :</TextBlock>
+                    </Viewbox>
+                    <Viewbox Grid.Column="1">
+                        <TextBlock x:Name="Dessert"></TextBlock>
+                    </Viewbox>
+                    <Image Grid.ColumnSpan="2" Grid.Row="1"></Image>
+                </Grid>
+                <!--Collation-->
+                <Grid Grid.Row="3">
+                    <Grid.ColumnDefinitions>
+                        <ColumnDefinition Width="1*"/>
+                        <ColumnDefinition Width="1*"/>
+                    </Grid.ColumnDefinitions>
+                    <Grid.RowDefinitions>
+                        <RowDefinition Height="1*" />
+                        <RowDefinition Height="5*" />
+                    </Grid.RowDefinitions>
+
+                    <Border Background="MediumPurple" Grid.ColumnSpan="2"></Border>
+                    <Viewbox>
+                        <TextBlock>Collation :</TextBlock>
+                    </Viewbox>
+                    <Viewbox Grid.Column="1">
+                        <TextBlock x:Name="Collation"></TextBlock>
+                    </Viewbox>
+                    <Image Grid.ColumnSpan="2" Grid.Row="1"></Image>
+                </Grid>
+
+            </Grid>
+        </Border>
+
+        <!--Infos importantes-->
+        <Border Grid.ColumnSpan="7" Grid.Row="1" BorderBrush="MidnightBlue" BorderThickness="2" Background="MediumPurple">
+            <Grid x:Name="Importants">
+                <Grid.RowDefinitions>
+                    <RowDefinition/>
+                </Grid.RowDefinitions>
+                <Border Background="MediumPurple">
+                    <Viewbox>
+                        <TextBlock>A venir</TextBlock>
+                    </Viewbox>
+                </Border>
+            </Grid>
+        </Border>
+
+        <!--Boutons jours-->
+        <Border Grid.ColumnSpan="7" Grid.Row="2" BorderBrush="MidnightBlue" BorderThickness="2">
+            <Grid>
+                <Grid.ColumnDefinitions>
+                    <ColumnDefinition Width="1*"/>
+                    <ColumnDefinition Width="1*"/>
+                    <ColumnDefinition Width="1*"/>
+                    <ColumnDefinition Width="1*"/>
+                    <ColumnDefinition Width="1*"/>
+                    <ColumnDefinition Width="1*"/>
+                    <ColumnDefinition Width="1*"/>
+                </Grid.ColumnDefinitions>
+                <Grid.RowDefinitions>
+                    <RowDefinition/>
+                </Grid.RowDefinitions>
+                <Button Name="J_0" Click="Jour_Click"></Button>
+                <Button Grid.Column="1" Name="J_1" Click="Jour_Click"></Button>
+                <Button Grid.Column="2" Name="J_2" Click="Jour_Click"></Button>
+                <Button Grid.Column="3" Name="J_3" Click="Jour_Click"></Button>
+                <Button Grid.Column="4" Name="J_4" Click="Jour_Click"></Button>
+                <Button Grid.Column="5" Name="J_5" Click="Jour_Click"></Button>
+                <Button Grid.Column="6" Name="J_6" Click="Jour_Click"></Button>
+            </Grid>
+        </Border>
+    </Grid>
+</Window>

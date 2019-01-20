@@ -50,17 +50,14 @@
     <WarningLevel>4</WarningLevel>
   </PropertyGroup>
   <ItemGroup>
-    <Reference Include="CoucheAcces, Version=1.0.0.0, Culture=neutral, processorArchitecture=MSIL">
-      <SpecificVersion>False</SpecificVersion>
-      <HintPath>..\..\BD\CAG\CoucheGestion\CoucheGestion\bin\Debug\CoucheAcces.dll</HintPath>
+    <Reference Include="CoucheAcces">
+      <HintPath>..\CoucheAcces.dll</HintPath>
     </Reference>
-    <Reference Include="CoucheClasse, Version=1.0.0.0, Culture=neutral, processorArchitecture=MSIL">
-      <SpecificVersion>False</SpecificVersion>
-      <HintPath>..\..\BD\CAG\CoucheGestion\CoucheGestion\bin\Debug\CoucheClasse.dll</HintPath>
+    <Reference Include="CoucheClasse">
+      <HintPath>..\CoucheClasse.dll</HintPath>
     </Reference>
-    <Reference Include="CoucheGestion, Version=1.0.0.0, Culture=neutral, processorArchitecture=MSIL">
-      <SpecificVersion>False</SpecificVersion>
-      <HintPath>..\..\BD\CAG\CoucheGestion\CoucheGestion\bin\Debug\CoucheGestion.dll</HintPath>
+    <Reference Include="CoucheGestion">
+      <HintPath>..\CoucheGestion.dll</HintPath>
     </Reference>
     <Reference Include="System" />
     <Reference Include="System.Data" />
@@ -87,13 +84,13 @@
     <Compile Include="ViewModel\Beneficiaire.cs" />
     <Compile Include="ViewModel\Menu.cs" />
     <Compile Include="ViewModel\Staff.cs" />
-    <Compile Include="View\GestionBeneficiaires.xaml.cs">
+    <Compile Include="Views\GestionBeneficiaires.xaml.cs">
       <DependentUpon>GestionBeneficiaires.xaml</DependentUpon>
     </Compile>
-    <Compile Include="View\GestionStaff.xaml.cs">
+    <Compile Include="Views\GestionStaff.xaml.cs">
       <DependentUpon>GestionStaff.xaml</DependentUpon>
     </Compile>
-    <Compile Include="View\GestionMenu.xaml.cs">
+    <Compile Include="Views\GestionMenu.xaml.cs">
       <DependentUpon>GestionMenu.xaml</DependentUpon>
     </Compile>
     <Page Include="MainWindow.xaml">
@@ -108,15 +105,15 @@
       <DependentUpon>MainWindow.xaml</DependentUpon>
       <SubType>Code</SubType>
     </Compile>
-    <Page Include="View\GestionBeneficiaires.xaml">
+    <Page Include="Views\GestionBeneficiaires.xaml">
       <SubType>Designer</SubType>
       <Generator>MSBuild:Compile</Generator>
     </Page>
-    <Page Include="View\GestionStaff.xaml">
+    <Page Include="Views\GestionStaff.xaml">
       <SubType>Designer</SubType>
       <Generator>MSBuild:Compile</Generator>
     </Page>
-    <Page Include="View\GestionMenu.xaml">
+    <Page Include="Views\GestionMenu.xaml">
       <SubType>Designer</SubType>
       <Generator>MSBuild:Compile</Generator>
     </Page>
@@ -139,6 +136,7 @@
       <Generator>ResXFileCodeGenerator</Generator>
       <LastGenOutput>Resources.Designer.cs</LastGenOutput>
     </EmbeddedResource>
+    <None Include="ClassDiagram1.cd" />
     <None Include="Properties\Settings.settings">
       <Generator>SettingsSingleFileGenerator</Generator>
       <LastGenOutput>Settings.Designer.cs</LastGenOutput>
@@ -146,15 +144,6 @@
   </ItemGroup>
   <ItemGroup>
     <None Include="App.config" />
-  </ItemGroup>
-  <ItemGroup>
-    <Content Include="Database1.mdf">
-      <CopyToOutputDirectory>Always</CopyToOutputDirectory>
-    </Content>
-    <Content Include="Database1_log.ldf">
-      <DependentUpon>Database1.mdf</DependentUpon>
-      <CopyToOutputDirectory>Always</CopyToOutputDirectory>
-    </Content>
   </ItemGroup>
   <ItemGroup>
     <BootstrapperPackage Include=".NETFramework,Version=v4.6.1">
