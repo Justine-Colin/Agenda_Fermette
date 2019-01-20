@@ -20,14 +20,44 @@ namespace Encodage_Fermette
     /// </summary>
     public partial class MainWindow : Window
     {
+        private ViewModel.VM_GestionEvenement LocalEvent;
+
         public MainWindow()
         {
             InitializeComponent();
+            LocalEvent = new ViewModel.VM_GestionEvenement();
+            DataContext = LocalEvent;
+            LocalEvent.DateDebut = new DateTime();
         }
-        public void btn_Gestion_Personne(object sender, RoutedEventArgs e)
+        public void btn_Gestion_Staff(object sender, RoutedEventArgs e)
         {
-            View.GestionPersonne f = new View.GestionPersonne();
+            View.GestionStaff f = new View.GestionStaff();
             f.ShowDialog();
+        }
+        public void btn_Gestion_Beneficiaire(object sender, RoutedEventArgs e)
+        {
+            View.GestionBeneficiaires f = new View.GestionBeneficiaires();
+            f.ShowDialog();
+        }
+
+        private void btn_Gestion_Menu(object sender, RoutedEventArgs e)
+        {
+            View.GestionMenu f = new View.GestionMenu();
+            f.ShowDialog();
+        }
+        private void btn_Gestion_Event_Param(object sender, RoutedEventArgs e)
+        {
+            View.GestionEventParam f = new View.GestionEventParam();
+            f.ShowDialog();
+        }
+        private void CalendrierDateChanged(object sender, SelectionChangedEventArgs e)
+        {
+            // attention la méthode pue 
+            if (Calendrier.SelectedDate != null) LocalEvent.ChargementEvenementDujour((DateTime) Calendrier.SelectedDate);
+        }
+        private void dgEvent_SelectionChanged(object sender, SelectionChangedEventArgs e)
+        {
+            if (dgEvent.SelectedIndex >= 0) LocalEvent.ChargementEvenement();
         }
     }
 }

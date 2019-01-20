@@ -12,6 +12,11 @@ using System.Windows.Media;
 using System.Windows.Media.Imaging;
 using System.Windows.Navigation;
 using System.Windows.Shapes;
+using CoucheAcces;
+using CoucheClasse;
+using CoucheGestion;
+using System.Collections.ObjectModel;
+using Agenda_Fermette.ViewModels;
 
 namespace Agenda_Fermette
 {
@@ -20,14 +25,36 @@ namespace Agenda_Fermette
     /// </summary>
     public partial class MainWindow : Window
     {
-        //Il faut s'arranger pour gérer la taille des éléments en relatif
+        //BDD dans Agenda_Fermette/bin/Debug/Database1.mdf
+        private string sChConnexion = @"Data Source=(LocalDB)\MSSQLLocalDB;AttachDbFilename='" + System.Windows.Forms.Application.StartupPath + @"\Database1.mdf';Integrated Security=True;Connect Timeout=30";
+        private MainWindow_VM vm = new MainWindow_VM();
 
         public MainWindow()
-        {            
+        {
             InitializeComponent();
             AfficherJourBouton();
-            AfficherImportant();
+            vm.ChargerImportant(DateTime.Now); //! Non implémenté
+            AfficherImportant(); //! Non implémenté
             Jour_Click(J_0, null);
+            //?AfficherImportant();
+        }
+
+        //Enlève les bordures et passe en full screen
+        private void Window_Loaded(object sender, RoutedEventArgs e)
+        {
+            this.WindowStyle = WindowStyle.None;
+            this.WindowState = WindowState.Maximized;
+        }
+
+        //Permet de quitter le programme si appui sur ESC
+        private void Window_KeyDown(object sender, KeyEventArgs e)
+        {
+            if (e.Key == Key.Escape)
+            {
+                // On veut quitter le programme
+                if (MessageBox.Show("Êtes-vous sûr de vouloir quitter ?", "Confirmer", MessageBoxButton.YesNo) == MessageBoxResult.Yes)
+                    this.Close();
+            }
         }
 
         public void AfficherJourBouton()
@@ -40,21 +67,21 @@ namespace Agenda_Fermette
             //Notifie le programme que la langue à utiliser est le français
             var Langue = new System.Globalization.CultureInfo("fr-FR");
             //Boucle pour la semaine
-            for(int i = 0; i < 7; i++)
+            for (int i = 0; i < 7; i++)
             {
                 int Num = (int)Ajd.DayOfWeek + i; //Détermine le numéro du jour
-                /*Va rechercher le jour d'aujourd'hui en anglais avec DayOfWeek
-                 * Puis ajoute i pour arriver au jour souhaité
-                 * puis traduit en français 
-                 */
-                 if(Num <= 6) //Les numéros des jours vont de 0 à 6 (Dim -> Sam) Si plus haut : out of range
-                 {
+                                                  /*Va rechercher le jour d'aujourd'hui en anglais avec DayOfWeek
+                                                   * Puis ajoute i pour arriver au jour souhaité
+                                                   * puis traduit en français 
+                                                   */
+                if (Num <= 6) //Les numéros des jours vont de 0 à 6 (Dim -> Sam) Si plus haut : out of range
+                {
                     Jour = Langue.DateTimeFormat.GetDayName(Ajd.DayOfWeek + i);
-                 }                    
-                 else //Si le num est plus grand que 6, on fait -7 pour le ramener dans le range
-                 {
+                }
+                else //Si le num est plus grand que 6, on fait -7 pour le ramener dans le range
+                {
                     Jour = Langue.DateTimeFormat.GetDayName(Ajd.DayOfWeek + i - 7);
-                 }
+                }
                 //Ajoute les jours pour changer la date
                 DateTime Date = Ajd.AddDays(i);
                 //Remplace la première lettre par une majuscule et ajoute la date derrière /!\ MM donne le mois mm donne les minutes
@@ -65,9 +92,88 @@ namespace Agenda_Fermette
                 Button Bouton = (Button)FindName(Nom);
                 //Remplace le texte
                 Bouton.Content = Jour;
-            } 
+            }
         }
 
+        private void Jour_Click(object sender, RoutedEventArgs e)
+        //Clic sur un bouton => changement affichage
+        {
+            //Récupère le contenu du bouton (jour + date)
+            string content = (sender as Button).Content.ToString();
+            //Split sur l'espace pour séparer jour et date dans un tableau
+            string[] tab = content.Split(' ');
+            //Récupère la date dans le tableau
+            string Jour = tab[1];
+            //Transforme le string en DateTime
+            DateTime Date = DateTime.Parse(Jour);
+            //? L'envoie au ViewModel
+            //? vm.Date = Date;
+            //Chargement selon date
+            //TODO vm.ChargerAnnif(Date); problème dans la couche gestion G_Vue_Personne => boucle infinie
+            vm.ChargerEvents(Date);       
+            vm.ChargerMenu(Date);
+            //Affichage
+            AfficherAnnif();
+            AfficherInfo();
+            AfficherMenu();
+            /*?
+            //Lance les 3 fonctions d'affichage dépendant du jour
+            AfficherMenu(Date);
+            AfficherAnnif(Date);
+            AfficherInfo(Date);*/
+        }
+
+        public void AfficherAnnif()
+        {
+            int i = 1; //On commence à 1 car Row[0]=Titre colonne
+            foreach(var p in vm.Liste_Annif)
+            {
+                RowDefinition row = new RowDefinition();
+                Annif.RowDefinitions.Add(row);
+                Viewbox vb = new Viewbox();
+                Grid.SetRow(vb, i);
+                Grid.SetColumn(vb, 0);
+                TextBlock tb = new TextBlock
+                {
+                    Text = p.Pre1 + " " + p.Nom1
+                };
+                vb.Child = tb;
+                i++;
+            }
+        }
+        public void AfficherInfo()
+        {
+            int i = 1; //On commence à 1 car Row[0]=Titre colonne
+            foreach (var info in vm.ListeInfo)
+            {
+                RowDefinition row = new RowDefinition();
+                Infos.RowDefinitions.Add(row);
+                Viewbox vb = new Viewbox();
+                Grid.SetRow(vb, i);
+                Grid.SetColumn(vb, 0);
+                TextBlock tb = new TextBlock
+                {
+                    Text = info.Ti_Descr
+                };
+                vb.Child = tb;
+                i++;
+            }
+        }
+        public void AfficherMenu()
+        {
+            Entree.Text = vm.Entree;
+            Plat.Text = vm.Plat;
+            Dessert.Text = vm.Dessert;
+            Collation.Text = vm.Collation;
+        }
+        public void AfficherImportant()
+        {
+            /*TODO
+             * Afficher la liste d'events important avec sont ayants lieux le lendemain au dessus
+             */
+        }
+        /*******************************************************************************************************************************************************************/
+        /*?
         public void AfficherImportant()
          //Affiche les events importants de la semaine (sur tous les jours)
         {
@@ -132,9 +238,9 @@ namespace Agenda_Fermette
                         });
                     }
                 }
-            }*/
+            }
         }
-
+        
         public void AfficherMenu(DateTime Jour)
         //Affiche le menu du jour sur la droite
         {
@@ -207,9 +313,9 @@ namespace Agenda_Fermette
 
                     }
                 }
-            }*/            
+            }            
         }
-
+        
         public void AfficherAnnif(DateTime Jour)
         //Affiche les anniversaires à gauche
         {
@@ -237,9 +343,9 @@ namespace Agenda_Fermette
                 {
                     Text = Evenement.Ev_Titre
                 });
-            }*/
+            }
         }
-
+        
         public void AfficherInfo(DateTime Jour)
         //Affiche les info au milieu
         {
@@ -270,23 +376,9 @@ namespace Agenda_Fermette
                         Text = Evenement.Ev_Titre
                     });
                 }
-            }*/
-        }
+            }
+        }*/
 
-        private void Jour_Click(object sender, RoutedEventArgs e)
-        //Clic sur un bouton => changement affichage
-        {
-            //Récupère le contenu du bouton (jour + date)
-            string content = (sender as Button).Content.ToString();
-            //Split sur l'espace pour séparer jour et date dans un tableau
-            string[] tab = content.Split(' ');
-            //Transforme le string en DateTime
-            string Jour = tab[1];
-            DateTime Date = DateTime.Parse(Jour);
-            //Lance les 3 fonctions d'affichage dépendant du jour
-            AfficherMenu(Date);
-            AfficherAnnif(Date);
-            AfficherInfo(Date);
-        }
+        
     }
 }
