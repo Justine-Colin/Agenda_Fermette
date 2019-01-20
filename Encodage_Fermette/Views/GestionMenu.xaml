@@ -16,6 +16,7 @@
             <RowDefinition Height="*" />
             <RowDefinition Height="auto" />
             <RowDefinition Height="auto" />
+            <RowDefinition Height="auto" />
         </Grid.RowDefinitions>
         <Grid.ColumnDefinitions>
             <ColumnDefinition Width="*" />
@@ -26,19 +27,16 @@
                     <RowDefinition Height="auto" />
                 </Grid.RowDefinitions>
                 <Grid.ColumnDefinitions>
-                    <ColumnDefinition Width="*" />
+                    <ColumnDefinition Width="*"/>
                     <ColumnDefinition Width="auto" />
                     <ColumnDefinition Width="auto" />
                 </Grid.ColumnDefinitions>
-                <TextBox  Grid.Column="0" Margin="0,0,0,0.4"/>
-                <Button Margin="3,3,3,3" Grid.Column="1"
- Name="cConfirmerNourriture" Content="V"  IsEnabled="{Binding Path=ActiverBcpFiche, Mode=OneWay}" Command="{Binding cSupprimerEntree}" />
-                <Button Margin="3,3,3,3" Grid.Column="2"
- Name="cAnnulerNourriture" Content="X"  IsEnabled="{Binding Path=ActiverBcpFiche, Mode=OneWay}" Command="{Binding cSupprimerEntree}" />
+                <TextBox  Grid.Column="0" Margin="3" Text="{Binding Path=NouveauNourriture.No_Descriptif}" IsEnabled="{Binding Path=ActiverFicheNourriture }"/>
+                <Button Margin="3" Grid.Column="1" Name="cConfirmerNourriture" Content="V"  IsEnabled="{Binding Path=ActiverFicheNourriture, Mode=OneWay}" Command="{Binding cConfirmerNourriture}" HorizontalAlignment="Right" Width="12" />
+                <Button Margin="3" Grid.Column="2" Name="cAnnulerNourriture" Content="X"  IsEnabled="{Binding Path=ActiverFicheNourriture, Mode=OneWay}" Command="{Binding cAnnulerNourriture}" />
             </Grid>
-
         </GroupBox>
-        
+
         <GroupBox Name="GbEntree" Header="Entree" Grid.Row ="1" >
             <Grid Name="GridEntree" >
                 <Grid.RowDefinitions>
@@ -48,21 +46,22 @@
                     <ColumnDefinition Width="auto" />
                     <ColumnDefinition Width="*" />
                     <ColumnDefinition Width="auto" />
-
                     <ColumnDefinition Width="auto" />
                     <ColumnDefinition Width="auto" />
                 </Grid.ColumnDefinitions>
                 <TextBlock  Grid.Column="0" Name="tENom" Text="Nom"  Grid.Row="0" VerticalAlignment="Center" />
-                <ComboBox  Grid.Column="1"
+                <ComboBox Grid.Column="1" Grid.Row="0"
+                  IsEnabled="{Binding Path=ActiverUneFiche}" 
                   IsEditable="True"
                   ItemsSource="{Binding ListEntree}"
                   SelectedValuePath="ID" 
                   SelectedItem="{Binding EntreeSelectionne}"
                   DisplayMemberPath="Descr"                        
-                  Text="{Binding NouvelleEntree, UpdateSourceTrigger=LostFocus}" Margin="0,0,0,0.4" Width="334"/>
-                <Button Margin="3,3,3,3" Grid.Column="2" Name="cAjouterEntree" Content="Add"  IsEnabled="{Binding Path=ActiverBcpFiche, Mode=OneWay}" Command="{Binding cSupprimerEntree}" />
-                <Button Margin="3,3,3,3" Grid.Column="3" Name="cSupprimerEntree" Content="Del"  IsEnabled="{Binding Path=ActiverBcpFiche, Mode=OneWay}" Command="{Binding cSupprimerEntree}" />
-                <Button Margin="3,3,3,3" Grid.Column="4" Name="cModifierEntree" Content="Modif"  IsEnabled="{Binding Path=ActiverBcpFiche, Mode=OneWay}" Command="{Binding cSupprimerEntree}" />
+                  Text="{Binding UnMenu.NomE}" Margin="3"
+                 />
+                <Button Margin="3,3,3,3" Grid.Column="2" Name="cAjouterEntree" Content="Add"  IsEnabled="{Binding Path=ActiverUneFiche, Mode=OneWay}" Command="{Binding cAjouterEntree}" />
+                <Button Margin="3,3,3,3" Grid.Column="3" Name="cSupprimerEntree" Content="Del"  IsEnabled="{Binding Path=ActiverUneFiche, Mode=OneWay}" Command="{Binding cSupprimerEntree}" />
+                <Button Margin="3,3,3,3" Grid.Column="4" Name="cModifierEntree" Content="Modif"  IsEnabled="{Binding Path=ActiverUneFiche, Mode=OneWay}" Command="{Binding cModifierEntree}" />
             </Grid>
         </GroupBox>
 
@@ -72,20 +71,24 @@
                     <RowDefinition Height="*" />
                 </Grid.RowDefinitions>
                 <Grid.ColumnDefinitions>
-                    <ColumnDefinition Width="Auto" />
+                    <ColumnDefinition Width="auto" />
                     <ColumnDefinition Width="*" />
+                    <ColumnDefinition Width="auto" />
+                    <ColumnDefinition Width="auto" />
+                    <ColumnDefinition Width="auto" />
                 </Grid.ColumnDefinitions>
-
                 <TextBlock Name="tPNom" Text="Nom"  Grid.Row="0" VerticalAlignment="Center" />
-                <StackPanel VerticalAlignment="Center" Grid.Row="0" Grid.Column="1" >
-                    <ComboBox 
+                <ComboBox  Grid.Column="1" Grid.Row="0"
+                  IsEnabled="{Binding Path=ActiverUneFiche}" 
                   IsEditable="True"
                   ItemsSource="{Binding ListPlat}"
                   SelectedValuePath="ID" 
-                  SelectedItem="{Binding SelectedItem}"
+                  SelectedItem="{Binding PlatSelectionne}"
                   DisplayMemberPath="Descr"                        
-                  Text="{Binding UnMenu.NomP, UpdateSourceTrigger=LostFocus}" />
-                </StackPanel>
+                  Text="{Binding UnMenu.NomP, UpdateSourceTrigger=LostFocus}"/>
+                <Button Margin="3,3,3,3" Grid.Column="2" Name="cAjouterPlat" Content="Add"  IsEnabled="{Binding Path=ActiverUneFiche, Mode=OneWay}" Command="{Binding cAjouterPlat}" />
+                <Button Margin="3,3,3,3" Grid.Column="3" Name="cSupprimerPlat" Content="Del"  IsEnabled="{Binding Path=ActiverUneFiche, Mode=OneWay}" Command="{Binding cSupprimerPlat}" />
+                <Button Margin="3,3,3,3" Grid.Column="4" Name="cModifierPlat" Content="Modif"  IsEnabled="{Binding Path=ActiverUneFiche, Mode=OneWay}" Command="{Binding cModifierPlat}" />
             </Grid>
         </GroupBox>
 
@@ -95,21 +98,25 @@
                     <RowDefinition Height="*" />
                 </Grid.RowDefinitions>
                 <Grid.ColumnDefinitions>
-                    <ColumnDefinition Width="Auto" />
+                    <ColumnDefinition Width="auto" />
                     <ColumnDefinition Width="*" />
+                    <ColumnDefinition Width="auto" />
+                    <ColumnDefinition Width="auto" />
+                    <ColumnDefinition Width="auto" />
                 </Grid.ColumnDefinitions>
-
-                <TextBlock Name="tDNom" Text="Nom"  Grid.Row="0" VerticalAlignment="Center" />
-                <StackPanel VerticalAlignment="Center" Grid.Row="0" Grid.Column="1" >
-                    <ComboBox 
+                <TextBlock Name="tDNom" Text="Nom" Grid.Column="0" Grid.Row="0" VerticalAlignment="Center" />
+                <ComboBox Grid.Column="1" Grid.Row="0"
                   IsEnabled="{Binding Path=ActiverUneFiche}"
                   IsEditable="True"
                   ItemsSource="{Binding ListDessert}"
                   SelectedValuePath="ID" 
-                  SelectedItem="{Binding SelectedItem}"
+                  SelectedItem="{Binding DessertSelectionne}"
                   DisplayMemberPath="Descr"                        
                   Text="{Binding UnMenu.NomD, UpdateSourceTrigger=LostFocus}"/>
-                </StackPanel>
+                <Button Margin="3,3,3,3" Grid.Column="2" Name="cAjouterDessert" Content="Add"  IsEnabled="{Binding Path=ActiverUneFiche, Mode=OneWay}" Command="{Binding cAjouterDessert}" />
+                <Button Margin="3,3,3,3" Grid.Column="3" Name="cSupprimerDessert" Content="Del"  IsEnabled="{Binding Path=ActiverUneFiche, Mode=OneWay}" Command="{Binding cSupprimerDessert}" />
+                <Button Margin="3,3,3,3" Grid.Column="4" Name="cModifierDessert" Content="Modif"  IsEnabled="{Binding Path=ActiverUneFiche, Mode=OneWay}" Command="{Binding cModifierDessert}" />
+
             </Grid>
         </GroupBox>
 
@@ -119,23 +126,29 @@
                     <RowDefinition Height="*" />
                 </Grid.RowDefinitions>
                 <Grid.ColumnDefinitions>
-                    <ColumnDefinition Width="Auto" />
+                    <ColumnDefinition Width="auto" />
                     <ColumnDefinition Width="*" />
+                    <ColumnDefinition Width="auto" />
+                    <ColumnDefinition Width="auto" />
+                    <ColumnDefinition Width="auto" />
                 </Grid.ColumnDefinitions>
 
                 <TextBlock Name="tCNom" Text="Nom"  Grid.Row="0" VerticalAlignment="Center" />
-                <StackPanel VerticalAlignment="Center" Grid.Row="0" Grid.Column="1" >
-                    <ComboBox 
+                <ComboBox Grid.Column="1" Grid.Row="0"
                   IsEnabled="{Binding Path=ActiverUneFiche}"
                   IsEditable="True"
                   ItemsSource="{Binding ListCollation}"
                   SelectedValuePath="ID" 
-                  SelectedItem="{Binding SelectedItem}"
+                  SelectedItem="{Binding CollationSelectionne}"
                         DisplayMemberPath="Descr"
                   Text="{Binding UnMenu.NomC, UpdateSourceTrigger=LostFocus}"/>
-                </StackPanel>
+                <Button Margin="3,3,3,3" Grid.Column="2" Name="cAjouterCollation" Content="Add"  IsEnabled="{Binding Path=ActiverUneFiche, Mode=OneWay}" Command="{Binding cAjouterCollation}" />
+                <Button Margin="3,3,3,3" Grid.Column="3" Name="cSupprimerCollation" Content="Del"  IsEnabled="{Binding Path=ActiverUneFiche, Mode=OneWay}" Command="{Binding cSupprimerCollation}" />
+                <Button Margin="3,3,3,3" Grid.Column="4" Name="cModifierCollation" Content="Modif"  IsEnabled="{Binding Path=ActiverUneFiche, Mode=OneWay}" Command="{Binding cModifierCollation}" />
+
             </Grid>
         </GroupBox>
+        
         <StackPanel Orientation="Horizontal" Grid.Row="5" HorizontalAlignment="Center" Margin="3">
             <Button Name="bConfirmer" Content="Confirmer" Margin="3" IsEnabled="{Binding Path=ActiverUneFiche, Mode=OneWay}"
            Command="{Binding cConfirmer}" />
@@ -143,7 +156,7 @@
            Command="{Binding cAnnuler}" />
         </StackPanel>
         <DataGrid Name="dgMenu" ItemsSource="{Binding Path=BcpMenu}" Grid.Row="5" VerticalScrollBarVisibility="Visible"
-            IsReadOnly="True" AutoGenerateColumns="False" IsEnabled="{Binding Path=ActiverBcpFiche, Mode=OneWay}"
+             IsEnabled="{Binding Path=ActiverBcpFiche, Mode=OneWay}" IsReadOnly="True" AutoGenerateColumns="False"
             SelectedItem="{Binding MenuSelectionne, Mode=TwoWay}" SelectionChanged="dgMenu_SelectionChanged" >
             <DataGrid.Columns>
                 <DataGridTextColumn Visibility="Hidden" Binding="{Binding Path=ID_Menu}" />
@@ -165,6 +178,12 @@
            Command="{Binding cModifier}" />
             <Button Name="bSupprimer" Content="Supprimer" Margin="3" IsEnabled="{Binding Path=ActiverBcpFiche, Mode=OneWay}"
            Command="{Binding cSupprimer}" />
+        </StackPanel>
+        <StackPanel Orientation="Horizontal" Grid.Row="7" HorizontalAlignment="Center" Margin="3">
+            <Button Name="cConfirmer" Content="V" Margin="3" IsEnabled="{Binding Path=ActiverUneFiche, Mode=OneWay}"
+           Command="{Binding cConfirmer}" />
+            <Button Name="cAnnuler" Content="X" Margin="3" IsEnabled="{Binding Path=ActiverUneFiche, Mode=OneWay}"
+           Command="{Binding cAnnuler}" />
         </StackPanel>
 
     </Grid>

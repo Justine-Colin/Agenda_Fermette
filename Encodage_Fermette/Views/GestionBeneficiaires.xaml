@@ -43,7 +43,7 @@
                SelectedDate="{Binding Path=UnBeneficiaire.Nai, Mode=TwoWay, StringFormat='dd/mm/yyyy'}" />
 
             <TextBlock Name="tSexe" Text="Sexe" Grid.Row="3" VerticalAlignment="Center" />
-            <ComboBox Grid.Row="3" Grid.Column="1" SelectedValuePath="Tag"
+            <ComboBox Grid.Row="3" Grid.Column="1" SelectedValuePath="Tag" Margin="3"
                   SelectedValue="{Binding UnBeneficiaire.Sexe}">
                 <ComboBoxItem Content="Femme">
                     <ComboBoxItem.Tag>
