@@ -11,15 +11,15 @@
             <RowDefinition Height="auto" />
             <RowDefinition Height="auto" />
             <RowDefinition Height="auto" />
-            <RowDefinition Height="auto" />
             <RowDefinition Height="*" />
 
 
         </Grid.RowDefinitions>
         <Grid.ColumnDefinitions>
-            <ColumnDefinition Width="*"/>
+            <ColumnDefinition Width="117*"/>
+            <ColumnDefinition Width="259*"/>
         </Grid.ColumnDefinitions>
-        <GroupBox Grid.Row="0" Header="Traitement donnee">
+        <GroupBox Grid.Row="0" Header="Traitement donnee" Grid.ColumnSpan="2" Margin="0,0,0,51" Grid.RowSpan="2">
             <Grid>
                 <Grid.RowDefinitions>
                     <RowDefinition Height="auto" />
@@ -34,7 +34,7 @@
                 <Button Grid.Column="2" Content="X" Margin="3" Command="{Binding cAnnulerInfo}" IsEnabled="{Binding Path=ActiverNouvelleDonnées, Mode=OneWay}"/>
             </Grid>
         </GroupBox>
-        <GroupBox Grid.Row="1" Header="Titre">
+        <GroupBox Grid.Row="1" Header="Titre" Grid.ColumnSpan="2" Margin="0,0.2,0,0">
             <Grid>
                 <Grid.RowDefinitions>
                     <RowDefinition Height="auto" />
@@ -58,7 +58,7 @@
                 <Button Grid.Column="3" Content="modif" Margin="3" Command="{Binding cModifierTitre}" IsEnabled="{Binding Path=ActiverChampsModif, Mode=OneWay}"/>
             </Grid>
         </GroupBox>
-        <GroupBox Grid.Row="2" Header="Lieux">
+        <GroupBox Grid.Row="2" Header="Lieux" Grid.ColumnSpan="2" Margin="0,0,0,0.2">
             <Grid>
                 <Grid.RowDefinitions>
                     <RowDefinition Height="auto" />
@@ -81,7 +81,7 @@
                 <Button Grid.Column="3" Content="modif" Margin="3" Command="{Binding cModifierLieux}" IsEnabled="{Binding Path=ActiverChampsModif, Mode=OneWay}"/>
             </Grid>
         </GroupBox>
-        <GroupBox Header="Gestion Equipe"  Grid.Row="3">
+        <GroupBox Header="Gestion Equipe"  Grid.Row="2" Grid.ColumnSpan="2" Margin="0,51,0,0.2" Grid.RowSpan="2">
             <Grid>
                 <Grid.RowDefinitions>
                     <RowDefinition Height="auto" />
@@ -119,24 +119,34 @@
                     <Grid>
                         <Grid.RowDefinitions>
                             <RowDefinition Height="*" />
+                            <RowDefinition Height="*" />
                         </Grid.RowDefinitions>
                         <Grid.ColumnDefinitions>
-                            <ColumnDefinition Width="157*"/>
-                            <ColumnDefinition Width="37*"/>
-                            <ColumnDefinition Width="157*"/>
+                            <ColumnDefinition Width="*"/>
                         </Grid.ColumnDefinitions>
-                        <DataGrid Name="dgBeneficiaireList" SelectionChanged="DgBeneficiaireList_SelectionChanged" ItemsSource="{Binding Path=ListBeneficiaire}"  VerticalScrollBarVisibility="Visible"
-            IsReadOnly="True" AutoGenerateColumns="False" IsEnabled="{Binding Path=ActiverBcpFiche, Mode=OneWay}"
-            SelectedItem="{Binding BeneficiaireSelectionneList, Mode=TwoWay}"  >
-                            <DataGrid.Columns>
-                                <DataGridTextColumn Visibility="Hidden" Binding="{Binding Path=ID_Personne1}" />
-                                <DataGridTextColumn Header="Prénom" Binding="{Binding Path=Nom1}" Width="*" />
-                                <DataGridTextColumn Header="Nom" Binding="{Binding Path=Pre1}" Width="*" />
-                            </DataGrid.Columns>
-                        </DataGrid>
-                        <Button Content="switch"   Grid.Column="1" Command="{Binding cSwitchEquipe}" IsEnabled="{Binding Path=ActiverGestionEquipe, Mode=OneWay}"/>
-                        <DataGrid Name="dgBeneficiaireEq" SelectionChanged="DgBeneficiaireEq_SelectionChanged" Grid.Column="2"  ItemsSource="{Binding Path=ListBenefiaireEq}"  VerticalScrollBarVisibility="Visible"
-            IsReadOnly="True" AutoGenerateColumns="False"  IsEnabled="{Binding Path=ActiverBcpFiche, Mode=OneWay}"
+                        <Grid Grid.Row="0">
+                            <Grid.RowDefinitions>
+                                <RowDefinition Height="auto" />
+                            </Grid.RowDefinitions>
+                            <Grid.ColumnDefinitions>
+                                <ColumnDefinition Width="*"/>
+                                <ColumnDefinition Width="auto"/>
+                                <ColumnDefinition Width="auto"/>
+                            </Grid.ColumnDefinitions>
+                            <ComboBox Margin="3"
+                                Grid.Column="0" Grid.Row="0"
+                                      IsEnabled="{Binding Path=ActiverGestionEquipe, Mode=OneWay}"
+                                      ItemsSource="{Binding ListBeneficiaire}"
+                  SelectedValuePath="ID" 
+                  SelectedItem="{Binding BeneficiaireSelectionneList}"
+                  DisplayMemberPath="Nom1"                        
+                                      />
+                            <Button Margin="3" Content="add"   Grid.Column="1" Command="{Binding cAjouterMembreEquipe}" IsEnabled="{Binding Path=ActiverGestionEquipe, Mode=OneWay}"/>
+                            <Button Margin="3" Content="del"   Grid.Column="2" Command="{Binding cSupprimerMembreEquipe}" IsEnabled="{Binding Path=ActiverGestionEquipe, Mode=OneWay}"/>
+                        </Grid>
+                        <GroupBox Grid.Row="1">
+                            <DataGrid Name="dgBeneficiaireEq"  Grid.Column="2"  ItemsSource="{Binding Path=ListBenefiaireEq}"  VerticalScrollBarVisibility="Visible"
+            IsReadOnly="True" AutoGenerateColumns="False"  IsEnabled="{Binding Path=ActiverGestionEquipe, Mode=OneWay}"
             SelectedItem="{Binding BeneficiaireSelectionneEq, Mode=TwoWay}">
                             <DataGrid.Columns>
                                 <DataGridTextColumn Visibility="Hidden" Binding="{Binding Path=ID_Personne1}" />
@@ -144,26 +154,16 @@
                                 <DataGridTextColumn Header="Nom" Binding="{Binding Path=Pre1}" Width="*" />
                             </DataGrid.Columns>
                         </DataGrid>
-                        
+                        </GroupBox>
                     </Grid>
+
                 </GroupBox>
                 <StackPanel Orientation="Horizontal" Grid.Row="2" HorizontalAlignment="Center" Margin="3">
                     <Button Name="cConfirmer" Content="V" Margin="3" 
            Command="{Binding cConfirmerEquipeMembres}" IsEnabled="{Binding Path=ActiverGestionEquipe, Mode=OneWay}"/>
-                    <Button Name="cAnnuler" Content="X" Margin="3" 
-           Command="{Binding cAnnulerEquipeMembres}" IsEnabled="{Binding Path=ActiverGestionEquipe, Mode=OneWay}"/>
                 </StackPanel>
             </Grid>
         </GroupBox>
-        <DataGrid Name="dgBeneficiaireEqsave" Grid.Column="0"  ItemsSource="{Binding Path=ListBeneficiaireEqSave}"  VerticalScrollBarVisibility="Visible"
-            IsReadOnly="True" AutoGenerateColumns="False" Grid.Row="4"  IsEnabled="{Binding Path=ActiverBcpFiche, Mode=OneWay}"
-            SelectedItem="{Binding BeneficiaireSelectionneEq, Mode=TwoWay}">
-            <DataGrid.Columns>
-                <DataGridTextColumn Visibility="Hidden" Binding="{Binding Path=ID_Personne1}" />
-                <DataGridTextColumn Header="Prénom" Binding="{Binding Path=Nom1}" Width="*" />
-                <DataGridTextColumn Header="Nom" Binding="{Binding Path=Pre1}" Width="*" />
-            </DataGrid.Columns>
-        </DataGrid>
 
 
     </Grid>

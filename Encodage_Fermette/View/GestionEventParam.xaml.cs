@@ -33,15 +33,5 @@ namespace Encodage_Fermette.View
              LocalEventParam.RemplirdgmembreEquipe(); }
 
         }
-
-        private void DgBeneficiaireList_SelectionChanged(object sender, SelectionChangedEventArgs e)
-        {
-            dgBeneficiaireEq.SelectedItem = null;
-        }
-
-        private void DgBeneficiaireEq_SelectionChanged(object sender, SelectionChangedEventArgs e)
-        {
-            dgBeneficiaireList.SelectedItem = null;
-        }
     }
 }
