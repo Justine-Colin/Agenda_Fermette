@@ -201,11 +201,36 @@ namespace Encodage_Fermette.ViewModel
             C_T_Event tmp = new CoucheGestion.G_T_Event(chConnexion).Lire_ID(EventSelectionne.ID_Ev);
             UnEvent.ID_Event = EventSelectionne.ID_Ev;
             UnEvent.Lieu = EventSelectionne.Li_Descr;
-            ChargerEquipe(UnEvent.ID_Event);
-            ListStaffParticipant= ChargerStaffsParticipants(UnEvent.ID_Event);
+            UnEvent.Titre = EventSelectionne.Ti_Descr;
+            UnEvent.Lieu = EventSelectionne.Li_Descr;
+            UnEvent.Descriptif = EventSelectionne.Ev_Descr;
+            UnEvent.Recurrent = EventSelectionne.Recurent;
+            UnEvent.Priorite = EventSelectionne.Prio;
+
+            C_Vue_Classement Classement = ChargerClassement(UnEvent.ID_Event);
+             C_T_Equipe tmp1 = new C_T_Equipe(Classement.ID_Eq1,Classement.Eq1_Nom);
+            UnEvent.Equipe1 = tmp1;
+            C_T_Equipe tmp2 = new C_T_Equipe(Classement.ID_Eq1, Classement.Eq1_Nom);
+            UnEvent.Equipe2 = tmp2;
+            C_T_Equipe tmp3 = new C_T_Equipe(Classement.ID_Eq1, Classement.Eq1_Nom);
+            UnEvent.Equipe3 = tmp3;
+            ListEquipe = ChargerEquipe();
+            ListStaffParticipant = ChargerStaffsParticipants(UnEvent.ID_Event);
             ListBenefiaireParticipant = ChargerBeneficiairesParticipants(UnEvent.ID_Event);
             foreach (C_Personne p in ListBenefiaireParticipant)
                 System.Windows.MessageBox.Show(p.Nom1);
+        }
+        public ObservableCollection<C_T_Equipe> ChargerEquipe()
+        {
+            ObservableCollection<C_T_Equipe> rep = new ObservableCollection<C_T_Equipe>();
+            List<C_T_Equipe> lTmp = new CoucheGestion.G_T_Equipe(chConnexion).Lire("");
+            foreach (C_T_Equipe Tmp in lTmp)
+            {
+                C_T_Equipe titretmp = new C_T_Equipe(Tmp.ID_Equipe, Tmp.Eq_Nom);
+                rep.Add(titretmp);
+            }
+            return rep;
+
         }
         public ObservableCollection<C_Vue_ID_Descr> ChargerTitres( string co)
         {
@@ -241,7 +266,7 @@ namespace Encodage_Fermette.ViewModel
             }
             return rep;
         }
-        public void ChargerEquipe(int idev)
+        public C_Vue_Classement ChargerClassement(int idev)
         {
             C_Vue_Classement Class = new CoucheGestion.G_Vue_Event(chConnexion).Lire_Classement_Nom_Equipe(idev);
             Equipe1Selectionne.ID_Equipe = Class.ID_Eq1;
@@ -250,6 +275,7 @@ namespace Encodage_Fermette.ViewModel
             Equipe1Selectionne.Eq_Nom = Class.Eq1_Nom;
             Equipe2Selectionne.Eq_Nom = Class.Eq2_Nom;
             Equipe3Selectionne.Eq_Nom = Class.Eq3_Nom;
+            return Class;
         }
         public ObservableCollection<C_Personne> ChargerBeneficiaires()
         {

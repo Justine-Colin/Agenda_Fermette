@@ -80,7 +80,6 @@
             </Grid.ColumnDefinitions>
             <TextBlock Name="tTitreEvent" Text="Titre" VerticalAlignment="Center" />
             <ComboBox Grid.Column="1" Margin="3" 
-                  IsEditable="True"
                   ItemsSource="{Binding ListeTitre}"
                   SelectedItem="{Binding TitreSelectionne}"
                   SelectedValuePath="ID" 
@@ -88,8 +87,26 @@
                   Text="{Binding UnEvent.Titre, UpdateSourceTrigger=LostFocus}"  Grid.ColumnSpan="2"/>
 
             <TextBlock Name="tPrioriteEvent" Text="Priorite" Grid.Row="1" VerticalAlignment="Center" />
-            <ListBox Name="LbPrioriteEvent" Grid.Row="1" Grid.Column="1" Margin="3"/>
+            <ComboBox             Grid.Row="1" Grid.Column="1"
+                                  SelectedValuePath="Tag" VerticalAlignment="Center"
+                  SelectedValue="{Binding UnEvent.Recurrent}">
+            <ComboBoxItem Content="Pas important">
+                <ComboBoxItem.Tag>
+                    <system:Int32>0</system:Int32>
+                </ComboBoxItem.Tag>
+            </ComboBoxItem>
+            <ComboBoxItem Content="Moyen">
+                <ComboBoxItem.Tag>
+                        <system:Int32>1</system:Int32>
+                    </ComboBoxItem.Tag>
+            </ComboBoxItem>
+                <ComboBoxItem Content="Tres  important">
+                    <ComboBoxItem.Tag>
+                        <system:Int32>2</system:Int32>
+                    </ComboBoxItem.Tag>
+                </ComboBoxItem>
 
+            </ComboBox>
             <TextBlock Name="tRecurrent" Text="Recurrent" Grid.Row="2" VerticalAlignment="Center" />
             <ComboBox Grid.Row="2" Grid.Column="1" SelectedValuePath="Tag" VerticalAlignment="Center"
                   SelectedValue="{Binding UnEvent.Recurrent}">
@@ -106,10 +123,10 @@
             </ComboBox>
 
             <TextBlock Name="tDescriptifEvent" Text="Descriptif" Grid.Row="3" VerticalAlignment="Top" />
-            <TextBlock Name="tbDescpritfEvent"  Grid.Row="3" Grid.Column="1" Margin="3" Text="{Binding Path=UnEvent.Descriptif, Mode=TwoWay}" />
-            <TextBlock Name="tLieuEvent" Grid.Row="4" Text="Lieu"  VerticalAlignment="Center" />
+            <TextBox Name="tbDescpritfEvent"  Grid.Row="3" Grid.Column="1" Margin="3" Text="{Binding Path=UnEvent.Descriptif, Mode=TwoWay}" />
+
+                <TextBlock Name="tLieuEvent" Grid.Row="4" Text="Lieu"  VerticalAlignment="Center" />
             <ComboBox Grid.Row="4" Grid.Column="1" 
-                  IsEditable="True"
                   ItemsSource="{Binding ListLieux}"
                   SelectedValuePath="ID" 
                   SelectedItem="{Binding LieuxSelectionne}"
@@ -274,9 +291,9 @@
                   SelectedValuePath="ID" 
                   SelectedItem="{Binding Equipe1Selectionne}"
                   DisplayMemberPath="Descr" 
-                          Text= " {Binding Eq_Nom}"
                    Margin="3"
-                 IsEnabled="{Binding Path=ActiverChampsModif, Mode=OneWay}"/>
+                 IsEnabled="{Binding Path=ActiverChampsModif, Mode=OneWay}"                   
+                  Text="{Binding UnEvent.Equipe1, UpdateSourceTrigger=LostFocus}"/>
 
                         <Button Content="supprimer" Grid.Column="1"/>
                     </Grid>
@@ -290,7 +307,15 @@
                             <ColumnDefinition Width="*" />
                             <ColumnDefinition Width="auto" />
                         </Grid.ColumnDefinitions>
-                        <ComboBox Grid.Column="0"/>
+                        <ComboBox Grid.Column="0" Grid.Row="0"
+                  ItemsSource="{Binding ListEquipe}"
+                  SelectedValuePath="ID" 
+                  SelectedItem="{Binding Equipe1Selectionne}"
+                  DisplayMemberPath="Eq_Nom" 
+                   Margin="3"
+                 IsEnabled="{Binding Path=ActiverChampsModif, Mode=OneWay}"                   
+                  Text="{Binding UnEvent.Equipe2, UpdateSourceTrigger=LostFocus}"/>
+
                         <Button Content="supprimer" Grid.Column="1"/>
                     </Grid>
                 </GroupBox>
@@ -303,7 +328,14 @@
                             <ColumnDefinition Width="*" />
                             <ColumnDefinition Width="auto" />
                         </Grid.ColumnDefinitions>
-                        <ComboBox Grid.Column="0"/>
+                        <ComboBox Grid.Column="0" Grid.Row="0"
+                  ItemsSource="{Binding ListEquipe}"
+                  SelectedValuePath="ID" 
+                  SelectedItem="{Binding Equipe1Selectionne}"
+                  DisplayMemberPath="Descr" 
+                   Margin="3"
+                 IsEnabled="{Binding Path=ActiverChampsModif, Mode=OneWay}"                   
+                  Text="{Binding UnEvent.Equipe2, UpdateSourceTrigger=LostFocus}"/>
                         <Button Content="supprimer" Grid.Column="1"/>
                     </Grid>
                 </GroupBox>
