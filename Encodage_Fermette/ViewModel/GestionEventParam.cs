@@ -101,8 +101,8 @@ namespace Encodage_Fermette.ViewModel
         private ObservableCollection<C_Personne> _ListBeneficiaireEqSave;
         public ObservableCollection<C_Personne> ListBeneficiaireEqSave
         {
-            get { return _ListBeneficiaireEq; }
-            set { AssignerChamp<ObservableCollection<C_Personne>>(ref _ListBeneficiaireEq, value, System.Reflection.MethodBase.GetCurrentMethod().Name); }
+            get { return _ListBeneficiaireEqSave; }
+            set { AssignerChamp<ObservableCollection<C_Personne>>(ref _ListBeneficiaireEqSave, value, System.Reflection.MethodBase.GetCurrentMethod().Name); }
         }
 
         // beneficiaire selectionné dans la liste de ceux disponibles
@@ -139,7 +139,6 @@ namespace Encodage_Fermette.ViewModel
         public BaseCommande cSupprimerLieux { get; set; }
         public BaseCommande cSupprimerEquipe { get; set; }
         #endregion
-
         #region Chargement de données
         private ObservableCollection<C_Vue_ID_Descr> ChargerTItre(string chConn)
         {
@@ -407,7 +406,13 @@ namespace Encodage_Fermette.ViewModel
         {
             if (EquipeSelectionne != null && EquipeSelectionne.ID_Equipe != 0)
             {
-                ListBeneficiaireEqSave = ListBenefiaireEq; // on sauvegarde, ça nous permettra de faire nos suppressions tout a l'heure
+                ListBeneficiaireEqSave = new ObservableCollection<C_Personne>() ;
+                ListBeneficiaireEqSave = ListBenefiaireEq; // on sauvegarde, ça nous permettra de faire nos suppressions et ajout tout a l'heure
+                foreach(C_Personne p in ListBeneficiaireEqSave)
+                {
+                    System.Windows.MessageBox.Show(p.Nom1);
+
+                }
                 ActiverGestionEquipe = true;
             }
             else
@@ -415,8 +420,58 @@ namespace Encodage_Fermette.ViewModel
         }
         public void ConfirmerInfoEquipe()
         {
+            bool found = false;
+
+            // on va donc comparer les deux lists la sauvegarder avec l'autre
+            // phase d'ajout
+            // on compare la nouvelle équipe a l'ancienne
+            // si des éléments ne sont pas trouvé on les add
+            foreach (C_Personne t in ListBenefiaireEq) // on parcourt la nouvelle équipe 
+            {
+                foreach (C_Personne ts in ListBeneficiaireEqSave)
+                {
+                    System.Windows.MessageBox.Show(ts.Nom1 + t.Nom1);
+
+                    if (t.ID_Personne1 == ts.ID_Personne1)
+                    {
+                        // la personne existe
+                        found = true;
+                    }
+                }
+                if (!found)
+                {
+                    System.Windows.MessageBox.Show("Liaison  ajouter : " + t.Nom1);
+                    int liaisonEqBene = new CoucheGestion.G_T_Li_Eq_Benef(chConnexion).Ajouter(EquipeSelectionne.ID_Equipe, t.ID_Personne1);
+                }
+                found = false;
+
+            }
+            // phase de suppresion 
+            // on compare l'ancienne liste a la nouvelle
+            // si des élement ne osnt plus trouvé, ils otnt été supprimé 
+            // il faut les supprimer 
+            foreach (C_Personne t in ListBeneficiaireEqSave)
+            {
+                if (ListBenefiaireEq.FirstOrDefault(item => item.ID_Personne1 == t.ID_Personne1) == null)
+                // si il n'est pas présent dans la nouvelle équipe, il faut alors le supprimer
+                {
+                    // il faut le supprimer la liaison avec l'équipe
+                    List<C_T_Li_Eq_Benef> ltmp = new CoucheGestion.G_T_Li_Eq_Benef(chConnexion).Lire("");
+                    foreach ( C_T_Li_Eq_Benef  tl in ltmp)
+                    {
+                        if (tl.ID_Beneficiaire == t.ID_Personne1 && tl.ID_Equipe == EquipeSelectionne.ID_Equipe) // il a trouve la liaison a delete
+                        {
+                            int liaisonEqBene = new CoucheGestion.G_T_Li_Eq_Benef(chConnexion).Supprimer(tl.ID_Li_Eq_Benef);
+                            System.Windows.MessageBox.Show("Liaison supp : " + t.Nom1);
+                        }
+                    }
+                }
+                else
+                    System.Windows.MessageBox.Show("Liaison  non supp : " + t.Nom1);
+            }
             ActiverGestionEquipe = false;
             EquipeSelectionne = new C_T_Equipe(0, "Equipe");
+           
         }
         public void AnnulerInfoEquipe()
         {

@@ -287,6 +287,9 @@ namespace Encodage_Fermette.ViewModel
         public VM_GestionEvenement()
         {
             UnEvent = new VM_Un_Event();
+            Equipe1Selectionne= new C_T_Equipe(0, "Equipe1");
+            Equipe2Selectionne = new C_T_Equipe(0, "Equipe1");
+            Equipe3Selectionne = new C_T_Equipe(0, "Equipe1");
 
             ListeTitre = ChargerTitres(chConnexion);
             ListLieux = ChargerLieux();
@@ -294,8 +297,6 @@ namespace Encodage_Fermette.ViewModel
             ListBeneficiaire = ChargerBeneficiaires();
             ListStaff = ChargerStaffs();
             
-
-
         }
     }
     public class VM_Un_Event : BasePropriete

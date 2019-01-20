@@ -11,7 +11,10 @@
             <RowDefinition Height="auto" />
             <RowDefinition Height="auto" />
             <RowDefinition Height="auto" />
+            <RowDefinition Height="auto" />
             <RowDefinition Height="*" />
+
+
         </Grid.RowDefinitions>
         <Grid.ColumnDefinitions>
             <ColumnDefinition Width="*"/>
@@ -141,6 +144,7 @@
                                 <DataGridTextColumn Header="Nom" Binding="{Binding Path=Pre1}" Width="*" />
                             </DataGrid.Columns>
                         </DataGrid>
+                        
                     </Grid>
                 </GroupBox>
                 <StackPanel Orientation="Horizontal" Grid.Row="2" HorizontalAlignment="Center" Margin="3">
@@ -149,9 +153,18 @@
                     <Button Name="cAnnuler" Content="X" Margin="3" 
            Command="{Binding cAnnulerEquipeMembres}" IsEnabled="{Binding Path=ActiverGestionEquipe, Mode=OneWay}"/>
                 </StackPanel>
-
             </Grid>
         </GroupBox>
+        <DataGrid Name="dgBeneficiaireEqsave" Grid.Column="0"  ItemsSource="{Binding Path=ListBeneficiaireEqSave}"  VerticalScrollBarVisibility="Visible"
+            IsReadOnly="True" AutoGenerateColumns="False" Grid.Row="4"  IsEnabled="{Binding Path=ActiverBcpFiche, Mode=OneWay}"
+            SelectedItem="{Binding BeneficiaireSelectionneEq, Mode=TwoWay}">
+            <DataGrid.Columns>
+                <DataGridTextColumn Visibility="Hidden" Binding="{Binding Path=ID_Personne1}" />
+                <DataGridTextColumn Header="Prénom" Binding="{Binding Path=Nom1}" Width="*" />
+                <DataGridTextColumn Header="Nom" Binding="{Binding Path=Pre1}" Width="*" />
+            </DataGrid.Columns>
+        </DataGrid>
+
 
     </Grid>
 </Window>
