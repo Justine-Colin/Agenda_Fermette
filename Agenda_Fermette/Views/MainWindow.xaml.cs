@@ -130,6 +130,7 @@ namespace Agenda_Fermette
             foreach(var p in vm.Liste_Annif)
             {
                 RowDefinition row = new RowDefinition();
+                row.Height = new GridLength(50);
                 Annif.RowDefinitions.Add(row);
                 Viewbox vb = new Viewbox();
                 Grid.SetRow(vb, i);
@@ -143,11 +144,12 @@ namespace Agenda_Fermette
             }
         }
         public void AfficherInfo()
-        {
+        {.
             int i = 1; //On commence à 1 car Row[0]=Titre colonne
             foreach (var info in vm.ListeInfo)
             {
                 RowDefinition row = new RowDefinition();
+                row.Height = new GridLength(50);
                 Infos.RowDefinitions.Add(row);
                 Viewbox vb = new Viewbox();
                 Grid.SetRow(vb, i);
@@ -175,6 +177,7 @@ namespace Agenda_Fermette
             foreach (var Dem in vm.ListeDemain)
             {
                 RowDefinition row = new RowDefinition();
+                row.Height = new GridLength(50);
                 Infos.RowDefinitions.Add(row);
                 Viewbox vb = new Viewbox();
                 Grid.SetRow(vb, i);

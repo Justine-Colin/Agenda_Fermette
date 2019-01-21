@@ -8,9 +8,9 @@
         Title="AgendaFermette" Loaded="Window_Loaded" KeyDown="Window_KeyDown"
         Style="{StaticResource Police}">
     <Window.Resources>
-        <ImageBrush x:Key="Steak" ImageSource="C:\Users\Justine\Source\Repos\Agenda_Fermette2\Agenda_Fermette\Resources\Pics\steak.png"/>
-        <ImageBrush x:Key="Gateau" ImageSource="C:\Users\Justine\source\repos\Agenda_Fermette2\Agenda_Fermette\Resources\Pics\gateau.png" Stretch="Uniform"/>
-        <ImageBrush x:Key="Clock" ImageSource="C:\Users\Justine\source\repos\Agenda_Fermette2\Agenda_Fermette\Resources\Pics\clock.png" Stretch="Uniform"/>
+        <ImageBrush x:Key="Steak" ImageSource="C:\Users\juju_\source\repos\Agenda_Fermette2\Agenda_Fermette\Resources\Pics\steak.png"/>
+        <ImageBrush x:Key="Gateau" ImageSource="C:\Users\juju_\source\repos\Agenda_Fermette2\Agenda_Fermette\Resources\Pics\gateau.png" Stretch="Uniform"/>
+        <ImageBrush x:Key="Clock" ImageSource="C:\Users\juju_\source\repos\Agenda_Fermette2\Agenda_Fermette\Resources\Pics\clock.png" Stretch="Uniform"/>
     </Window.Resources>
 
     <Grid Margin="0,0,0,0" Background="LightGoldenrodYellow">
@@ -37,7 +37,7 @@
                         <ColumnDefinition/>
                     </Grid.ColumnDefinitions>
                     <Grid.RowDefinitions>
-                        <RowDefinition/>
+                        <RowDefinition Height="50"/>
                     </Grid.RowDefinitions>
 
                     <Border  Background="MediumPurple">
@@ -53,7 +53,7 @@
         <Border Grid.ColumnSpan="3" Grid.Column="2" BorderBrush="MidnightBlue" BorderThickness="2">
             <Grid x:Name="Infos">
                 <Grid.RowDefinitions>
-                    <RowDefinition/>
+                    <RowDefinition Height="50"/>
                 </Grid.RowDefinitions>
                 <Border Background="MediumPurple">
                     <Viewbox>
@@ -164,7 +164,7 @@
         <Border Grid.ColumnSpan="7" Grid.Row="1" BorderBrush="MidnightBlue" BorderThickness="2" Background="{StaticResource Clock}" >
             <Grid x:Name="Importants">
                 <Grid.RowDefinitions>
-                    <RowDefinition/>
+                    <RowDefinition Height="50"/>
                 </Grid.RowDefinitions>
                 <Border  Background="MediumPurple">
                     <Viewbox>
