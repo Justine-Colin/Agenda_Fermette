@@ -7,7 +7,8 @@ using CoucheClasse;
 using CoucheAcces;
 using CoucheGestion;
 using System.IO;
-
+using System.ComponentModel;
+using System.Runtime.CompilerServices;
 
 namespace Agenda_Fermette.ViewModels
 {
@@ -16,13 +17,19 @@ namespace Agenda_Fermette.ViewModels
         #region Déclarations et accesseurs
         public string RessourcesImages = Directory.GetCurrentDirectory() + @"\Ressources\Images\"; //Images du programme
         //?private DateTime _Date = DateTime.Parse("01-01"); //Date des events à afficher, initialisée au 1er janvier
-        private string sChConnexion = @"Data Source=(LocalDB)\MSSQLLocalDB;AttachDbFilename='" + System.Windows.Forms.Application.StartupPath + @"\Database1.mdf';Integrated Security=True;Connect Timeout=30";
+        protected string sChConnexion = @"Data Source=(LocalDB)\MSSQLLocalDB;AttachDbFilename='" + System.Windows.Forms.Application.StartupPath + @"\Database1.mdf';Integrated Security=True;Connect Timeout=30";
+
+        public event PropertyChangedEventHandler PropertyChanged;
+        private void OnPropertyChanged([CallerMemberName] string propertyName = null)
+        {
+            PropertyChanged?.Invoke(this, new PropertyChangedEventArgs(propertyName));
+        }
 
         //Liste des gens ayant leurs anniversaires
         public List<C_Personne> Liste_Annif = new List<C_Personne>();
         //Liste des infos importantes
-        public List<C_T_Event> ListeSemaine = new List<C_T_Event>();
-        public List<C_T_Event> ListeDemain = new List<C_T_Event>();
+        public List<C_Vue_Event> ListeSemaine = new List<C_Vue_Event>();
+        public List<C_Vue_Event> ListeDemain = new List<C_Vue_Event>();
         //Liste des infos du jour
         public List<C_Vue_Event> ListeInfo = new List<C_Vue_Event>();
 
@@ -50,6 +57,7 @@ namespace Agenda_Fermette.ViewModels
             {
                 if (_Entree != value)
                     _Entree = value;
+                OnPropertyChanged();
             }
         }
         public string Plat
@@ -59,6 +67,7 @@ namespace Agenda_Fermette.ViewModels
             {
                 if (_Plat != value)
                     _Plat = value;
+                OnPropertyChanged();
             }
         }
         public string Dessert
@@ -68,6 +77,7 @@ namespace Agenda_Fermette.ViewModels
             {
                 if (_Dessert != value)
                     _Dessert = value;
+                OnPropertyChanged();
             }
         }
         public string Collation
@@ -77,6 +87,7 @@ namespace Agenda_Fermette.ViewModels
             {
                 if (_Collation != value)
                     _Collation = value;
+                OnPropertyChanged();
             }
         }
         #endregion
@@ -102,7 +113,7 @@ namespace Agenda_Fermette.ViewModels
             else Plat = "Surprise !";
         }
 
-        public void ChargerAnnif(DateTime date) //TODO Boucle infinie quelque part, à fixer... (StackOverflow Exception)
+        public void ChargerAnnif(DateTime date)
         {
             int Mois = date.Month, Jour = date.Day;
             List<C_Personne> List_Ben = new G_Vue_Personne(sChConnexion).Lire_Annif_Ben(Mois, Jour);
@@ -128,10 +139,16 @@ namespace Agenda_Fermette.ViewModels
 
         public void ChargerImportant(DateTime date)
         {
-            /*TODO 
-             * Demander à Tiber comment fonctionne la procédure stockée et quels sont exactement les paramètres
-             * Récupérer la liste d'events
-             */
+            List<C_Vue_Event> List_Demain = new G_Vue_Event(sChConnexion).Lire_Event_Prio_Date_DF(1, DateTime.Now.AddDays(1), DateTime.Now.AddDays(1));
+            List<C_Vue_Event> List_Semaine = new G_Vue_Event(sChConnexion).Lire_Event_Prio_Date_DF(1, DateTime.Now.AddDays(1), DateTime.Now.AddDays(7));
+            foreach (var Dem in List_Demain)
+            {
+                ListeDemain.Add(Dem);
+            }
+            foreach (var Sem in List_Semaine)
+            {
+                ListeDemain.Add(Sem);
+            }
         }
         #endregion
     }

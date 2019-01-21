@@ -17,6 +17,7 @@ using CoucheClasse;
 using CoucheGestion;
 using System.Collections.ObjectModel;
 using Agenda_Fermette.ViewModels;
+using Agenda_Fermette.Views;
 
 namespace Agenda_Fermette
 {
@@ -26,7 +27,7 @@ namespace Agenda_Fermette
     public partial class MainWindow : Window
     {
         //BDD dans Agenda_Fermette/bin/Debug/Database1.mdf
-        private string sChConnexion = @"Data Source=(LocalDB)\MSSQLLocalDB;AttachDbFilename='" + System.Windows.Forms.Application.StartupPath + @"\Database1.mdf';Integrated Security=True;Connect Timeout=30";
+        string sChConnexion = @"Data Source=(LocalDB)\MSSQLLocalDB;AttachDbFilename='" + System.Windows.Forms.Application.StartupPath + @"\Database1.mdf';Integrated Security=True;Connect Timeout=30";
         private MainWindow_VM vm = new MainWindow_VM();
 
         public MainWindow()
@@ -109,7 +110,7 @@ namespace Agenda_Fermette
             //? L'envoie au ViewModel
             //? vm.Date = Date;
             //Chargement selon date
-            //TODO vm.ChargerAnnif(Date); problème dans la couche gestion G_Vue_Personne => boucle infinie
+            vm.ChargerAnnif(Date);
             vm.ChargerEvents(Date);       
             vm.ChargerMenu(Date);
             //Affichage
@@ -153,9 +154,11 @@ namespace Agenda_Fermette
                 Grid.SetColumn(vb, 0);
                 TextBlock tb = new TextBlock
                 {
-                    Text = info.Ti_Descr
+                    Text = info.Ti_Descr,
+                    Name = "Info_" + info.ID_Ev
                 };
                 vb.Child = tb;
+                tb.PreviewMouseDown += new MouseButtonEventHandler(tb_click);
                 i++;
             }
         }
@@ -168,9 +171,44 @@ namespace Agenda_Fermette
         }
         public void AfficherImportant()
         {
-            /*TODO
-             * Afficher la liste d'events important avec sont ayants lieux le lendemain au dessus
-             */
+            int i = 1, j = 1; //On commence à 1 car Row[0]=Titre colonne
+            foreach (var Dem in vm.ListeDemain)
+            {
+                RowDefinition row = new RowDefinition();
+                Infos.RowDefinitions.Add(row);
+                Viewbox vb = new Viewbox();
+                Grid.SetRow(vb, i);
+                Grid.SetColumn(vb, 0);
+                TextBlock tb = new TextBlock
+                {
+                    Text = Dem.Ev_Descr
+                };
+                vb.Child = tb;
+                i++;
+            }
+
+            foreach (var Sem in vm.ListeSemaine)
+            {
+                RowDefinition row = new RowDefinition();
+                Infos.RowDefinitions.Add(row);
+                Viewbox vb = new Viewbox();
+                Grid.SetRow(vb, j);
+                Grid.SetColumn(vb, 0);
+                TextBlock tb = new TextBlock
+                {
+                    Text = Sem.Ev_Descr
+                };
+                vb.Child = tb;
+                j++;
+            }
+        }
+
+        void tb_click(object sender, RoutedEventArgs e)
+        {
+            string content = (sender as TextBlock).Text.ToString();
+            string[] tab = content.Split('_');
+            int id = Int32.Parse(tab[1]);
+            Event f = new Event(id);
         }
         /*******************************************************************************************************************************************************************/
         /*?
