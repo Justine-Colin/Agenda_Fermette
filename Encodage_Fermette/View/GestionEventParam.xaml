@@ -16,10 +16,9 @@
 
         </Grid.RowDefinitions>
         <Grid.ColumnDefinitions>
-            <ColumnDefinition Width="117*"/>
-            <ColumnDefinition Width="259*"/>
+            <ColumnDefinition Width="*"/>
         </Grid.ColumnDefinitions>
-        <GroupBox Grid.Row="0" Header="Traitement donnee" Grid.ColumnSpan="2" Margin="0,0,0,51" Grid.RowSpan="2">
+        <GroupBox Grid.Row="0" Header="Traitement donnee" Grid.ColumnSpan="2" Margin="3" Grid.RowSpan="1">
             <Grid>
                 <Grid.RowDefinitions>
                     <RowDefinition Height="auto" />

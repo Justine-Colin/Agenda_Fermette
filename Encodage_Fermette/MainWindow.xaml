@@ -38,29 +38,47 @@
             <TextBox AcceptsReturn="True" />
         </DockPanel>
         <!-- <Calendar Grid.Row="1" Grid.Column="0" Width="auto" Margin="5" /> -->
-        <Viewbox Grid.Row="1" Grid.Column="0" Width="auto" Margin="5" >
-            <Calendar SelectedDatesChanged="CalendrierDateChanged" Name="Calendrier"/>
-        </Viewbox>
+
+
+        <Grid Grid.Row="1" Grid.Column="0">
+            <Grid.RowDefinitions>
+                <RowDefinition Height="*"/>
+                <RowDefinition Height="auto"/>
+            </Grid.RowDefinitions>
+            <Grid.ColumnDefinitions>
+                <ColumnDefinition Width="*"/>
+            </Grid.ColumnDefinitions>
+            <Viewbox Grid.Row="0"  Width="auto" Margin="5" >
+                <Calendar SelectedDatesChanged="CalendrierDateChanged" Name="Calendrier" IsEnabled="{Binding Path=ActiverCalendrierDate, Mode=OneWay}"/>
+            </Viewbox>
+            <StackPanel Orientation="Horizontal" Grid.Row="3" HorizontalAlignment="Center" Margin="3">
+                <Button Name="btnEvent" Content="Event" Margin="3,3,3,2.6" IsEnabled="{Binding Path=ActiverCalendrierDate, Mode=OneWay}"
+           Command="{Binding cGestionEvent}" />
+                <Button Name="btnMenu" Content="Menu" Margin="3" IsEnabled="{Binding Path=ActiverCalendrierDate, Mode=OneWay}"
+           Command="{Binding cGestionMenu}" />
+            </StackPanel>
+
+        </Grid>
         <GroupBox Header="Liste evenement du jour" Grid.Row="2" Grid.Column="0">
-        <DataGrid
-            
+            <DataGrid
+            IsEnabled="{Binding Path=ActiverUneFicheDate, Mode=OneWay}"
             SelectedItem="{Binding EventSelectionne, Mode=TwoWay}" SelectionChanged="dgEvent_SelectionChanged" AutoGenerateColumns="False" IsReadOnly="True"
             ItemsSource="{Binding Path=ListEvent, Mode=OneWay}"  Name="dgEvent" VerticalScrollBarVisibility="Visible">
-            <DataGrid.Columns>
+                <DataGrid.Columns>
                     <DataGridTextColumn Visibility="Hidden" Binding="{Binding Path=ID_Ev}" />
                     <DataGridTextColumn Header="Titre" Binding="{Binding Path=Ti_Descr}" Width="*" />
-                <DataGridTextColumn Header="Lieu" Binding="{Binding Path=Li_Descr}" Width="*" />
-                <DataGridTextColumn Header="Heure_Debut" Binding="{Binding Path=Ev_HeureDebut}" Width="*" />
-                <DataGridTextColumn Header="Heure_Fin" Binding="{Binding Path=Ev_HeureFin}" Width="*" />
-            </DataGrid.Columns>
-        </DataGrid>
-            </GroupBox>
+                    <DataGridTextColumn Header="Lieu" Binding="{Binding Path=Li_Descr}" Width="*" />
+                    <DataGridTextColumn Header="Heure_Debut" Binding="{Binding Path=Ev_HeureDebut}" Width="*" />
+                    <DataGridTextColumn Header="Heure_Fin" Binding="{Binding Path=Ev_HeureFin}" Width="*" />
+                </DataGrid.Columns>
+            </DataGrid>
+        </GroupBox>
         <StackPanel Orientation="Horizontal" Grid.Row="3" HorizontalAlignment="Center" Margin="3">
-            <Button Name="bAjouter" Content="Ajouter" Margin="3" IsEnabled="{Binding Path=ActiverBcpFiche, Mode=OneWay}"
+            <Button Name="bAjouter" Content="Ajouter" Margin="3" IsEnabled="{Binding Path=ActiverUneFicheDate, Mode=OneWay}"
            Command="{Binding cAjouter}" />
-            <Button Name="bModifier" Content="Modifier" Margin="3" IsEnabled="{Binding Path=ActiverBcpFiche, Mode=OneWay}"
+            <Button Name="bModifier" Content="Modifier" Margin="3" IsEnabled="{Binding Path=ActiverUneFicheDate, Mode=OneWay}"
            Command="{Binding cModifier}" />
-            <Button Name="bSupprimer" Content="Supprimer" Margin="3" IsEnabled="{Binding Path=ActiverBcpFiche, Mode=OneWay}"
+            <Button Name="bSupprimer" Content="Supprimer" Margin="3" IsEnabled="{Binding Path=ActiverUneFicheDate, Mode=OneWay}"
            Command="{Binding cSupprimer}" />
         </StackPanel>
         <Grid Name="GridEvenement" Grid.Row="2" Grid.Column="1">
@@ -83,23 +101,25 @@
                   ItemsSource="{Binding ListeTitre}"
                   SelectedItem="{Binding TitreSelectionne}"
                   SelectedValuePath="ID" 
-                  DisplayMemberPath="Descr"                        
+                  DisplayMemberPath="Descr"               
+                      IsEnabled="{Binding Path=ActiverUneFicheDate, Mode=OneWay}"
                   Text="{Binding UnEvent.Titre, UpdateSourceTrigger=LostFocus}"  Grid.ColumnSpan="2"/>
 
             <TextBlock Name="tPrioriteEvent" Text="Priorite" Grid.Row="1" VerticalAlignment="Center" />
             <ComboBox             Grid.Row="1" Grid.Column="1"
                                   SelectedValuePath="Tag" VerticalAlignment="Center"
+                                  IsEnabled="{Binding Path=ActiverUneFicheDate, Mode=OneWay}"
                   SelectedValue="{Binding UnEvent.Recurrent}">
-            <ComboBoxItem Content="Pas important">
-                <ComboBoxItem.Tag>
-                    <system:Int32>0</system:Int32>
-                </ComboBoxItem.Tag>
-            </ComboBoxItem>
-            <ComboBoxItem Content="Moyen">
-                <ComboBoxItem.Tag>
+                <ComboBoxItem Content="Pas important">
+                    <ComboBoxItem.Tag>
+                        <system:Int32>0</system:Int32>
+                    </ComboBoxItem.Tag>
+                </ComboBoxItem>
+                <ComboBoxItem Content="Moyen">
+                    <ComboBoxItem.Tag>
                         <system:Int32>1</system:Int32>
                     </ComboBoxItem.Tag>
-            </ComboBoxItem>
+                </ComboBoxItem>
                 <ComboBoxItem Content="Tres  important">
                     <ComboBoxItem.Tag>
                         <system:Int32>2</system:Int32>
@@ -108,7 +128,9 @@
 
             </ComboBox>
             <TextBlock Name="tRecurrent" Text="Recurrent" Grid.Row="2" VerticalAlignment="Center" />
-            <ComboBox Grid.Row="2" Grid.Column="1" SelectedValuePath="Tag" VerticalAlignment="Center"
+            <ComboBox 
+                IsEnabled="{Binding Path=ActiverUneFicheDate, Mode=OneWay}"
+                Grid.Row="2" Grid.Column="1" SelectedValuePath="Tag" VerticalAlignment="Center"
                   SelectedValue="{Binding UnEvent.Recurrent}">
                 <ComboBoxItem Content="Pas-Recurrent">
                     <ComboBoxItem.Tag>
@@ -123,10 +145,14 @@
             </ComboBox>
 
             <TextBlock Name="tDescriptifEvent" Text="Descriptif" Grid.Row="3" VerticalAlignment="Top" />
-            <TextBox Name="tbDescpritfEvent"  Grid.Row="3" Grid.Column="1" Margin="3" Text="{Binding Path=UnEvent.Descriptif, Mode=TwoWay}" />
+            <TextBox 
+                IsEnabled="{Binding Path=ActiverUneFicheDate, Mode=OneWay}"
+                Name="tbDescpritfEvent"  Grid.Row="3" Grid.Column="1" Margin="3" Text="{Binding Path=UnEvent.Descriptif, Mode=TwoWay}" />
 
-                <TextBlock Name="tLieuEvent" Grid.Row="4" Text="Lieu"  VerticalAlignment="Center" />
-            <ComboBox Grid.Row="4" Grid.Column="1" 
+            <TextBlock Name="tLieuEvent" Grid.Row="4" Text="Lieu"  VerticalAlignment="Center" />
+            <ComboBox 
+                IsEnabled="{Binding Path=ActiverUneFicheDate, Mode=OneWay}"
+                Grid.Row="4" Grid.Column="1" 
                   ItemsSource="{Binding ListLieux}"
                   SelectedValuePath="ID" 
                   SelectedItem="{Binding LieuxSelectionne}"
@@ -135,13 +161,17 @@
              />
 
             <StackPanel Orientation="Horizontal" HorizontalAlignment="Center" Grid.Row="5" Grid.RowSpan="6"  Grid.Column="1">
-                
+
 
                 <TextBlock Name="tHeureDebutEvent" Grid.Row="5" Text="Heure Début"  VerticalAlignment="Center" />
-                <wpfTool:TimePicker Grid.Row="5" Grid.Column="1" Text="{Binding DateFin}" Margin="0,0,0,0.2" Width="130"/>
-                <TextBlock Name="tHeureFinEvent" Grid.Row="6" Text="Heure Fin"  Margin="10" VerticalAlignment="Center" />
-                <wpfTool:TimePicker Grid.Row="5" Grid.Column="1" Text="{Binding DateFin}" Margin="0,0,0,0.2" Width="130"/>
 
+                <wpfTool:TimeSpanUpDown 
+                    IsEnabled="{Binding Path=ActiverUneFicheDate, Mode=OneWay}"
+                    Grid.Row="5" Grid.Column="1" Value="{Binding UnEvent.HeureDebut, Mode=TwoWay}" Margin="3" Width="130"/>
+                <TextBlock 
+                    IsEnabled="{Binding Path=ActiverUneFicheDate, Mode=OneWay}"
+                    Name="tHeureFinEvent" Grid.Row="6" Text="Heure Fin"  Margin="10" VerticalAlignment="Center" />
+                <wpfTool:TimeSpanUpDown Grid.Row="5" Grid.Column="1" Value="{Binding UnEvent.HeureFin, Mode=TwoWay}" Margin="3" Width="130"/>
             </StackPanel>
         </Grid>
         <GroupBox Grid.Row="1" Grid.Column="1" Header="MenuDujour" >
@@ -156,8 +186,8 @@
                 </Grid.ColumnDefinitions>
                 <Grid>
                     <Grid.RowDefinitions>
-                    <RowDefinition Height="auto" />
-                    <RowDefinition Height="auto" />
+                        <RowDefinition Height="auto" />
+                        <RowDefinition Height="auto" />
                     </Grid.RowDefinitions>
                     <Grid.ColumnDefinitions>
                         <ColumnDefinition Width="*" />
@@ -179,7 +209,8 @@
                 </Grid>
                 <DataGrid Grid.Row="1"            
                           SelectedItem="{Binding MenuSelectionne, Mode=TwoWay}" AutoGenerateColumns="False" IsReadOnly="True"
-            ItemsSource="{Binding Path=ListMenu, Mode=OneWay}"  Name="dgMenu" VerticalScrollBarVisibility="Visible">
+            ItemsSource="{Binding Path=ListMenu, Mode=OneWay}"  Name="dgMenu" VerticalScrollBarVisibility="Visible"
+                          IsEnabled="{Binding Path=ActiverFicheMenu, Mode=OneWay}">
 
                     <DataGrid.Columns>
                         <DataGridTextColumn Visibility="Hidden" Binding="{Binding Path=ID_Menu}" />
@@ -191,19 +222,19 @@
 
                 </DataGrid>
                 <StackPanel  Grid.Row="2" Orientation="Horizontal" HorizontalAlignment="Center">
-                    <Button Content="Modifier" Margin="3"/>
-                    <Button Content="Supprimer" Margin="3"/>
+                    <Button Content="Modifier" Margin="3" Command="{Binding cModifierMenu}" IsEnabled="{Binding Path=ActiverFicheMenu, Mode=OneWay}"/>
+                    <Button Content="Supprimer" Margin="3" Command="{Binding cSupprimerMenu}" IsEnabled="{Binding Path=ActiverFicheMenu, Mode=OneWay}"/>
                 </StackPanel>
             </Grid>
         </GroupBox>
         <Grid Grid.Row="1" Grid.Column="2" >
-                <Grid.RowDefinitions>
-                    <RowDefinition Height="*" />
-                    <RowDefinition Height="*" />
-                </Grid.RowDefinitions>
-                <Grid.ColumnDefinitions>
-                    <ColumnDefinition Width="*" />
-                </Grid.ColumnDefinitions>
+            <Grid.RowDefinitions>
+                <RowDefinition Height="*" />
+                <RowDefinition Height="*" />
+            </Grid.RowDefinitions>
+            <Grid.ColumnDefinitions>
+                <ColumnDefinition Width="*" />
+            </Grid.ColumnDefinitions>
             <GroupBox Header="Gestion Staff" Grid.Row="0" Grid.Column="0">
                 <Grid>
                     <Grid.RowDefinitions>
@@ -214,19 +245,23 @@
                         <ColumnDefinition Width="auto" />
                         <ColumnDefinition Width="*" />
                     </Grid.ColumnDefinitions>
-                    <DataGrid Name="dgStaffList"  ItemsSource="{Binding Path=ListStaff}"  VerticalScrollBarVisibility="Visible"
-            IsReadOnly="True" AutoGenerateColumns="False" IsEnabled="{Binding Path=ActiverBcpFiche, Mode=OneWay}"
-            SelectedItem="{Binding BeneficiaireSelectionneList, Mode=TwoWay}"  >
+                    <DataGrid Name="dgStaffList"  
+                              ItemsSource="{Binding Path=ListStaff}"  VerticalScrollBarVisibility="Visible"
+            IsReadOnly="True" AutoGenerateColumns="False" IsEnabled="{Binding Path=ActiverUneFicheDate, Mode=OneWay}"
+            SelectedItem="{Binding StaffSelectionneList, Mode=TwoWay}"  >
                         <DataGrid.Columns>
                             <DataGridTextColumn Visibility="Hidden" Binding="{Binding Path=ID_Personne1}" />
                             <DataGridTextColumn Header="Prénom" Binding="{Binding Path=Nom1}" Width="*" />
                             <DataGridTextColumn Header="Nom" Binding="{Binding Path=Pre1}" Width="*" />
                         </DataGrid.Columns>
                     </DataGrid>
-                    <Button Width="40" Content="switch" Grid.Row="0" Grid.Column="1" Name="btnSwitchStaff"/>
+                    <StackPanel  VerticalAlignment="Center" Orientation="Vertical" HorizontalAlignment="Center" Grid.Row="0" Grid.Column="1"  Margin="3">
+                        <Button Width="40" Content="add"  Name="btnaddstaff" Margin="3" IsEnabled="{Binding Path=ActiverUneFicheDate, Mode=OneWay}" Command="{Binding cAjouterStaffParticipant}"/>
+                        <Button Width="40" Content="del"  Name="btndel" Margin="3" IsEnabled="{Binding Path=ActiverUneFicheDate, Mode=OneWay}" Command="{Binding cSupprimerStaffParticipan}"/>
+                    </StackPanel>
                     <DataGrid Name="dgStaffParticipant" Grid.Column="2" ItemsSource="{Binding Path=ListStaffParticipant}"  VerticalScrollBarVisibility="Visible"
-            IsReadOnly="True" AutoGenerateColumns="False" IsEnabled="{Binding Path=ActiverBcpFiche, Mode=OneWay}"
-            SelectedItem="{Binding BeneficiaireSelectionneList, Mode=TwoWay}"  >
+            IsReadOnly="True" AutoGenerateColumns="False" IsEnabled="{Binding Path=ActiverUneFicheDate, Mode=OneWay}"
+            SelectedItem="{Binding StaffParticipantSelectionne, Mode=TwoWay}"  >
                         <DataGrid.Columns>
                             <DataGridTextColumn Visibility="Hidden" Binding="{Binding Path=ID_Personne1}" />
                             <DataGridTextColumn Header="Prénom" Binding="{Binding Path=Nom1}" Width="*" />
@@ -245,19 +280,22 @@
                         <ColumnDefinition Width="auto" />
                         <ColumnDefinition Width="*" />
                     </Grid.ColumnDefinitions>
-                        <DataGrid Name="dgBeneficiaireList"  ItemsSource="{Binding Path=ListBeneficiaire}"  VerticalScrollBarVisibility="Visible"
-            IsReadOnly="True" AutoGenerateColumns="False" IsEnabled="{Binding Path=ActiverBcpFiche, Mode=OneWay}"
+                    <DataGrid Name="dgBeneficiaireList"  ItemsSource="{Binding Path=ListBeneficiaire}"  VerticalScrollBarVisibility="Visible"
+            IsReadOnly="True" AutoGenerateColumns="False" IsEnabled="{Binding Path=ActiverUneFicheDate, Mode=OneWay}"
             SelectedItem="{Binding BeneficiaireSelectionneList, Mode=TwoWay}"  >
-                            <DataGrid.Columns>
-                                <DataGridTextColumn Visibility="Hidden" Binding="{Binding Path=ID_Personne1}" />
-                                <DataGridTextColumn Header="Prénom" Binding="{Binding Path=Nom1}" Width="*" />
-                                <DataGridTextColumn Header="Nom" Binding="{Binding Path=Pre1}" Width="*" />
-                            </DataGrid.Columns>
-                        </DataGrid>
-                <Button Grid.Row="1" Grid.Column="1" Width="40" Content="switch" Name="btnSwitchBenef"/>
+                        <DataGrid.Columns>
+                            <DataGridTextColumn Visibility="Hidden" Binding="{Binding Path=ID_Personne1}" />
+                            <DataGridTextColumn Header="Prénom" Binding="{Binding Path=Nom1}" Width="*" />
+                            <DataGridTextColumn Header="Nom" Binding="{Binding Path=Pre1}" Width="*" />
+                        </DataGrid.Columns>
+                    </DataGrid>
+                    <StackPanel  VerticalAlignment="Center" Orientation="Vertical" HorizontalAlignment="Center" Grid.Row="0" Grid.Column="1"  Margin="3">
+                        <Button Width="40" Content="add"  Name="btnaddbene" Margin="3" IsEnabled="{Binding Path=ActiverUneFicheDate, Mode=OneWay}" />
+                        <Button Width="40" Content="del"  Name="btndelbene" Margin="3" IsEnabled="{Binding Path=ActiverUneFicheDate, Mode=OneWay}"/>
+                    </StackPanel>
                     <DataGrid Name="dgBeneficiaireParticipant" Grid.Column="2"  ItemsSource="{Binding Path=ListBenefiaireParticipant}"  VerticalScrollBarVisibility="Visible"
-            IsReadOnly="True" AutoGenerateColumns="False" IsEnabled="{Binding Path=ActiverBcpFiche, Mode=OneWay}"
-            SelectedItem="{Binding BeneficiaireSelectionneList, Mode=TwoWay}"  >
+            IsReadOnly="True" AutoGenerateColumns="False" IsEnabled="{Binding Path=ActiverUneFicheDate, Mode=OneWay}"
+            SelectedItem="{Binding BeneficiaireParticipantSelectionne, Mode=TwoWay}"  >
                         <DataGrid.Columns>
                             <DataGridTextColumn Visibility="Hidden" Binding="{Binding Path=ID_Personne1}" />
                             <DataGridTextColumn Header="Prénom" Binding="{Binding Path=Nom1}" Width="*" />
@@ -273,6 +311,9 @@
                     <RowDefinition Height="auto" />
                     <RowDefinition Height="auto" />
                     <RowDefinition Height="auto" />
+                    <RowDefinition Height="auto" />
+                    <RowDefinition Height="auto" />
+
                 </Grid.RowDefinitions>
                 <Grid.ColumnDefinitions>
                     <ColumnDefinition Width="*" />
@@ -285,17 +326,12 @@
                         <Grid.ColumnDefinitions>
                             <ColumnDefinition Width="*" />
                             <ColumnDefinition Width="auto" />
+                            <ColumnDefinition Width="auto" />
                         </Grid.ColumnDefinitions>
-                        <ComboBox Grid.Column="0" Grid.Row="0"
-                  ItemsSource="{Binding ListEquipe}"
-                  SelectedValuePath="ID" 
-                  SelectedItem="{Binding Equipe1Selectionne}"
-                  DisplayMemberPath="Descr" 
-                   Margin="3"
-                 IsEnabled="{Binding Path=ActiverChampsModif, Mode=OneWay}"                   
-                  Text="{Binding UnEvent.Equipe1, UpdateSourceTrigger=LostFocus}"/>
+                        <TextBlock Margin="3" Text="{Binding Path=UnEvent.Equipe1, Mode=TwoWay}" />
+                        <Button Grid.Column="1" Content=" modifier" Margin="3" Command="{Binding cModifierEquipe1}" IsEnabled="{Binding Path=ActiverModifClassement, Mode=OneWay}" />
+                        <TextBlock/>
 
-                        <Button Content="supprimer" Grid.Column="1"/>
                     </Grid>
                 </GroupBox>
                 <GroupBox Header="Equipe 2" Grid.Row="1">
@@ -307,16 +343,9 @@
                             <ColumnDefinition Width="*" />
                             <ColumnDefinition Width="auto" />
                         </Grid.ColumnDefinitions>
-                        <ComboBox Grid.Column="0" Grid.Row="0"
-                  ItemsSource="{Binding ListEquipe}"
-                  SelectedValuePath="ID" 
-                  SelectedItem="{Binding Equipe1Selectionne}"
-                  DisplayMemberPath="Eq_Nom" 
-                   Margin="3"
-                 IsEnabled="{Binding Path=ActiverChampsModif, Mode=OneWay}"                   
-                  Text="{Binding UnEvent.Equipe2, UpdateSourceTrigger=LostFocus}"/>
+                        <TextBlock Margin="3" Text="{Binding Path=UnEvent.Equipe2, Mode=TwoWay}" />
+                        <Button Grid.Column="1" Content=" modifier" Margin="3" Command="{Binding cModifierEquipe2}" IsEnabled="{Binding Path=ActiverModifClassement, Mode=OneWay}" />
 
-                        <Button Content="supprimer" Grid.Column="1"/>
                     </Grid>
                 </GroupBox>
                 <GroupBox Header="Equipe 3" Grid.Row="2">
@@ -326,26 +355,33 @@
                         </Grid.RowDefinitions>
                         <Grid.ColumnDefinitions>
                             <ColumnDefinition Width="*" />
-                            <ColumnDefinition Width="auto" />
+                            <ColumnDefinition Width="auto"/>
                         </Grid.ColumnDefinitions>
-                        <ComboBox Grid.Column="0" Grid.Row="0"
-                  ItemsSource="{Binding ListEquipe}"
-                  SelectedValuePath="ID" 
-                  SelectedItem="{Binding Equipe1Selectionne}"
-                  DisplayMemberPath="Descr" 
-                   Margin="3"
-                 IsEnabled="{Binding Path=ActiverChampsModif, Mode=OneWay}"                   
-                  Text="{Binding UnEvent.Equipe2, UpdateSourceTrigger=LostFocus}"/>
-                        <Button Content="supprimer" Grid.Column="1"/>
+                        <TextBlock Margin="3" Text="{Binding Path=UnEvent.Equipe3, Mode=TwoWay}"  />
+                        <Button Grid.Column="1" Content=" modifier" Margin="3" Command="{Binding cModifierEquipe3}"  IsEnabled="{Binding Path=ActiverModifClassement, Mode=OneWay}" />
+
                     </Grid>
                 </GroupBox>
+                <StackPanel Orientation="Horizontal" HorizontalAlignment="Center" Grid.Row="3" Grid.Column="1"  Grid.ColumnSpan="2"  Margin="3">
+                    <Button Name="bConforimer" Content="Ajouter Classement" Margin="3" IsEnabled="{Binding Path=ActiverAjoutClassement, Mode=OneWay}"
+           Command="{Binding cAjouterClassement}" />
+                    <Button Name="cModiffier" Content="Confirmer Classement " Margin="3,0,3,2.6" IsEnabled="{Binding Path=ActiverModifClassement, Mode=OneWay}"
+           Command="{Binding cConfirmerClassement}" Height="20" VerticalAlignment="Bottom" />
+                    <Button Name="cSupprimerClass" Content="Supprimer CLassement" Margin="3" IsEnabled="{Binding Path=ActiverModifClassement, Mode=OneWay}"
+           Command="{Binding cSupprimerClassement}" />
+                </StackPanel>
+                <ComboBox Grid.Row="4" Margin="3" 
+                  ItemsSource="{Binding ListEquipe}"
+                  SelectedItem="{Binding EquipeListSelectionne}"
+                  SelectedValuePath="ID" 
+                  DisplayMemberPath="Eq_Nom"/>
 
             </Grid>
         </GroupBox>
         <StackPanel Orientation="Horizontal" HorizontalAlignment="Center" Grid.Row="3" Grid.Column="1"  Grid.ColumnSpan="2"  Margin="3">
-            <Button Name="bConforimer" Content="Ajouter" Margin="3" IsEnabled="{Binding Path=ActiverBcpFiche, Mode=OneWay}"
+            <Button Name="cAjouteurClassement" Content="Confirmer Event" Margin="3" IsEnabled="{Binding Path=ActiverUneFicheDate, Mode=OneWay}"
            Command="{Binding cAjouter}" />
-            <Button Name="CAnnuler" Content="Modifier" Margin="3" IsEnabled="{Binding Path=ActiverBcpFiche, Mode=OneWay}"
+            <Button Name="cSupprimerClassement" Content="Annuler Event" Margin="3" IsEnabled="{Binding Path=ActiverUneFicheDate, Mode=OneWay}"
            Command="{Binding cModifier}" />
         </StackPanel>
     </Grid>

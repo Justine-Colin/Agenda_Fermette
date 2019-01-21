@@ -27,7 +27,6 @@ namespace Encodage_Fermette
             InitializeComponent();
             LocalEvent = new ViewModel.VM_GestionEvenement();
             DataContext = LocalEvent;
-            LocalEvent.DateDebut = new DateTime();
         }
         public void btn_Gestion_Staff(object sender, RoutedEventArgs e)
         {

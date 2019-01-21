@@ -31,7 +31,6 @@ namespace Encodage_Fermette.View
         {
             { if (LocalEventParam.EquipeSelectionne.ID_Equipe !=0 ) 
              LocalEventParam.RemplirdgmembreEquipe(); }
-
         }
     }
 }
