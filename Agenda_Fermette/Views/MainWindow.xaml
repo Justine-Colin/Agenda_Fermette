@@ -9,6 +9,8 @@
         Style="{StaticResource Police}">
     <Window.Resources>
         <ImageBrush x:Key="Steak" ImageSource="C:\Users\Justine\Source\Repos\Agenda_Fermette2\Agenda_Fermette\Resources\Pics\steak.png"/>
+        <ImageBrush x:Key="Gateau" ImageSource="C:\Users\Justine\source\repos\Agenda_Fermette2\Agenda_Fermette\Resources\Pics\gateau.png" Stretch="Uniform"/>
+        <ImageBrush x:Key="Clock" ImageSource="C:\Users\Justine\source\repos\Agenda_Fermette2\Agenda_Fermette\Resources\Pics\clock.png" Stretch="Uniform"/>
     </Window.Resources>
 
     <Grid Margin="0,0,0,0" Background="LightGoldenrodYellow">
@@ -30,15 +32,15 @@
         <!--Anniversaires-->
         <Border Grid.ColumnSpan="2" BorderBrush="MidnightBlue" BorderThickness="2">            
             <ScrollViewer Grid.ColumnSpan="2" VerticalScrollBarVisibility="Hidden">
-                <Grid x:Name="Annif">
+                <Grid x:Name="Annif" Background="{StaticResource Gateau}">
                     <Grid.ColumnDefinitions>
                         <ColumnDefinition/>
                     </Grid.ColumnDefinitions>
                     <Grid.RowDefinitions>
                         <RowDefinition/>
                     </Grid.RowDefinitions>
-                    
-                    <Border Background="MediumPurple">
+
+                    <Border  Background="MediumPurple">
                         <Viewbox>
                             <TextBlock>Anniversaires</TextBlock>
                         </Viewbox>
@@ -155,17 +157,16 @@
                     </Viewbox>
                     <Image Grid.ColumnSpan="2" Grid.Row="1"></Image>
                 </Grid>
-
             </Grid>
         </Border>
 
         <!--Infos importantes-->
-        <Border Grid.ColumnSpan="7" Grid.Row="1" BorderBrush="MidnightBlue" BorderThickness="2" Background="MediumPurple">
+        <Border Grid.ColumnSpan="7" Grid.Row="1" BorderBrush="MidnightBlue" BorderThickness="2" Background="{StaticResource Clock}" >
             <Grid x:Name="Importants">
                 <Grid.RowDefinitions>
                     <RowDefinition/>
                 </Grid.RowDefinitions>
-                <Border Background="MediumPurple">
+                <Border  Background="MediumPurple">
                     <Viewbox>
                         <TextBlock>A venir</TextBlock>
                     </Viewbox>
