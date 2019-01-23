@@ -25,6 +25,7 @@ namespace Encodage_Fermette.ViewModel
             get { return _ActiverUneFiche; }
             set
             {
+
                 AssignerChamp<bool>(ref _ActiverUneFiche, value, System.Reflection.MethodBase.GetCurrentMethod().Name);
                 ActiverBcpFiche = !ActiverUneFiche;
             }
