@@ -7,11 +7,15 @@ using System.Collections.ObjectModel;
 using CoucheClasse;
 using CoucheAcces;
 using CoucheGestion;
+using System.Data;
+using System.Data.SqlClient;
+
 
 namespace Encodage_Fermette.ViewModel
 {
     public class VM_Beneficiaire : BasePropriete
     {
+
         #region Données Ecran 
         private string chConnexion = @"Data Source=(LocalDB)\MSSQLLocalDB;AttachDbFilename='" + System.Windows.Forms.Application.StartupPath + @"\Database1.mdf';Integrated Security=True;Connect Timeout=30";
         private int nAjout;
@@ -82,7 +86,7 @@ namespace Encodage_Fermette.ViewModel
         private ObservableCollection<C_T_Beneficiaire> ChargerBeneficaire(string chConn)
         {
             ObservableCollection<C_T_Beneficiaire> rep = new ObservableCollection<C_T_Beneficiaire>();
-            List<C_T_Beneficiaire> lTmp = new CoucheGestion.G_T_Beneficiaire(chConn).Lire("ID");
+            List<C_T_Beneficiaire> lTmp = new G_T_Beneficiaire(chConn).Lire("ID");
             foreach (C_T_Beneficiaire Tmp in lTmp)
                 rep.Add(Tmp);
             return rep;
@@ -113,7 +117,7 @@ namespace Encodage_Fermette.ViewModel
         {
             if (BeneficiairefSelectionne != null)
             {
-                C_T_Beneficiaire Tmp = new CoucheGestion.G_T_Beneficiaire(chConnexion).Lire_ID(BeneficiairefSelectionne.ID_Beneficiaire);
+                C_T_Beneficiaire Tmp = new G_T_Beneficiaire(chConnexion).Lire_ID(BeneficiairefSelectionne.ID_Beneficiaire);
                 UnBeneficiaire = new VM_Un_Beneficiaire();
                 UnBeneficiaire.ID = Tmp.ID_Beneficiaire;
                 UnBeneficiaire.Pre = Tmp.B_Prenom;

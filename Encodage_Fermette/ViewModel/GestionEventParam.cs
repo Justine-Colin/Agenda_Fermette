@@ -8,6 +8,10 @@ using CoucheAcces;
 using CoucheGestion;
 using System.Collections.ObjectModel;
 using System.Windows;
+using CoucheClasse;
+using CoucheAcces;
+using CoucheGestion;
+
 
 namespace Encodage_Fermette.ViewModel
 {
@@ -157,7 +161,7 @@ namespace Encodage_Fermette.ViewModel
         private ObservableCollection<C_T_Equipe> ChargerEquipe(string chConn)
         {
             ObservableCollection<C_T_Equipe> rep = new ObservableCollection<C_T_Equipe>();
-            List<C_T_Equipe> lTmp = new CoucheGestion.G_T_Equipe(chConn).Lire("");
+            List<C_T_Equipe> lTmp = new G_T_Equipe(chConn).Lire("");
             foreach (C_T_Equipe Tmp in lTmp)
                 rep.Add(Tmp);
             return rep;
@@ -373,7 +377,7 @@ namespace Encodage_Fermette.ViewModel
             if (EquipeSelectionne != null && EquipeSelectionne.ID_Equipe !=0 )
             {
                 bool found = false;
-                List<C_T_Equipe> tmp = new CoucheGestion.G_T_Equipe(chConnexion).Lire("");
+                List<C_T_Equipe> tmp = new G_T_Equipe(chConnexion).Lire("");
                 foreach (C_T_Equipe t in tmp)
                 {
                     if (t.ID_Equipe == EquipeSelectionne.ID_Equipe)

@@ -65,7 +65,7 @@
         </StackPanel>
         <DataGrid Name="dgBeneficiaire" ItemsSource="{Binding Path=BcpBeneficiaire}" Grid.Row="2" VerticalScrollBarVisibility="Visible"
             IsReadOnly="True" AutoGenerateColumns="False" IsEnabled="{Binding Path=ActiverBcpFiche, Mode=OneWay}"
-            SelectedItem="{Binding _BeneficiairefSelectionne, Mode=TwoWay}" SelectionChanged="dgBeneficiaire_SelectionChanged" >
+            SelectedItem="{Binding BeneficiairefSelectionne, Mode=TwoWay}" SelectionChanged="dgBeneficiaire_SelectionChanged" >
             <DataGrid.Columns>
                 <DataGridTextColumn Visibility="Hidden" Binding="{Binding Path=ID_Beneficiaire}" />
                 <DataGridTextColumn Header="Prénom" Binding="{Binding Path=B_Prenom}" Width="*" />

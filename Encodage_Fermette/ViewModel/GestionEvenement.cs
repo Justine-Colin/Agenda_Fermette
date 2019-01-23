@@ -300,7 +300,7 @@ namespace Encodage_Fermette.ViewModel
         public ObservableCollection<C_T_Equipe> ChargerEquipe()
         {
             ObservableCollection<C_T_Equipe> rep = new ObservableCollection<C_T_Equipe>();
-            List<C_T_Equipe> lTmp = new CoucheGestion.G_T_Equipe(chConnexion).Lire("");
+            List<C_T_Equipe> lTmp = new G_T_Equipe(chConnexion).Lire("");
             foreach (C_T_Equipe Tmp in lTmp)
             {
                 C_T_Equipe titretmp = new C_T_Equipe(Tmp.ID_Equipe, Tmp.Eq_Nom);
@@ -714,7 +714,6 @@ namespace Encodage_Fermette.ViewModel
             cSupprimerEvent = new BaseCommande(SupprimerEvent);
             cConfirmerEvent = new BaseCommande(ConfirmerEvent);
             cAnnulerEvent = new BaseCommande(AnnulerEvent);
-
             #endregion
 
         }

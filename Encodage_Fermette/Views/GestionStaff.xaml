@@ -5,7 +5,7 @@
         xmlns:mc="http://schemas.openxmlformats.org/markup-compatibility/2006"
         xmlns:local="clr-namespace:Encodage_Fermette.View"
         mc:Ignorable="d"
-        Title="GestionStaff" Height="477.2" Width="800"
+        Title="GestionStaff" Height="477.2" Width="428.2"
         xmlns:system="clr-namespace:System;assembly=mscorlib"
         >
     <Grid>
@@ -16,7 +16,6 @@
             <RowDefinition Height="Auto" />
         </Grid.RowDefinitions>
         <Grid.ColumnDefinitions>
-            <ColumnDefinition Width="*"/>
             <ColumnDefinition Width="*"/>
         </Grid.ColumnDefinitions>
         <Grid Name="GridStaffData">
@@ -44,7 +43,7 @@
                SelectedDate="{Binding Path=UnStaff.Nai, Mode=TwoWay, StringFormat='dd/mm/yyyy'}" />
 
             <TextBlock Name="tSexe" Text="Sexe" Grid.Row="3" VerticalAlignment="Center" />
-            <ComboBox Grid.Row="3" Grid.Column="1" SelectedValuePath="Tag"
+            <ComboBox Grid.Row="3" Margin="3" Grid.Column="1" SelectedValuePath="Tag"
                   SelectedValue="{Binding UnStaff.Sexe}">
                 <ComboBoxItem Content="Femme">
                     <ComboBoxItem.Tag>
