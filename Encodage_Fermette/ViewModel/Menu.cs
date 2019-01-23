@@ -282,6 +282,7 @@ namespace Encodage_Fermette.ViewModel
         {
             if (MenuSelectionne != null)
             {
+                /*
                 bool found = false;
                 List<C_T_Date> ldatetmp = new CoucheGestion.G_T_Date(chConnexion).Lire("D_Jour");
                 foreach(C_T_Date date in ldatetmp)
@@ -297,6 +298,19 @@ namespace Encodage_Fermette.ViewModel
                     new CoucheGestion.G_T_Menu(chConnexion).Supprimer(MenuSelectionne.ID_Menu);
                     BcpMenu.Remove(MenuSelectionne);
                 }
+                */
+                if (MenuSelectionne != null)
+                {
+                    List<DateTime> LD = new CoucheGestion.G_Verification(chConnexion).Verification_Menu_Date(MenuSelectionne.ID_Menu);
+                    if (LD.Count == 0)
+                    {
+                        new CoucheGestion.G_T_Beneficiaire(chConnexion).Supprimer(MenuSelectionne.ID_Menu);
+                        BcpMenu.Remove(MenuSelectionne);
+                    }
+                    else
+                        System.Windows.MessageBox.Show("Menu non supprimable car utilisé pour une journée ( ex :" + LD[0].ToShortDateString() + " )");
+                }
+
             }
         }
         public void ConfirmerNourriture()

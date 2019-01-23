@@ -127,8 +127,13 @@ namespace Encodage_Fermette.ViewModel
         {
             if (StaffSelectionne != null)
             {
-                new CoucheGestion.G_T_Staff(chConnexion).Supprimer(StaffSelectionne.ID_Staff);
-                BcpStaff.Remove(StaffSelectionne);
+                if (new CoucheGestion.G_Verification(chConnexion).Verification_Staff_Event(StaffSelectionne.ID_Staff).Count == 0)
+                {
+                    new CoucheGestion.G_T_Staff(chConnexion).Supprimer(StaffSelectionne.ID_Staff);
+                    BcpStaff.Remove(StaffSelectionne);
+                }
+                else
+                    System.Windows.MessageBox.Show("Staff non supprimable car utilisé dans Event");
             }
         }
 

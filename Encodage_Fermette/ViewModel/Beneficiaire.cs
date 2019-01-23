@@ -25,7 +25,6 @@ namespace Encodage_Fermette.ViewModel
             get { return _ActiverUneFiche; }
             set
             {
-
                 AssignerChamp<bool>(ref _ActiverUneFiche, value, System.Reflection.MethodBase.GetCurrentMethod().Name);
                 ActiverBcpFiche = !ActiverUneFiche;
             }
@@ -132,8 +131,19 @@ namespace Encodage_Fermette.ViewModel
         {
             if (BeneficiairefSelectionne != null)
             {
-                new CoucheGestion.G_T_Beneficiaire(chConnexion).Supprimer(BeneficiairefSelectionne.ID_Beneficiaire);
-                BcpBeneficiaire.Remove(BeneficiairefSelectionne);
+                if (new CoucheGestion.G_Verification(chConnexion).Verification_Beneficiaire_Event(BeneficiairefSelectionne.ID_Beneficiaire).Count == 0)
+                {
+                    if (new CoucheGestion.G_Verification(chConnexion).Verification_Beneficiaire_Equipe(BeneficiairefSelectionne.ID_Beneficiaire).Count == 0)
+                    {
+                        new CoucheGestion.G_T_Beneficiaire(chConnexion).Supprimer(BeneficiairefSelectionne.ID_Beneficiaire);
+                        BcpBeneficiaire.Remove(BeneficiairefSelectionne);
+                    }
+                    else
+                        System.Windows.MessageBox.Show("Beneficiaire non supprimable car utilisé dans equipe !");
+
+                }
+                else
+                    System.Windows.MessageBox.Show("Beneficiaire non supprimable car utilisé dans event !");
             }
         }
         public void PersonneSelectionnee2UnePersonne()
