@@ -52,8 +52,8 @@
                 <Calendar SelectedDatesChanged="CalendrierDateChanged" Name="Calendrier" IsEnabled="{Binding Path=ActiverCalendrierDate, Mode=OneWay}"/>
             </Viewbox>
             <StackPanel Orientation="Horizontal" Grid.Row="3" HorizontalAlignment="Center" Margin="3">
-                <Button Name="btnEvent" Content="Event" Margin="3,3,3,2.6" IsEnabled="{Binding Path=ActiverCalendrierDate, Mode=OneWay}"
-           Command="{Binding cGestionEvent}" />
+                <Button Name="btnEvent" Content="Event" Margin="3,3,3,0" IsEnabled="{Binding Path=ActiverCalendrierDate, Mode=OneWay}"
+           Command="{Binding cGestionEvent}" Height="20" VerticalAlignment="Top" />
                 <Button Name="btnMenu" Content="Menu" Margin="3" IsEnabled="{Binding Path=ActiverCalendrierDate, Mode=OneWay}"
            Command="{Binding cGestionMenu}" />
             </StackPanel>
@@ -74,12 +74,12 @@
             </DataGrid>
         </GroupBox>
         <StackPanel Orientation="Horizontal" Grid.Row="3" HorizontalAlignment="Center" Margin="3">
-            <Button Name="bAjouter" Content="Ajouter" Margin="3" IsEnabled="{Binding Path=ActiverUneFicheDate, Mode=OneWay}"
-           Command="{Binding cAjouter}" />
+            <Button Name="bAjouter" Content="Ajouter" Margin="3,0,3,2.6" IsEnabled="{Binding Path=ActiverUneFicheDate, Mode=OneWay}"
+           Command="{Binding cAjouterEvent}" Height="20" VerticalAlignment="Bottom" />
             <Button Name="bModifier" Content="Modifier" Margin="3" IsEnabled="{Binding Path=ActiverUneFicheDate, Mode=OneWay}"
-           Command="{Binding cModifier}" />
+           Command="{Binding cModifierEvent}" />
             <Button Name="bSupprimer" Content="Supprimer" Margin="3" IsEnabled="{Binding Path=ActiverUneFicheDate, Mode=OneWay}"
-           Command="{Binding cSupprimer}" />
+           Command="{Binding cSupprimerEvent}" />
         </StackPanel>
         <Grid Name="GridEvenement" Grid.Row="2" Grid.Column="1">
             <Grid.RowDefinitions>
@@ -102,13 +102,13 @@
                   SelectedItem="{Binding TitreSelectionne}"
                   SelectedValuePath="ID" 
                   DisplayMemberPath="Descr"               
-                      IsEnabled="{Binding Path=ActiverUneFicheDate, Mode=OneWay}"
+                      IsEnabled="{Binding Path=ActiverUneFicheEvent, Mode=OneWay}"
                   Text="{Binding UnEvent.Titre, UpdateSourceTrigger=LostFocus}"  Grid.ColumnSpan="2"/>
 
             <TextBlock Name="tPrioriteEvent" Text="Priorite" Grid.Row="1" VerticalAlignment="Center" />
             <ComboBox             Grid.Row="1" Grid.Column="1"
                                   SelectedValuePath="Tag" VerticalAlignment="Center"
-                                  IsEnabled="{Binding Path=ActiverUneFicheDate, Mode=OneWay}"
+                                  IsEnabled="{Binding Path=ActiverUneFicheEvent, Mode=OneWay}"
                   SelectedValue="{Binding UnEvent.Recurrent}">
                 <ComboBoxItem Content="Pas important">
                     <ComboBoxItem.Tag>
@@ -129,7 +129,7 @@
             </ComboBox>
             <TextBlock Name="tRecurrent" Text="Recurrent" Grid.Row="2" VerticalAlignment="Center" />
             <ComboBox 
-                IsEnabled="{Binding Path=ActiverUneFicheDate, Mode=OneWay}"
+                IsEnabled="{Binding Path=ActiverUneFicheEvent, Mode=OneWay}"
                 Grid.Row="2" Grid.Column="1" SelectedValuePath="Tag" VerticalAlignment="Center"
                   SelectedValue="{Binding UnEvent.Recurrent}">
                 <ComboBoxItem Content="Pas-Recurrent">
@@ -146,12 +146,12 @@
 
             <TextBlock Name="tDescriptifEvent" Text="Descriptif" Grid.Row="3" VerticalAlignment="Top" />
             <TextBox 
-                IsEnabled="{Binding Path=ActiverUneFicheDate, Mode=OneWay}"
+                IsEnabled="{Binding Path=ActiverUneFicheEvent, Mode=OneWay}"
                 Name="tbDescpritfEvent"  Grid.Row="3" Grid.Column="1" Margin="3" Text="{Binding Path=UnEvent.Descriptif, Mode=TwoWay}" />
 
             <TextBlock Name="tLieuEvent" Grid.Row="4" Text="Lieu"  VerticalAlignment="Center" />
             <ComboBox 
-                IsEnabled="{Binding Path=ActiverUneFicheDate, Mode=OneWay}"
+                IsEnabled="{Binding Path=ActiverUneFicheEvent, Mode=OneWay}"
                 Grid.Row="4" Grid.Column="1" 
                   ItemsSource="{Binding ListLieux}"
                   SelectedValuePath="ID" 
@@ -166,12 +166,12 @@
                 <TextBlock Name="tHeureDebutEvent" Grid.Row="5" Text="Heure Début"  VerticalAlignment="Center" />
 
                 <wpfTool:TimeSpanUpDown 
-                    IsEnabled="{Binding Path=ActiverUneFicheDate, Mode=OneWay}"
+                    IsEnabled="{Binding Path=ActiverUneFicheEvent, Mode=OneWay}"
                     Grid.Row="5" Grid.Column="1" Value="{Binding UnEvent.HeureDebut, Mode=TwoWay}" Margin="3" Width="130"/>
                 <TextBlock 
                     IsEnabled="{Binding Path=ActiverUneFicheDate, Mode=OneWay}"
                     Name="tHeureFinEvent" Grid.Row="6" Text="Heure Fin"  Margin="10" VerticalAlignment="Center" />
-                <wpfTool:TimeSpanUpDown Grid.Row="5" Grid.Column="1" Value="{Binding UnEvent.HeureFin, Mode=TwoWay}" Margin="3" Width="130"/>
+                <wpfTool:TimeSpanUpDown Grid.Row="5" Grid.Column="1" Value="{Binding UnEvent.HeureFin, Mode=TwoWay}" IsEnabled="{Binding Path=ActiverUneFicheEvent, Mode=OneWay}" Margin="3" Width="130"/>
             </StackPanel>
         </Grid>
         <GroupBox Grid.Row="1" Grid.Column="1" Header="MenuDujour" >
@@ -379,10 +379,10 @@
             </Grid>
         </GroupBox>
         <StackPanel Orientation="Horizontal" HorizontalAlignment="Center" Grid.Row="3" Grid.Column="1"  Grid.ColumnSpan="2"  Margin="3">
-            <Button Name="cAjouteurClassement" Content="Confirmer Event" Margin="3" IsEnabled="{Binding Path=ActiverUneFicheDate, Mode=OneWay}"
-           Command="{Binding cAjouter}" />
-            <Button Name="cSupprimerClassement" Content="Annuler Event" Margin="3" IsEnabled="{Binding Path=ActiverUneFicheDate, Mode=OneWay}"
-           Command="{Binding cModifier}" />
+            <Button Name="cAjouteurClassement" Content="Confirmer Event" Margin="3" IsEnabled="{Binding Path=ActiverUneFicheEvent, Mode=OneWay}"
+           Command="{Binding cConfirmerEvent}" />
+            <Button Name="cSupprimerClassement" Content="Annuler Event" Margin="3" 
+           Command="{Binding cAnnulerEvent}" />
         </StackPanel>
     </Grid>
 </Window>

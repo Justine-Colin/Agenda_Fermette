@@ -16,10 +16,24 @@ namespace Encodage_Fermette.ViewModel
 {
     public class VM_GestionEvenement : BasePropriete
     {
+        private DateTime datetraitement;
+        private int IDDate;
+
         private string chConnexion = @"Data Source=(LocalDB)\MSSQLLocalDB;AttachDbFilename='" + System.Windows.Forms.Application.StartupPath + @"\Database1.mdf';Integrated Security=True;Connect Timeout=30";
         int ajoutclassement;
         int najoutevent;
         int ajoutmenu;
+
+        private bool _ActiverUneFicheEvent;
+        public bool ActiverUneFicheEvent
+        {
+            get { return _ActiverUneFicheEvent; }
+            set
+            {
+                AssignerChamp<bool>(ref _ActiverUneFicheEvent, value, System.Reflection.MethodBase.GetCurrentMethod().Name);
+            }
+        }
+
         private bool _ActiverUneFicheDate;
         public bool ActiverUneFicheDate
         {
@@ -27,7 +41,6 @@ namespace Encodage_Fermette.ViewModel
             set
             {
                 AssignerChamp<bool>(ref _ActiverUneFicheDate, value, System.Reflection.MethodBase.GetCurrentMethod().Name);
-                ActiverCalendrierDate = !ActiverUneFicheDate;
             }
         }
         public bool _ActiverFicheMenu;
@@ -45,7 +58,7 @@ namespace Encodage_Fermette.ViewModel
         {
             get { return _ActiverCalendrierDate; }
             set
-            {AssignerChamp<bool>(ref _ActiverCalendrierDate, value, System.Reflection.MethodBase.GetCurrentMethod().Name);}
+            { AssignerChamp<bool>(ref _ActiverCalendrierDate, value, System.Reflection.MethodBase.GetCurrentMethod().Name); }
         }
         private bool _ActiverAjoutClassement;
         public bool ActiverAjoutClassement
@@ -228,22 +241,42 @@ namespace Encodage_Fermette.ViewModel
             set { AssignerChamp<C_T_Equipe>(ref _EquipeListSelectionne, value, System.Reflection.MethodBase.GetCurrentMethod().Name); }
         }
 
+        public void ObtenirIdDate()
+        {
+            var date = datetraitement.Date;
 
+            List<C_T_Date> listdate = new CoucheGestion.G_T_Date(chConnexion).Lire("");
+            foreach (C_T_Date d in listdate)
+            {
+                if (d.D_Date == date)
+                {
+                    IDDate = d.ID_Date;
+                    System.Windows.MessageBox.Show("Date trouvé" + IDDate.ToString());
+                    break;
+                }
+                else
+                {
+                    System.Windows.MessageBox.Show(" Pas de date trouvée ");
+                    break;
+                }
+            }
 
+        }
         public void ChargementEvenementDujour(DateTime Datetime)
         {
-            var date = Datetime.Date;
+            datetraitement = Datetime;
+             var date = Datetime.Date;
+            // il nous faut l'id date 
 
             ListEvent = new CoucheGestion.G_Vue_Event(chConnexion).Lire_Event_Dujour(date);
-            if (ListEvent.Count == 0)
-                najoutevent = -1; // on ajout un event car il n'y en a pas
             MenuDuJour = new CoucheGestion.G_Vue_Menu(chConnexion).Lire_Menu_DuJour(date);
-            if (MenuDuJour.ID_Menu <1)
+
+            if (MenuDuJour.ID_Menu < 1)
             {
                 ajoutmenu = -1; // on ajout un menu car il n'y en a pas
             }
             else
-            ajoutmenu = 1; // on modif un event car il n'y en a pas
+                ajoutmenu = 1; // on modif un event car il n'y en a pas
 
         }
         public void ChargementEvenement()
@@ -384,6 +417,13 @@ namespace Encodage_Fermette.ViewModel
         public BaseCommande cGestionMenu { get; set; }
         public BaseCommande cGestionEvent { get; set; }
 
+        public BaseCommande cAjouterEvent { get; set; }
+        public BaseCommande cModifierEvent { get; set; }
+        public BaseCommande cSupprimerEvent { get; set; }
+        public BaseCommande cConfirmerEvent { get; set; }
+        public BaseCommande cAnnulerEvent { get; set; }
+
+
         public void AjouterStaffParticipant()
         {
             if (StaffSelectionneList != null) // on va envoyer dans l'équipe
@@ -406,7 +446,7 @@ namespace Encodage_Fermette.ViewModel
                 {
                     if (t.ID_Event == UnEvent.ID_Event && t.ID_Staff == StaffParticipantSelectionne.ID_Personne1)
                     {
-                         new CoucheGestion.G_T_Li_Eq_Benef(chConnexion).Supprimer(t.ID_Li_Staff);
+                        new CoucheGestion.G_T_Li_Eq_Benef(chConnexion).Supprimer(t.ID_Li_Staff);
                         ListStaffParticipant.Remove(StaffParticipantSelectionne);
                         System.Windows.MessageBox.Show("Liaison supprimé");
                         StaffParticipantSelectionne = new C_Personne();
@@ -504,15 +544,15 @@ namespace Encodage_Fermette.ViewModel
         {
             if (ajoutclassement > 0) //modif
             {
-                
-                int i  = new CoucheGestion.G_T_Classement(chConnexion).Modifier(UnEvent.ID_Classement, UnEvent.ID_Event, Equipe1Selectionne.ID_Equipe, Equipe2Selectionne.ID_Equipe, Equipe3Selectionne.ID_Equipe);
+
+                int i = new CoucheGestion.G_T_Classement(chConnexion).Modifier(UnEvent.ID_Classement, UnEvent.ID_Event, Equipe1Selectionne.ID_Equipe, Equipe2Selectionne.ID_Equipe, Equipe3Selectionne.ID_Equipe);
                 ActiverAjoutClassement = false;
                 ActiverModifClassement = false;
                 System.Windows.MessageBox.Show("Classement Modifié !" + UnEvent.ID_Classement.ToString());
             }
             else
             {
-                UnEvent.ID_Classement = new CoucheGestion.G_T_Classement(chConnexion).Ajouter( UnEvent.ID_Event, Equipe1Selectionne.ID_Equipe, Equipe2Selectionne.ID_Equipe, Equipe3Selectionne.ID_Equipe);
+                UnEvent.ID_Classement = new CoucheGestion.G_T_Classement(chConnexion).Ajouter(UnEvent.ID_Event, Equipe1Selectionne.ID_Equipe, Equipe2Selectionne.ID_Equipe, Equipe3Selectionne.ID_Equipe);
                 System.Windows.MessageBox.Show("Classement Ajouté !");
             }
         }
@@ -529,23 +569,103 @@ namespace Encodage_Fermette.ViewModel
         }
         public void ModifierMenu()
         {
-            if(ajoutmenu == 1)
+            if (ajoutmenu == 1)
             {
 
             }
         }
         public void SupprimerMenu()
         {
+            if (MenuSelectionne != null)
+            {
 
+            }
         }
         public void GestionEvent()
         {
+            ObtenirIdDate();
             ActiverUneFicheDate = true;
         }
         public void GestionMenu()
         {
+            ObtenirIdDate();
             ActiverFicheMenu = true;
         }
+        public void AjouterEvent()
+        {
+            UnEvent = new VM_Un_Event();
+            najoutevent = -1;
+            ActiverUneFicheEvent = true;
+            ActiverUneFicheDate = false;
+
+        }
+        public void ModifierEvent()
+        {
+            if (EventSelectionne != null)
+            {
+                ActiverUneFicheEvent = true;
+                ActiverUneFicheDate = false;
+            }
+            else
+                System.Windows.MessageBox.Show("Pas d'event a modifier");
+        }
+        public void SupprimerEvent()
+        {
+            if (EventSelectionne != null)
+            {
+                // il nous faut supprimer la liaison 
+                List<C_T_Li_Event> Lev =  new CoucheGestion.G_T_Li_Event(chConnexion).Lire("");
+                foreach( C_T_Li_Event l in Lev)
+                    if ( l.ID_Event ==  EventSelectionne.ID_Ev && l.ID_Date == IDDate  )
+                new CoucheGestion.G_T_Event(chConnexion).Supprimer(EventSelectionne.ID_Ev);
+                ListEvent.Remove(EventSelectionne);
+            }
+            else
+                System.Windows.MessageBox.Show("Pas d'event a supprimer");
+        }
+        public void ConfirmerEvent()
+        {
+            if (najoutevent == -1) // ajouter
+            {
+                System.Windows.MessageBox.Show("Event Ajouté !");
+                int id;
+                id = new G_T_Event(chConnexion).Ajouter(UnEvent.ID_Titre, UnEvent.Priorite, UnEvent.Recurrent, UnEvent.Descriptif, UnEvent.ID_Lieu, UnEvent.HeureDebut, UnEvent.HeureFin);
+                C_Vue_Event evenement = new C_Vue_Event();
+                evenement.ID_Ev = UnEvent.ID_Event;
+                evenement.Ti_Descr = UnEvent.Descriptif;
+                evenement.Li_Descr = UnEvent.Lieu;
+                evenement.Ev_HeureDebut = UnEvent.HeureDebut;
+                evenement.Ev_HeureFin = UnEvent.HeureFin;
+
+                ListEvent.Add(evenement);
+            }
+            else
+            {
+                System.Windows.MessageBox.Show("Event Modifié !");
+                new CoucheGestion.G_T_Event(chConnexion).Modifier(UnEvent.ID_Event, UnEvent.ID_Titre, UnEvent.Priorite, UnEvent.Recurrent, UnEvent.Descriptif, UnEvent.ID_Lieu, UnEvent.HeureDebut, UnEvent.HeureFin);
+                C_Vue_Event evenement = new C_Vue_Event();
+                evenement.ID_Ev = UnEvent.ID_Event;
+                evenement.Ti_Descr = UnEvent.Descriptif;
+                evenement.Li_Descr = UnEvent.Lieu;
+                evenement.Ev_HeureDebut = UnEvent.HeureDebut;
+                evenement.Ev_HeureFin = UnEvent.HeureFin;
+                ListEvent[najoutevent] = evenement;
+
+            }
+            ActiverUneFicheEvent = false;
+            ActiverModifClassement = false;
+            ActiverAjoutClassement = false;
+            ActiverUneFicheEvent = true;
+        }
+        public void AnnulerEvent()
+        {
+            ActiverUneFicheEvent = false;
+            ActiverModifClassement = false;
+            ActiverAjoutClassement = false;
+            ActiverUneFicheEvent = true;
+            UnEvent = new VM_Un_Event();
+        }
+
         public VM_GestionEvenement()
         {
             UnEvent = new VM_Un_Event();
@@ -561,12 +681,15 @@ namespace Encodage_Fermette.ViewModel
             Equipe2Selectionne = new C_T_Equipe(0, "pas d'equipe");
             Equipe3Selectionne = new C_T_Equipe(0, "pas d'equipe");
 
+            #region Chargement Liste
             ListeTitre = ChargerTitres(chConnexion);
             ListLieux = ChargerLieux();
             ListMenu = ChargerMenu();
             ListBeneficiaire = ChargerBeneficiaires();
             ListStaff = ChargerStaffs();
+            #endregion
 
+            #region Commandes
             cAjouterStaffParticipant = new BaseCommande(AjouterStaffParticipant);
             cSupprimerStaffParticipan = new BaseCommande(SupprimerStaffParticipan);
             cAjouterBeneficiaireParticipant = new BaseCommande(AjouterBeneficiaireParticipant);
@@ -585,8 +708,17 @@ namespace Encodage_Fermette.ViewModel
 
             cGestionEvent = new BaseCommande(GestionEvent);
             cGestionMenu = new BaseCommande(GestionMenu);
+
+            cAjouterEvent = new BaseCommande(AjouterEvent);
+            cModifierEvent = new BaseCommande(ModifierEvent);
+            cSupprimerEvent = new BaseCommande(SupprimerEvent);
+            cConfirmerEvent = new BaseCommande(ConfirmerEvent);
+            cAnnulerEvent = new BaseCommande(AnnulerEvent);
+
+            #endregion
+
         }
-}
+    }
     public class VM_Un_Event : BasePropriete
     {
         private int _ID_Date,_ID_Event, _ID_Titre, _ID_Lieu, _Priorite,_ID_Classement;
