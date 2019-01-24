@@ -43,10 +43,10 @@ namespace Encodage_Fermette.ViewModel
                 AssignerChamp<bool>(ref _ActiverUneFicheDate, value, System.Reflection.MethodBase.GetCurrentMethod().Name);
             }
         }
-        public bool _ActiverFicheMenu;
+        private bool _ActiverFicheMenu;
         public bool ActiverFicheMenu
         {
-            get { return _ActiverUneFicheDate; }
+            get { return _ActiverFicheMenu; }
             set
             {
                 AssignerChamp<bool>(ref _ActiverFicheMenu, value, System.Reflection.MethodBase.GetCurrentMethod().Name);
@@ -60,12 +60,19 @@ namespace Encodage_Fermette.ViewModel
             set
             { AssignerChamp<bool>(ref _ActiverCalendrierDate, value, System.Reflection.MethodBase.GetCurrentMethod().Name); }
         }
-        private bool _ActiverAjoutClassement;
-        public bool ActiverAjoutClassement
+        private bool _ActiverbtnAjoutClassement;
+        public bool ActiverbtnAjoutClassement
         {
-            get { return _ActiverAjoutClassement; }
-            set { AssignerChamp<bool>(ref _ActiverAjoutClassement, value, System.Reflection.MethodBase.GetCurrentMethod().Name); }
+            get { return _ActiverbtnAjoutClassement; }
+            set { AssignerChamp<bool>(ref _ActiverbtnAjoutClassement, value, System.Reflection.MethodBase.GetCurrentMethod().Name); }
         }
+        private bool _ActiverbtnModifClassement;
+        public bool ActiverbtnModifClassement
+        {
+            get { return _ActiverbtnModifClassement; }
+            set { AssignerChamp<bool>(ref _ActiverbtnModifClassement, value, System.Reflection.MethodBase.GetCurrentMethod().Name); }
+        }
+
         private bool _ActiverModifClassement;
         public bool ActiverModifClassement
         {
@@ -128,6 +135,50 @@ namespace Encodage_Fermette.ViewModel
             get { return _LieuxSelectionne; }
             set { AssignerChamp<C_Vue_ID_Descr>(ref _LieuxSelectionne, value, System.Reflection.MethodBase.GetCurrentMethod().Name); }
 
+        }
+        #endregion
+
+        #region Classement 
+        //Liste Classement 
+        private VM_Un_Classement _UnClassement;
+        public VM_Un_Classement UnClassement
+        {
+            get { return _UnClassement; }
+            set { AssignerChamp<VM_Un_Classement> (ref _UnClassement, value, System.Reflection.MethodBase.GetCurrentMethod().Name); }
+        }
+
+
+        private ObservableCollection<C_T_Equipe> _ListEquipe;
+        public ObservableCollection<C_T_Equipe> ListEquipe
+        {
+            get { return _ListEquipe; }
+            set { AssignerChamp<ObservableCollection<C_T_Equipe>>(ref _ListEquipe, value, System.Reflection.MethodBase.GetCurrentMethod().Name); }
+        }
+        /*
+        private C_T_Equipe _Equipe1Selectionne;
+        public C_T_Equipe Equipe1Selectionne
+        {
+            get { return _Equipe1Selectionne; }
+            set { AssignerChamp<C_T_Equipe>(ref _Equipe1Selectionne, value, System.Reflection.MethodBase.GetCurrentMethod().Name); }
+        }
+        private C_T_Equipe _Equipe2Selectionne;
+        public C_T_Equipe Equipe2Selectionne
+        {
+            get { return _Equipe2Selectionne; }
+            set { AssignerChamp<C_T_Equipe>(ref _Equipe2Selectionne, value, System.Reflection.MethodBase.GetCurrentMethod().Name); }
+        }
+        private C_T_Equipe _Equipe3Selectionne;
+        public C_T_Equipe Equipe3Selectionne
+        {
+            get { return _Equipe3Selectionne; }
+            set { AssignerChamp<C_T_Equipe>(ref _Equipe3Selectionne, value, System.Reflection.MethodBase.GetCurrentMethod().Name); }
+        }
+        */
+        private C_T_Equipe _EquipeListSelectionne;
+        public C_T_Equipe EquipeListSelectionne
+        {
+            get { return _EquipeListSelectionne; }
+            set { AssignerChamp<C_T_Equipe>(ref _EquipeListSelectionne, value, System.Reflection.MethodBase.GetCurrentMethod().Name); }
         }
 
         #endregion
@@ -220,38 +271,6 @@ namespace Encodage_Fermette.ViewModel
             set { AssignerChamp<C_Personne>(ref _StaffParticipantSelectionne, value, System.Reflection.MethodBase.GetCurrentMethod().Name); }
         }
 
-        //Liste Classement 
-        private ObservableCollection<C_T_Equipe> _ListEquipe;
-        public ObservableCollection<C_T_Equipe> ListEquipe
-        {
-            get { return _ListEquipe; }
-            set { AssignerChamp<ObservableCollection<C_T_Equipe>>(ref _ListEquipe, value, System.Reflection.MethodBase.GetCurrentMethod().Name); }
-        }
-        private C_T_Equipe _Equipe1Selectionne;
-        public C_T_Equipe Equipe1Selectionne
-        {
-            get { return _Equipe1Selectionne; }
-            set { AssignerChamp<C_T_Equipe>(ref _Equipe1Selectionne, value, System.Reflection.MethodBase.GetCurrentMethod().Name); }
-        }
-        private C_T_Equipe _Equipe2Selectionne;
-        public C_T_Equipe Equipe2Selectionne
-        {
-            get { return _Equipe2Selectionne; }
-            set { AssignerChamp<C_T_Equipe>(ref _Equipe2Selectionne, value, System.Reflection.MethodBase.GetCurrentMethod().Name); }
-        }
-        private C_T_Equipe _Equipe3Selectionne;
-        public C_T_Equipe Equipe3Selectionne
-        {
-            get { return _Equipe3Selectionne; }
-            set { AssignerChamp<C_T_Equipe>(ref _Equipe3Selectionne, value, System.Reflection.MethodBase.GetCurrentMethod().Name); }
-        }
-        private C_T_Equipe _EquipeListSelectionne;
-        public C_T_Equipe EquipeListSelectionne
-        {
-            get { return _EquipeListSelectionne; }
-            set { AssignerChamp<C_T_Equipe>(ref _EquipeListSelectionne, value, System.Reflection.MethodBase.GetCurrentMethod().Name); }
-        }
-
         public BaseCommande cAjouterStaffParticipant { get; set; }
         public BaseCommande cSupprimerStaffParticipan { get; set; }
         public BaseCommande cAjouterBeneficiaireParticipant { get; set; }
@@ -262,6 +281,7 @@ namespace Encodage_Fermette.ViewModel
         public BaseCommande cModifierEquipe3 { get; set; }
 
         public BaseCommande cAjouterClassement { get; set; }
+        public BaseCommande cModifierClassement { get; set; }
         public BaseCommande cConfirmerClassement { get; set; }
         public BaseCommande cSupprimerClassement { get; set; }
 
@@ -278,29 +298,7 @@ namespace Encodage_Fermette.ViewModel
         public BaseCommande cAnnulerEvent { get; set; }
 
         #region Methodes 
-
-        public void ObtenirIdDate()
-        {
-            var date = datetraitement.Date;
-
-            List<C_T_Date> listdate = new CoucheGestion.G_T_Date(chConnexion).Lire("");
-            foreach (C_T_Date d in listdate)
-            {
-                if (d.D_Date == date)
-                {
-                    IDDate = d.ID_Date;
-                    System.Windows.MessageBox.Show("Date trouvé" + IDDate.ToString());
-                    break;
-                }
-                else
-                {
-                    System.Windows.MessageBox.Show(" Pas de date trouvée ");
-                    break;
-                }
-            }
-
-        }
-
+        #region Chargement Données
         public void ChargementEvenementDujour(DateTime Datetime)
         {
             datetraitement = Datetime;
@@ -317,16 +315,10 @@ namespace Encodage_Fermette.ViewModel
             MenuDuJour.P_Descr = tmpmenu.P_Descr;
             MenuDuJour.D_Descr = tmpmenu.D_Descr;
             MenuDuJour.C_Descr = tmpmenu.C_Descr;
-
-            if (MenuDuJour.ID_Menu == 0)
-            {
-                ajoutmenu = -1; // on ajout un menu car il n'y en a pas
-            }
-            else
-                ajoutmenu = 1; // on modif un event car il n'y en a pas
         }
         public void ChargementEvenement()
         {
+            // on charge l'event
             C_T_Event tmp = new CoucheGestion.G_T_Event(chConnexion).Lire_ID(EventSelectionne.ID_Ev);
             UnEvent.ID_Event = EventSelectionne.ID_Ev;
             UnEvent.Lieu = EventSelectionne.Li_Descr;
@@ -338,7 +330,6 @@ namespace Encodage_Fermette.ViewModel
             UnEvent.HeureDebut = EventSelectionne.Ev_HeureDebut;
             UnEvent.HeureFin = EventSelectionne.Ev_HeureFin;
 
-            ListEquipe = ChargerEquipe();
             ListStaffParticipant = ChargerStaffsParticipants(UnEvent.ID_Event);
             ListBenefiaireParticipant = ChargerBeneficiairesParticipants(UnEvent.ID_Event);
             ChargerClassement(UnEvent.ID_Event);
@@ -383,23 +374,28 @@ namespace Encodage_Fermette.ViewModel
         {
             C_Vue_Classement Class = new CoucheGestion.G_Vue_Event(chConnexion).Lire_Classement_Nom_Equipe(idev);
 
-            if (Class != null)
+            if (Class.ID_Classement !=0) // il y a un classement 
             {
                 ajoutclassement = 1; // va permettre la modif
                 System.Windows.MessageBox.Show(Class.Eq1_Nom);
                 
-                UnEvent.ID_Classement = Class.ID_Classement;
-                UnEvent.Equipe1 = Class.Eq1_Nom;
-                
-                UnEvent.Equipe2 = Class.Eq2_Nom;
-                UnEvent.Equipe3 = Class.Eq3_Nom;
-                ActiverModifClassement = true;
-                ActiverAjoutClassement = false;
+                UnClassement.ID_Classement = Class.ID_Classement;
+                UnClassement.Equipe1 = Class.Eq1_Nom;
+                UnClassement.Equipe2 = Class.Eq2_Nom;
+                UnClassement.Equipe3 = Class.Eq3_Nom;
+
+                UnClassement.ID_Equipe1 = Class.ID_Eq1;
+                UnClassement.ID_Equipe2 = Class.ID_Eq2;
+                UnClassement.ID_Equipe3 = Class.ID_Eq3;
+
+                ActiverbtnModifClassement = true;
+                ActiverbtnAjoutClassement = false;
             }
             else
             {
-                ActiverModifClassement = false;
-                ActiverAjoutClassement = true;
+                UnClassement = new VM_Un_Classement();
+                ActiverbtnModifClassement = false;
+                ActiverbtnAjoutClassement = true;
             }
 
         }
@@ -449,15 +445,15 @@ namespace Encodage_Fermette.ViewModel
                 rep.Add(Tmp);
             return rep;
         }
+        #endregion
 
+        #region Bouton
         public void GestionEvent()
         {
-            ObtenirIdDate();
             ActiverUneFicheDate = true;
         }
         public void GestionMenu()
         {
-            ObtenirIdDate();
             ActiverFicheMenu = true;
         }
 
@@ -534,72 +530,86 @@ namespace Encodage_Fermette.ViewModel
 
         public void ModifierEquipe1()
         {
-            if (UnEvent.ID_Classement != 0 && EquipeListSelectionne != null)
+            if ( EquipeListSelectionne != null)
             {
-                System.Windows.MessageBox.Show("Equipe 1 modifié !");
-                Equipe1Selectionne = EquipeListSelectionne;
-                UnEvent.Equipe1 = Equipe1Selectionne.Eq_Nom;
+                // permet d'enregister l'équipe dans une variable
 
+                UnClassement.ID_Equipe1 = EquipeListSelectionne.ID_Equipe;
+                UnClassement.Equipe1 = EquipeListSelectionne.Eq_Nom;
             }
             else
             {
-                System.Windows.MessageBox.Show("Classement supprimé ou il faut selectionner une equipe !");
+                System.Windows.MessageBox.Show("Il faut selectionner une equipe !");
             }
         }
         public void ModifierEquipe2()
         {
-            if (UnEvent.ID_Classement != 0 && EquipeListSelectionne != null)
+            if ( EquipeListSelectionne != null)
             {
-                System.Windows.MessageBox.Show("Equipe 2  modifié !");
-                Equipe2Selectionne = EquipeListSelectionne;
-                UnEvent.Equipe2 = Equipe2Selectionne.Eq_Nom;
+                // permet d'enregister l'équipe dans une variable
+
+                UnClassement.ID_Equipe2 = EquipeListSelectionne.ID_Equipe;
+                UnClassement.Equipe2 = EquipeListSelectionne.Eq_Nom;
             }
             else
             {
-                System.Windows.MessageBox.Show("Classement supprimé ou il faut selectionner une equipe !");
+                System.Windows.MessageBox.Show("Il faut selectionner une equipe !");
             }
         }
         public void ModifierEquipe3()
         {
-            if (UnEvent.ID_Classement != 0 && EquipeListSelectionne != null)
+            if ( EquipeListSelectionne != null)
             {
-                System.Windows.MessageBox.Show("Equipe 3 modifié !");
-                Equipe3Selectionne = EquipeListSelectionne;
-                UnEvent.Equipe3 = Equipe3Selectionne.Eq_Nom;
+                // permet d'enregister l'équipe dans une variable
+
+                UnClassement.ID_Equipe3 = EquipeListSelectionne.ID_Equipe;
+                UnClassement.Equipe3 = EquipeListSelectionne.Eq_Nom;
             }
             else
             {
-                System.Windows.MessageBox.Show("Classement supprimé ou il faut selectionner une equipe !");
+                System.Windows.MessageBox.Show("Il faut selectionner une equipe !");
             }
         }
+
         public void AjouterClassement()
         {
-            ajoutclassement = -1;
+            if (UnEvent.ID_Event > 0) // il nous faut obligatoirement un idevent
+            {
+                ajoutclassement = -1;
+                ActiverbtnAjoutClassement = false;
+                ActiverModifClassement = true;
+            }
             // a tester 
+        }
+        public void ModifierClassement()
+        {
+            ActiverbtnModifClassement = false;
+            ActiverModifClassement = true;
         }
         public void ConfirmerClassement()
         {
             if (ajoutclassement > 0) //modif
             {
-
-                int i = new CoucheGestion.G_T_Classement(chConnexion).Modifier(UnEvent.ID_Classement, UnEvent.ID_Event, Equipe1Selectionne.ID_Equipe, Equipe2Selectionne.ID_Equipe, Equipe3Selectionne.ID_Equipe);
-                ActiverAjoutClassement = false;
+                new CoucheGestion.G_T_Classement(chConnexion).Modifier(UnClassement.ID_Classement, UnEvent.ID_Event, UnClassement.ID_Equipe1, UnClassement.ID_Equipe2, UnClassement.ID_Equipe3);
+                ActiverbtnAjoutClassement = false;
                 ActiverModifClassement = false;
-                System.Windows.MessageBox.Show("Classement Modifié !" + UnEvent.ID_Classement.ToString());
+                System.Windows.MessageBox.Show("Classement Modifié !" + UnClassement.ID_Classement.ToString());
             }
             else
             {
-                UnEvent.ID_Classement = new CoucheGestion.G_T_Classement(chConnexion).Ajouter(UnEvent.ID_Event, Equipe1Selectionne.ID_Equipe, Equipe2Selectionne.ID_Equipe, Equipe3Selectionne.ID_Equipe);
+                UnClassement.ID_Classement = new CoucheGestion.G_T_Classement(chConnexion).Ajouter(UnEvent.ID_Event, UnClassement.ID_Equipe1, UnClassement.ID_Equipe2, UnClassement.ID_Equipe3);
                 System.Windows.MessageBox.Show("Classement Ajouté !");
             }
         }
         public void SupprimerClassement()
         {
-            if (UnEvent.ID_Classement == 0)
+            if (UnClassement.ID_Classement != 0)
             {
-                UnEvent.ID_Classement = new CoucheGestion.G_T_Classement(chConnexion).Supprimer(UnEvent.ID_Classement);
-                UnEvent.ID_Classement = 0;
-                System.Windows.MessageBox.Show("Classement supprimer !");
+                new CoucheGestion.G_T_Classement(chConnexion).Supprimer(UnClassement.ID_Classement);
+                UnClassement = new VM_Un_Classement();
+                ActiverModifClassement = false;
+                ActiverbtnAjoutClassement = true;
+                System.Windows.MessageBox.Show("Classement supprimé !");
             }
             else
                 System.Windows.MessageBox.Show("Pas de classement a supprimer!");
@@ -607,22 +617,68 @@ namespace Encodage_Fermette.ViewModel
 
         public void ModifierMenu()
         {
-            if (ajoutmenu == 1)
+            if (MenuSelectionne != null)
             {
+                if (MenuDuJour.ID_Menu == 0) // ajout du menu a la date
+                {
+                    // on ajout un menu
+                    // il faut vérifier que le jour existe via son id
+                    if (MenuDuJour.ID_Date == 0)
+                    {
+                        // On doit Créer le jour avec la table date
+                        // on renvoit le nouvel id 
+                        MenuDuJour.ID_Date = new G_T_Date(chConnexion).Ajouter(MenuDuJour.ID_Menu);
+
+                    }
+                    else
+                    {
+                        // la date existe il faut créer le menu et modifier la date
+                        new G_T_Date(chConnexion).Modifier(MenuDuJour.ID_Date, datetraitement, MenuDuJour.ID_Menu);
+                    }
+                }
+                else 
+                    // il n'existe un menu du jour, on modifier les id de la date
+                    new G_T_Date(chConnexion).Modifier(MenuDuJour.ID_Date, datetraitement, MenuSelectionne.ID_Menu);
+                System.Windows.MessageBox.Show(datetraitement.ToShortDateString());
+
+
+ //on recharge le menu 
+MenuDuJour.E_Descr = MenuSelectionne.E_Descr;
+MenuDuJour.P_Descr = MenuSelectionne.P_Descr;
+MenuDuJour.D_Descr = MenuSelectionne.D_Descr;
+MenuDuJour.C_Descr = MenuSelectionne.C_Descr; 
 
             }
+            else
+                System.Windows.MessageBox.Show("Pas de Menu sélectionné ");
+            // on modif un event car il n'y en a pas
+
         }
         public void SupprimerMenu()
         {
-            if (MenuSelectionne != null)
+            if (MenuDuJour.ID_Menu != 0)
             {
+                new G_T_Date(chConnexion).Supprimer(datetraitement);
+                System.Windows.MessageBox.Show("Menu supprimé");
+                MenuDuJour.ID_Menu = 0;
+                MenuDuJour.E_Descr = "";
+                MenuDuJour.P_Descr = "";
+                MenuDuJour.D_Descr = "";
+                MenuDuJour.C_Descr = "";
 
             }
+            else
+                System.Windows.MessageBox.Show("Pas de Menu supprimable ");
         }
 
         public void AjouterEvent()
         {
+            // on s'assure de vider tout nos champs au préalable
             UnEvent = new VM_Un_Event();
+            UnClassement = new VM_Un_Classement();
+            ListStaffParticipant = new ObservableCollection<C_Personne>();
+            ListBenefiaireParticipant = new ObservableCollection<C_Personne>();
+
             najoutevent = -1;
             ActiverUneFicheEvent = true;
             ActiverUneFicheDate = false;
@@ -683,28 +739,30 @@ namespace Encodage_Fermette.ViewModel
             }
             ActiverUneFicheEvent = false;
             ActiverModifClassement = false;
-            ActiverAjoutClassement = false;
+            ActiverbtnAjoutClassement = false;
             ActiverUneFicheEvent = true;
         }
         public void AnnulerEvent()
         {
             ActiverUneFicheEvent = false;
             ActiverModifClassement = false;
-            ActiverAjoutClassement = false;
+            ActiverbtnAjoutClassement = false;
             ActiverUneFicheEvent = true;
             UnEvent = new VM_Un_Event();
         }
 
         #endregion
+        #endregion
 
         #region Constructeur
         public VM_GestionEvenement()
         {
-            
             UnEvent = new VM_Un_Event();
             MenuDuJour = new VM_Un_Menu();
+            UnClassement = new VM_Un_Classement();
             ActiverUneFicheDate = false;
             ActiverCalendrierDate = true;
+            ListEquipe = ChargerEquipe();
 
             StaffSelectionneList = new C_Personne();
             StaffParticipantSelectionne = new C_Personne();
@@ -726,6 +784,7 @@ namespace Encodage_Fermette.ViewModel
             cSupprimerBeneficiaireParticipan = new BaseCommande(SupprimerBeneficiaireParticipan);
 
             cAjouterClassement = new BaseCommande(AjouterClassement);
+            cModifierClassement = new BaseCommande(ModifierClassement);
             cConfirmerClassement = new BaseCommande(ConfirmerClassement);
             cSupprimerClassement = new BaseCommande(SupprimerClassement);
 
@@ -787,12 +846,10 @@ namespace Encodage_Fermette.ViewModel
     }
     public class VM_Un_Event : BasePropriete
     {
-        private int _ID_Date,_ID_Event, _ID_Titre, _ID_Lieu, _Priorite,_ID_Classement;
+        private int _ID_Date, _ID_Event, _ID_Titre, _ID_Lieu, _Priorite;
         private string _Titre, _Descriptif, _Lieu;
         private bool _Recurrent;
         private TimeSpan _HeureDebut, _HeureFin;
-        private string _Equipe1, _Equipe2, _Equipe3;
-
         public int ID_Date
         {
             get { return _ID_Date; }
@@ -817,11 +874,6 @@ namespace Encodage_Fermette.ViewModel
         {
             get { return _Priorite; }
             set { AssignerChamp<int>(ref _Priorite, value, System.Reflection.MethodBase.GetCurrentMethod().Name); }
-        }
-        public int ID_Classement
-        {
-            get { return _ID_Classement; }
-            set { AssignerChamp<int>(ref _ID_Classement, value, System.Reflection.MethodBase.GetCurrentMethod().Name); }
         }
         public string Titre
         {
@@ -852,6 +904,32 @@ namespace Encodage_Fermette.ViewModel
         {
             get { return _HeureFin; }
             set { AssignerChamp<TimeSpan>(ref _HeureFin, value, System.Reflection.MethodBase.GetCurrentMethod().Name); }
+        }
+    }
+    public class VM_Un_Classement : BasePropriete
+    {
+        private int _ID_Equipe1, _ID_Equipe2, _ID_Equipe3,_ID_Classement;
+        private string _Equipe1, _Equipe2, _Equipe3;
+
+        public int ID_Classement
+        {
+            get { return _ID_Classement; }
+            set { AssignerChamp<int>(ref _ID_Classement, value, System.Reflection.MethodBase.GetCurrentMethod().Name); }
+        }
+        public int ID_Equipe1
+        {
+            get { return _ID_Equipe1; }
+            set { AssignerChamp<int>(ref _ID_Equipe1, value, System.Reflection.MethodBase.GetCurrentMethod().Name); }
+        }
+        public int ID_Equipe2
+        {
+            get { return _ID_Equipe2; }
+            set { AssignerChamp<int>(ref _ID_Equipe2, value, System.Reflection.MethodBase.GetCurrentMethod().Name); }
+        }
+        public int ID_Equipe3
+        {
+            get { return _ID_Equipe3; }
+            set { AssignerChamp<int>(ref _ID_Equipe3, value, System.Reflection.MethodBase.GetCurrentMethod().Name); }
         }
         public string Equipe1
         {

@@ -174,7 +174,7 @@
                 <wpfTool:TimeSpanUpDown Grid.Row="5" Grid.Column="1" Value="{Binding UnEvent.HeureFin, Mode=TwoWay}" IsEnabled="{Binding Path=ActiverUneFicheEvent, Mode=OneWay}" Margin="3" Width="130"/>
             </StackPanel>
         </Grid>
-        <GroupBox Grid.Row="1" Grid.Column="1" Header="MenuDujour" >
+        <GroupBox Grid.Row="1" Grid.Column="1" Header="MenuDujour">
             <Grid Name="GridMenu">
                 <Grid.RowDefinitions>
                     <RowDefinition Height="*" />
@@ -190,22 +190,23 @@
                         <RowDefinition Height="auto" />
                     </Grid.RowDefinitions>
                     <Grid.ColumnDefinitions>
-                        <ColumnDefinition Width="*" />
-                        <ColumnDefinition Width="*" />
-                        <ColumnDefinition Width="*" />
-                        <ColumnDefinition Width="*" />
+                        <ColumnDefinition Width="9*" />
+                        <ColumnDefinition Width="105*"/>
+                        <ColumnDefinition Width="113*" />
+                        <ColumnDefinition Width="114*" />
+                        <ColumnDefinition Width="113*" />
 
                     </Grid.ColumnDefinitions>
 
-                    <TextBlock Grid.Column="0" Name="tTitreEntree" Text="Entree"/>
-                    <TextBlock Grid.Column="1" Name="tTitrePlat" Text="Plat"/>
-                    <TextBlock Grid.Column="2" Name="tTitreDessert" Text="Dessert"/>
-                    <TextBlock Grid.Column="3" Name="tTitreCollation" Text="Collation"/>
+                    <TextBlock Grid.Column="0" Name="tTitreEntree" Text="Entree" Grid.ColumnSpan="3" Margin="0,0,112.4,16.6" Grid.RowSpan="2"/>
+                    <TextBlock Grid.Column="2" Name="tTitrePlat" Text="Plat" Grid.ColumnSpan="2" Margin="0.4,0,113,16.6" Grid.RowSpan="2"/>
+                    <TextBlock Grid.Column="2" Name="tTitreDessert" Text="Dessert" Grid.ColumnSpan="2" Margin="112.4,0,0,16.6" Grid.RowSpan="2"/>
+                    <TextBlock Grid.Column="4" Name="tTitreCollation" Text="Collation" Margin="0,0,-0.2,16.6" Grid.RowSpan="2"/>
 
-                    <TextBlock Grid.Column="0" Grid.Row="1" Name="tEntree" Text="{Binding MenuDuJour.E_Descr, Mode=TwoWay}"/>
-                    <TextBlock Grid.Column="1" Grid.Row="1" Name="tPlat" Text="{Binding MenuDuJour.P_Descr, Mode=TwoWay}"/>
-                    <TextBlock Grid.Column="2" Grid.Row="1" Name="tDessert" Text="{Binding MenuDuJour.D_Descr, Mode=TwoWay}"/>
-                    <TextBlock Grid.Column="3" Grid.Row="1" Name="Collation" Text="{Binding MenuDuJour.C_Descr, Mode=TwoWay}"/>
+                    <TextBlock Grid.Column="0" Grid.Row="1" Name="tEntree" Text="{Binding MenuDuJour.ID_Date, Mode=TwoWay}" Grid.ColumnSpan="3" Margin="0,0.2,112.4,-0.4"/>
+                    <TextBlock Grid.Column="2" Grid.Row="1" Name="tPlat" Text="{Binding MenuDuJour.ID_Menu, Mode=TwoWay}" Grid.ColumnSpan="2" Margin="0.4,0.2,113,-0.4"/>
+                    <TextBlock Grid.Column="2" Grid.Row="1" Name="tDessert" Text="{Binding MenuDuJour.D_Descr, Mode=TwoWay}" Grid.ColumnSpan="2" Margin="112.4,0.2,0,-0.4"/>
+                    <TextBlock Grid.Column="4" Grid.Row="1" Name="Collation" Text="{Binding MenuDuJour.C_Descr, Mode=TwoWay}" Margin="0,0.2,-0.2,-0.4"/>
                 </Grid>
                 <DataGrid Grid.Row="1"            
                           SelectedItem="{Binding MenuSelectionne, Mode=TwoWay}" AutoGenerateColumns="False" IsReadOnly="True"
@@ -224,6 +225,8 @@
                 <StackPanel  Grid.Row="2" Orientation="Horizontal" HorizontalAlignment="Center">
                     <Button Content="Modifier" Margin="3" Command="{Binding cModifierMenu}" IsEnabled="{Binding Path=ActiverFicheMenu, Mode=OneWay}"/>
                     <Button Content="Supprimer" Margin="3" Command="{Binding cSupprimerMenu}" IsEnabled="{Binding Path=ActiverFicheMenu, Mode=OneWay}"/>
+                    <Button Content="Annuler" Margin="3" Command="{Binding cAnnulerMenu}" IsEnabled="{Binding Path=ActiverFicheMenu, Mode=OneWay}"/>
+
                 </StackPanel>
             </Grid>
         </GroupBox>
@@ -313,6 +316,7 @@
                     <RowDefinition Height="auto" />
                     <RowDefinition Height="auto" />
                     <RowDefinition Height="auto" />
+                    <RowDefinition Height="auto" />
 
                 </Grid.RowDefinitions>
                 <Grid.ColumnDefinitions>
@@ -328,7 +332,7 @@
                             <ColumnDefinition Width="auto" />
                             <ColumnDefinition Width="auto" />
                         </Grid.ColumnDefinitions>
-                        <TextBlock Margin="3" Text="{Binding Path=UnEvent.Equipe1, Mode=TwoWay}" />
+                        <TextBlock Margin="3" Text="{Binding Path=UnClassement.Equipe1, Mode=TwoWay}" />
                         <Button Grid.Column="1" Content=" modifier" Margin="3" Command="{Binding cModifierEquipe1}" IsEnabled="{Binding Path=ActiverModifClassement, Mode=OneWay}" />
                         <TextBlock/>
 
@@ -343,7 +347,7 @@
                             <ColumnDefinition Width="*" />
                             <ColumnDefinition Width="auto" />
                         </Grid.ColumnDefinitions>
-                        <TextBlock Margin="3" Text="{Binding Path=UnEvent.Equipe2, Mode=TwoWay}" />
+                        <TextBlock Margin="3" Text="{Binding Path=UnClassement.Equipe2, Mode=TwoWay}" />
                         <Button Grid.Column="1" Content=" modifier" Margin="3" Command="{Binding cModifierEquipe2}" IsEnabled="{Binding Path=ActiverModifClassement, Mode=OneWay}" />
 
                     </Grid>
@@ -357,24 +361,32 @@
                             <ColumnDefinition Width="*" />
                             <ColumnDefinition Width="auto"/>
                         </Grid.ColumnDefinitions>
-                        <TextBlock Margin="3" Text="{Binding Path=UnEvent.Equipe3, Mode=TwoWay}"  />
+                        <TextBlock Margin="3" Text="{Binding Path=UnClassement.Equipe3, Mode=TwoWay}"  />
                         <Button Grid.Column="1" Content=" modifier" Margin="3" Command="{Binding cModifierEquipe3}"  IsEnabled="{Binding Path=ActiverModifClassement, Mode=OneWay}" />
 
                     </Grid>
                 </GroupBox>
-                <StackPanel Orientation="Horizontal" HorizontalAlignment="Center" Grid.Row="3" Grid.Column="1"  Grid.ColumnSpan="2"  Margin="3">
-                    <Button Name="bConforimer" Content="Ajouter Classement" Margin="3" IsEnabled="{Binding Path=ActiverAjoutClassement, Mode=OneWay}"
+                <StackPanel Orientation="Horizontal" HorizontalAlignment="Center" Grid.Row="3" Grid.Column="1"  Grid.ColumnSpan="2"  Margin="5">
+                    <Button Name="bConforimer" Content="Ajouter Classement" Margin="3" IsEnabled="{Binding Path=ActiverbtnAjoutClassement, Mode=OneWay}"
            Command="{Binding cAjouterClassement}" />
-                    <Button Name="cModiffier" Content="Confirmer Classement " Margin="3,0,3,2.6" IsEnabled="{Binding Path=ActiverModifClassement, Mode=OneWay}"
-           Command="{Binding cConfirmerClassement}" Height="20" VerticalAlignment="Bottom" />
+                    <Button Name="ModifierClassement" Content="Modifier Classement" Margin="3" IsEnabled="{Binding Path=ActiverbtnModifClassement, Mode=OneWay}"
+           Command="{Binding cModifierClassement}" />
+
                     <Button Name="cSupprimerClass" Content="Supprimer CLassement" Margin="3" IsEnabled="{Binding Path=ActiverModifClassement, Mode=OneWay}"
            Command="{Binding cSupprimerClassement}" />
                 </StackPanel>
-                <ComboBox Grid.Row="4" Margin="3" 
+                <ComboBox Grid.Row="4" Margin="5" 
                   ItemsSource="{Binding ListEquipe}"
                   SelectedItem="{Binding EquipeListSelectionne}"
                   SelectedValuePath="ID" 
                   DisplayMemberPath="Eq_Nom"/>
+                <StackPanel  Orientation="Horizontal" HorizontalAlignment="Center" Grid.Row="5" Grid.Column="1"  Grid.ColumnSpan="2"  Margin="3">
+                    <Button Name="cConfirmer" Content="Confirmer Classement " Margin="3,0,3,2.6" IsEnabled="{Binding Path=ActiverModifClassement, Mode=OneWay}"
+           Command="{Binding cConfirmerClassement}" Height="20" VerticalAlignment="Bottom" />
+                    <Button Name="cAnnulerClassement" Content="Annuler Classement " Margin="3,0,3,2.6" IsEnabled="{Binding Path=ActiverModifClassement, Mode=OneWay}"
+           Command="{Binding cConfirmerClassement}" Height="20" VerticalAlignment="Bottom" />
+
+                </StackPanel>
 
             </Grid>
         </GroupBox>

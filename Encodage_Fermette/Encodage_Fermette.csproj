@@ -122,7 +122,7 @@
     <Compile Include="Views\GestionStaff.xaml.cs">
       <DependentUpon>GestionStaff.xaml</DependentUpon>
     </Compile>
-    <Compile Include="View\GestionEventParam.xaml.cs">
+    <Compile Include="Views\GestionEventParam.xaml.cs">
       <DependentUpon>GestionEventParam.xaml</DependentUpon>
     </Compile>
     <Page Include="MainWindow.xaml">
@@ -149,7 +149,7 @@
       <Generator>MSBuild:Compile</Generator>
       <SubType>Designer</SubType>
     </Page>
-    <Page Include="View\GestionEventParam.xaml">
+    <Page Include="Views\GestionEventParam.xaml">
       <SubType>Designer</SubType>
       <Generator>MSBuild:Compile</Generator>
     </Page>
@@ -204,6 +204,7 @@
   </ItemGroup>
   <ItemGroup>
     <Folder Include="Model\" />
+    <Folder Include="View\" />
   </ItemGroup>
   <Import Project="$(MSBuildToolsPath)\Microsoft.CSharp.targets" />
 </Project>
