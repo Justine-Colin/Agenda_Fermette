@@ -72,8 +72,10 @@ namespace Encodage_Fermette.ViewModel
             get { return _ActiverModifClassement; }
             set { AssignerChamp<bool>(ref _ActiverModifClassement, value, System.Reflection.MethodBase.GetCurrentMethod().Name); }
         }
-        #endregion 
+        #endregion
 
+        #region Event 
+        #region Paramatre Evennement 
         private VM_Un_Event _UnEvent;
         public VM_Un_Event UnEvent
         {
@@ -92,13 +94,13 @@ namespace Encodage_Fermette.ViewModel
             get { return _ListEvent; }
             set { AssignerChamp<List<C_Vue_Event>>(ref _ListEvent, value, System.Reflection.MethodBase.GetCurrentMethod().Name); }
         }
+
         private C_Vue_ID_Descr _Titre;
         public C_Vue_ID_Descr Titre
         {
             get { return _Titre; }
             set { AssignerChamp<C_Vue_ID_Descr>(ref _Titre, value, System.Reflection.MethodBase.GetCurrentMethod().Name); }
         }
-
         //  gestion du Titre
         private ObservableCollection<C_Vue_ID_Descr> _ListTitre;
         public ObservableCollection<C_Vue_ID_Descr> ListeTitre
@@ -128,18 +130,23 @@ namespace Encodage_Fermette.ViewModel
 
         }
 
+        #endregion
+        #endregion
+
+        #region Menu 
         // Liste de gestion des Menu
+
         private ObservableCollection<C_Vue_Menu> _ListMenu;
         public ObservableCollection<C_Vue_Menu> ListMenu
         {
             get { return _ListMenu; }
             set { AssignerChamp<ObservableCollection<C_Vue_Menu>>(ref _ListMenu, value, System.Reflection.MethodBase.GetCurrentMethod().Name); }
         }
-        private C_Vue_Menu _MenuDuJour;
-        public C_Vue_Menu MenuDuJour
+        private VM_Un_Menu _MenuDuJour;
+        public VM_Un_Menu MenuDuJour
         {
             get { return _MenuDuJour; }
-            set { AssignerChamp<C_Vue_Menu>(ref _MenuDuJour, value, System.Reflection.MethodBase.GetCurrentMethod().Name); }
+            set { AssignerChamp<VM_Un_Menu>(ref _MenuDuJour, value, System.Reflection.MethodBase.GetCurrentMethod().Name); }
         }
         private C_Vue_Menu _MenuSelectionne;
         public C_Vue_Menu MenuSelectionne
@@ -147,6 +154,8 @@ namespace Encodage_Fermette.ViewModel
             get { return _MenuSelectionne; }
             set { AssignerChamp<C_Vue_Menu>(ref _MenuSelectionne, value, System.Reflection.MethodBase.GetCurrentMethod().Name); }
         }
+        #endregion
+
         // List de gestion des bénéficiaire participants
         private ObservableCollection<C_Personne> _ListBeneficiaire;
         public ObservableCollection<C_Personne> ListBeneficiaire
@@ -243,163 +252,6 @@ namespace Encodage_Fermette.ViewModel
             set { AssignerChamp<C_T_Equipe>(ref _EquipeListSelectionne, value, System.Reflection.MethodBase.GetCurrentMethod().Name); }
         }
 
-        public void ObtenirIdDate()
-        {
-            var date = datetraitement.Date;
-
-            List<C_T_Date> listdate = new CoucheGestion.G_T_Date(chConnexion).Lire("");
-            foreach (C_T_Date d in listdate)
-            {
-                if (d.D_Date == date)
-                {
-                    IDDate = d.ID_Date;
-                    System.Windows.MessageBox.Show("Date trouvé" + IDDate.ToString());
-                    break;
-                }
-                else
-                {
-                    System.Windows.MessageBox.Show(" Pas de date trouvée ");
-                    break;
-                }
-            }
-
-        }
-        public void ChargementEvenementDujour(DateTime Datetime)
-        {
-            datetraitement = Datetime;
-             var date = Datetime.Date;
-            // il nous faut l'id date 
-
-            ListEvent = new CoucheGestion.G_Vue_Event(chConnexion).Lire_Event_Dujour(date);
-            MenuDuJour = new CoucheGestion.G_Vue_Menu(chConnexion).Lire_Menu_DuJour(date);
-
-            if (MenuDuJour.ID_Menu < 1)
-            {
-                ajoutmenu = -1; // on ajout un menu car il n'y en a pas
-            }
-            else
-                ajoutmenu = 1; // on modif un event car il n'y en a pas
-
-        }
-        public void ChargementEvenement()
-        {
-            C_T_Event tmp = new CoucheGestion.G_T_Event(chConnexion).Lire_ID(EventSelectionne.ID_Ev);
-            UnEvent.ID_Event = EventSelectionne.ID_Ev;
-            UnEvent.Lieu = EventSelectionne.Li_Descr;
-            UnEvent.Titre = EventSelectionne.Ti_Descr;
-            UnEvent.Lieu = EventSelectionne.Li_Descr;
-            UnEvent.Descriptif = EventSelectionne.Ev_Descr;
-            UnEvent.Recurrent = EventSelectionne.Recurent;
-            UnEvent.Priorite = EventSelectionne.Prio;
-            UnEvent.HeureDebut = EventSelectionne.Ev_HeureDebut;
-            UnEvent.HeureFin = EventSelectionne.Ev_HeureFin;
-
-            ListEquipe = ChargerEquipe();
-            ListStaffParticipant = ChargerStaffsParticipants(UnEvent.ID_Event);
-            ListBenefiaireParticipant = ChargerBeneficiairesParticipants(UnEvent.ID_Event);
-            ChargerClassement(UnEvent.ID_Event);
-        }
-        public ObservableCollection<C_T_Equipe> ChargerEquipe()
-        {
-            ObservableCollection<C_T_Equipe> rep = new ObservableCollection<C_T_Equipe>();
-            List<C_T_Equipe> lTmp = new G_T_Equipe(chConnexion).Lire("");
-            foreach (C_T_Equipe Tmp in lTmp)
-            {
-                C_T_Equipe titretmp = new C_T_Equipe(Tmp.ID_Equipe, Tmp.Eq_Nom);
-                rep.Add(titretmp);
-            }
-            return rep;
-
-        }
-        public ObservableCollection<C_Vue_ID_Descr> ChargerTitres(string co)
-        {
-            ObservableCollection<C_Vue_ID_Descr> rep = new ObservableCollection<C_Vue_ID_Descr>();
-            List<C_Vue_ID_Descr> lTmp = new CoucheGestion.G_Vue_ID_Descr(chConnexion).Lire_All_Titre();
-            foreach (C_Vue_ID_Descr Tmp in lTmp)
-            {
-                C_Vue_ID_Descr titretmp = new C_Vue_ID_Descr(Tmp.ID, Tmp.Descr);
-                rep.Add(titretmp);
-            }
-            return rep;
-        }
-        public ObservableCollection<C_Vue_ID_Descr> ChargerLieux()
-        {
-            ObservableCollection<C_Vue_ID_Descr> rep = new ObservableCollection<C_Vue_ID_Descr>();
-            List<C_Vue_ID_Descr> lTmp = new CoucheGestion.G_Vue_ID_Descr(chConnexion).Lire_All_Lieux();
-            foreach (C_Vue_ID_Descr Tmp in lTmp)
-            {
-                C_Vue_ID_Descr lieuxtmp = new C_Vue_ID_Descr(Tmp.ID, Tmp.Descr);
-                rep.Add(lieuxtmp);
-            }
-            return rep;
-        }
-        public ObservableCollection<C_Vue_Menu> ChargerMenu()
-        {
-            ObservableCollection<C_Vue_Menu> rep = new ObservableCollection<C_Vue_Menu>();
-            List<C_Vue_Menu> lTmp = new CoucheGestion.G_Vue_Menu(chConnexion).Lire_All_Menu();
-            foreach (C_Vue_Menu Tmp in lTmp)
-            {
-                C_Vue_Menu menu = new C_Vue_Menu(Tmp.ID_Menu, Tmp.E_Descr, Tmp.P_Descr, Tmp.D_Descr, Tmp.C_Descr);
-                rep.Add(menu);
-                C_T_Event ev;
-            }
-            return rep;
-        }
-        public void ChargerClassement(int idev)
-        {
-            C_Vue_Classement Class = new CoucheGestion.G_Vue_Event(chConnexion).Lire_Classement_Nom_Equipe(idev);
-
-            if (Class != null)
-            {
-                ajoutclassement = 1; // va permettre la modif
-                System.Windows.MessageBox.Show(Class.Eq1_Nom);
-                UnEvent.ID_Classement = Class.ID_Classement;
-                UnEvent.Equipe1 = Class.Eq1_Nom;
-                UnEvent.Equipe2 = Class.Eq2_Nom;
-                UnEvent.Equipe3 = Class.Eq3_Nom;
-                ActiverModifClassement = true;
-                ActiverAjoutClassement = false;
-            }
-            else
-            {
-                ActiverModifClassement = false;
-                ActiverAjoutClassement = true;
-            }
-
-        }
-        public ObservableCollection<C_Personne> ChargerBeneficiaires()
-        {
-            ObservableCollection<C_Personne> rep = new ObservableCollection<C_Personne>();
-            List<C_Personne> lTmp = new CoucheGestion.G_Vue_Personne(chConnexion).Lire_All_Ben();
-            foreach (C_Personne Tmp in lTmp)
-                rep.Add(Tmp);
-            return rep;
-        }
-        public ObservableCollection<C_Personne> ChargerBeneficiairesParticipants(int idev)
-        {
-            ObservableCollection<C_Personne> rep = new ObservableCollection<C_Personne>();
-            List<C_Personne> lTmp = new CoucheGestion.G_Vue_Event(chConnexion).Lire_Event_Ben(idev);
-            foreach (C_Personne Tmp in lTmp)
-                rep.Add(Tmp);
-            return rep;
-        }
-        public ObservableCollection<C_Personne> ChargerStaffs()
-        {
-            ObservableCollection<C_Personne> rep = new ObservableCollection<C_Personne>();
-            List<C_Personne> lTmp = new CoucheGestion.G_Vue_Personne(chConnexion).Lire_All_Staff();
-            foreach (C_Personne Tmp in lTmp)
-                rep.Add(Tmp);
-            return rep;
-        }
-        public ObservableCollection<C_Personne> ChargerStaffsParticipants(int idev)
-        {
-            ObservableCollection<C_Personne> rep = new ObservableCollection<C_Personne>();
-            List<C_Personne> lTmp = new CoucheGestion.G_Vue_Event(chConnexion).Lire_Event_Staff(idev);
-            foreach (C_Personne Tmp in lTmp)
-                rep.Add(Tmp);
-            return rep;
-        }
-
         public BaseCommande cAjouterStaffParticipant { get; set; }
         public BaseCommande cSupprimerStaffParticipan { get; set; }
         public BaseCommande cAjouterBeneficiaireParticipant { get; set; }
@@ -425,6 +277,189 @@ namespace Encodage_Fermette.ViewModel
         public BaseCommande cConfirmerEvent { get; set; }
         public BaseCommande cAnnulerEvent { get; set; }
 
+        #region Methodes 
+
+        public void ObtenirIdDate()
+        {
+            var date = datetraitement.Date;
+
+            List<C_T_Date> listdate = new CoucheGestion.G_T_Date(chConnexion).Lire("");
+            foreach (C_T_Date d in listdate)
+            {
+                if (d.D_Date == date)
+                {
+                    IDDate = d.ID_Date;
+                    System.Windows.MessageBox.Show("Date trouvé" + IDDate.ToString());
+                    break;
+                }
+                else
+                {
+                    System.Windows.MessageBox.Show(" Pas de date trouvée ");
+                    break;
+                }
+            }
+
+        }
+
+        public void ChargementEvenementDujour(DateTime Datetime)
+        {
+            datetraitement = Datetime;
+             var date = Datetime.Date;
+            // il nous faut l'id date 
+
+            ListEvent = new CoucheGestion.G_Vue_Event(chConnexion).Lire_Event_Dujour(date);
+            C_Vue_Menu tmpmenu = new C_Vue_Menu();
+            tmpmenu = new CoucheGestion.G_Vue_Menu(chConnexion).Lire_Menu_DuJour(date);
+
+            MenuDuJour.ID_Date = tmpmenu.ID_Date;
+            MenuDuJour.ID_Menu = tmpmenu.ID_Menu;
+            MenuDuJour.E_Descr = tmpmenu.E_Descr;
+            MenuDuJour.P_Descr = tmpmenu.P_Descr;
+            MenuDuJour.D_Descr = tmpmenu.D_Descr;
+            MenuDuJour.C_Descr = tmpmenu.C_Descr;
+
+            if (MenuDuJour.ID_Menu == 0)
+            {
+                ajoutmenu = -1; // on ajout un menu car il n'y en a pas
+            }
+            else
+                ajoutmenu = 1; // on modif un event car il n'y en a pas
+        }
+        public void ChargementEvenement()
+        {
+            C_T_Event tmp = new CoucheGestion.G_T_Event(chConnexion).Lire_ID(EventSelectionne.ID_Ev);
+            UnEvent.ID_Event = EventSelectionne.ID_Ev;
+            UnEvent.Lieu = EventSelectionne.Li_Descr;
+            UnEvent.Titre = EventSelectionne.Ti_Descr;
+            UnEvent.Lieu = EventSelectionne.Li_Descr;
+            UnEvent.Descriptif = EventSelectionne.Ev_Descr;
+            UnEvent.Recurrent = EventSelectionne.Recurent;
+            UnEvent.Priorite = EventSelectionne.Prio;
+            UnEvent.HeureDebut = EventSelectionne.Ev_HeureDebut;
+            UnEvent.HeureFin = EventSelectionne.Ev_HeureFin;
+
+            ListEquipe = ChargerEquipe();
+            ListStaffParticipant = ChargerStaffsParticipants(UnEvent.ID_Event);
+            ListBenefiaireParticipant = ChargerBeneficiairesParticipants(UnEvent.ID_Event);
+            ChargerClassement(UnEvent.ID_Event);
+        }
+        public ObservableCollection<C_Vue_ID_Descr> ChargerListTitres(string co)
+        {
+            ObservableCollection<C_Vue_ID_Descr> rep = new ObservableCollection<C_Vue_ID_Descr>();
+            List<C_Vue_ID_Descr> lTmp = new CoucheGestion.G_Vue_ID_Descr(chConnexion).Lire_All_Titre();
+            foreach (C_Vue_ID_Descr Tmp in lTmp)
+            {
+                C_Vue_ID_Descr titretmp = new C_Vue_ID_Descr(Tmp.ID, Tmp.Descr);
+                rep.Add(titretmp);
+            }
+            return rep;
+        }
+        public ObservableCollection<C_Vue_ID_Descr> ChargerListLieux()
+        {
+            ObservableCollection<C_Vue_ID_Descr> rep = new ObservableCollection<C_Vue_ID_Descr>();
+            List<C_Vue_ID_Descr> lTmp = new CoucheGestion.G_Vue_ID_Descr(chConnexion).Lire_All_Lieux();
+            foreach (C_Vue_ID_Descr Tmp in lTmp)
+            {
+                C_Vue_ID_Descr lieuxtmp = new C_Vue_ID_Descr(Tmp.ID, Tmp.Descr);
+                rep.Add(lieuxtmp);
+            }
+            return rep;
+        }
+
+        public ObservableCollection<C_Vue_Menu> ChargerMenu()
+        {
+            ObservableCollection<C_Vue_Menu> rep = new ObservableCollection<C_Vue_Menu>();
+            List<C_Vue_Menu> lTmp = new CoucheGestion.G_Vue_Menu(chConnexion).Lire_All_Menu();
+            foreach (C_Vue_Menu Tmp in lTmp)
+            {
+                C_Vue_Menu menu = new C_Vue_Menu(Tmp.ID_Menu, Tmp.E_Descr, Tmp.P_Descr, Tmp.D_Descr, Tmp.C_Descr);
+                rep.Add(menu);
+                C_T_Event ev;
+            }
+            return rep;
+        }
+
+        public void ChargerClassement(int idev)
+        {
+            C_Vue_Classement Class = new CoucheGestion.G_Vue_Event(chConnexion).Lire_Classement_Nom_Equipe(idev);
+
+            if (Class != null)
+            {
+                ajoutclassement = 1; // va permettre la modif
+                System.Windows.MessageBox.Show(Class.Eq1_Nom);
+                
+                UnEvent.ID_Classement = Class.ID_Classement;
+                UnEvent.Equipe1 = Class.Eq1_Nom;
+                
+                UnEvent.Equipe2 = Class.Eq2_Nom;
+                UnEvent.Equipe3 = Class.Eq3_Nom;
+                ActiverModifClassement = true;
+                ActiverAjoutClassement = false;
+            }
+            else
+            {
+                ActiverModifClassement = false;
+                ActiverAjoutClassement = true;
+            }
+
+        }
+        public ObservableCollection<C_T_Equipe> ChargerEquipe()
+        {
+            ObservableCollection<C_T_Equipe> rep = new ObservableCollection<C_T_Equipe>();
+            List<C_T_Equipe> lTmp = new G_T_Equipe(chConnexion).Lire("");
+            foreach (C_T_Equipe Tmp in lTmp)
+            {
+                C_T_Equipe titretmp = new C_T_Equipe(Tmp.ID_Equipe, Tmp.Eq_Nom);
+                rep.Add(titretmp);
+            }
+            return rep;
+
+        }
+
+        public ObservableCollection<C_Personne> ChargerBeneficiaires()
+        {
+            ObservableCollection<C_Personne> rep = new ObservableCollection<C_Personne>();
+            List<C_Personne> lTmp = new CoucheGestion.G_Vue_Personne(chConnexion).Lire_All_Ben();
+            foreach (C_Personne Tmp in lTmp)
+                rep.Add(Tmp);
+            return rep;
+        }
+        public ObservableCollection<C_Personne> ChargerBeneficiairesParticipants(int idev)
+        {
+            ObservableCollection<C_Personne> rep = new ObservableCollection<C_Personne>();
+            List<C_Personne> lTmp = new CoucheGestion.G_Vue_Event(chConnexion).Lire_Event_Ben(idev);
+            foreach (C_Personne Tmp in lTmp)
+                rep.Add(Tmp);
+            return rep;
+        }
+
+        public ObservableCollection<C_Personne> ChargerStaffs()
+        {
+            ObservableCollection<C_Personne> rep = new ObservableCollection<C_Personne>();
+            List<C_Personne> lTmp = new CoucheGestion.G_Vue_Personne(chConnexion).Lire_All_Staff();
+            foreach (C_Personne Tmp in lTmp)
+                rep.Add(Tmp);
+            return rep;
+        }
+        public ObservableCollection<C_Personne> ChargerStaffsParticipants(int idev)
+        {
+            ObservableCollection<C_Personne> rep = new ObservableCollection<C_Personne>();
+            List<C_Personne> lTmp = new CoucheGestion.G_Vue_Event(chConnexion).Lire_Event_Staff(idev);
+            foreach (C_Personne Tmp in lTmp)
+                rep.Add(Tmp);
+            return rep;
+        }
+
+        public void GestionEvent()
+        {
+            ObtenirIdDate();
+            ActiverUneFicheDate = true;
+        }
+        public void GestionMenu()
+        {
+            ObtenirIdDate();
+            ActiverFicheMenu = true;
+        }
 
         public void AjouterStaffParticipant()
         {
@@ -496,6 +531,7 @@ namespace Encodage_Fermette.ViewModel
             else
                 System.Windows.MessageBox.Show("pas de membres");
         }
+
         public void ModifierEquipe1()
         {
             if (UnEvent.ID_Classement != 0 && EquipeListSelectionne != null)
@@ -536,7 +572,6 @@ namespace Encodage_Fermette.ViewModel
                 System.Windows.MessageBox.Show("Classement supprimé ou il faut selectionner une equipe !");
             }
         }
-
         public void AjouterClassement()
         {
             ajoutclassement = -1;
@@ -569,6 +604,7 @@ namespace Encodage_Fermette.ViewModel
             else
                 System.Windows.MessageBox.Show("Pas de classement a supprimer!");
         }
+
         public void ModifierMenu()
         {
             if (ajoutmenu == 1)
@@ -583,16 +619,7 @@ namespace Encodage_Fermette.ViewModel
 
             }
         }
-        public void GestionEvent()
-        {
-            ObtenirIdDate();
-            ActiverUneFicheDate = true;
-        }
-        public void GestionMenu()
-        {
-            ObtenirIdDate();
-            ActiverFicheMenu = true;
-        }
+
         public void AjouterEvent()
         {
             UnEvent = new VM_Un_Event();
@@ -668,9 +695,14 @@ namespace Encodage_Fermette.ViewModel
             UnEvent = new VM_Un_Event();
         }
 
+        #endregion
+
+        #region Constructeur
         public VM_GestionEvenement()
         {
+            
             UnEvent = new VM_Un_Event();
+            MenuDuJour = new VM_Un_Menu();
             ActiverUneFicheDate = false;
             ActiverCalendrierDate = true;
 
@@ -679,13 +711,9 @@ namespace Encodage_Fermette.ViewModel
             BeneficiaireSelectionneList = new C_Personne();
             BeneficiaireParticipantSelectionne = new C_Personne();
 
-            Equipe1Selectionne = new C_T_Equipe(0, "pas d'equipe");
-            Equipe2Selectionne = new C_T_Equipe(0, "pas d'equipe");
-            Equipe3Selectionne = new C_T_Equipe(0, "pas d'equipe");
-
             #region Chargement Liste
-            ListeTitre = ChargerTitres(chConnexion);
-            ListLieux = ChargerLieux();
+            ListeTitre = ChargerListTitres(chConnexion);
+            ListLieux = ChargerListLieux();
             ListMenu = ChargerMenu();
             ListBeneficiaire = ChargerBeneficiaires();
             ListStaff = ChargerStaffs();
@@ -717,7 +745,44 @@ namespace Encodage_Fermette.ViewModel
             cConfirmerEvent = new BaseCommande(ConfirmerEvent);
             cAnnulerEvent = new BaseCommande(AnnulerEvent);
             #endregion
+        }
+        #endregion
+    }
+    #region VM
+    public class VM_Un_Menu : BasePropriete
+    {
+        private int _ID_Menu,_ID_Date;
+        private string _E_Descr, _P_Descr, _D_Descr, _C_Descr;
 
+        public int ID_Date
+        {
+            get { return _ID_Date; }
+            set { AssignerChamp<int>(ref _ID_Date, value, System.Reflection.MethodBase.GetCurrentMethod().Name); }
+        }
+        public int ID_Menu
+        {
+            get { return _ID_Menu; }
+            set { AssignerChamp<int>(ref _ID_Menu, value, System.Reflection.MethodBase.GetCurrentMethod().Name); }
+        }
+        public string E_Descr
+        {
+            get { return _E_Descr; }
+            set { AssignerChamp<string>(ref _E_Descr, value, System.Reflection.MethodBase.GetCurrentMethod().Name); }
+        }
+        public string P_Descr
+        {
+            get { return _P_Descr; }
+            set { AssignerChamp<string>(ref _P_Descr, value, System.Reflection.MethodBase.GetCurrentMethod().Name); }
+        }
+        public string D_Descr
+        {
+            get { return _D_Descr; }
+            set { AssignerChamp<string>(ref _D_Descr, value, System.Reflection.MethodBase.GetCurrentMethod().Name); }
+        }
+        public string C_Descr
+        {
+            get { return _C_Descr; }
+            set { AssignerChamp<string>(ref _C_Descr, value, System.Reflection.MethodBase.GetCurrentMethod().Name); }
         }
     }
     public class VM_Un_Event : BasePropriete
@@ -804,4 +869,5 @@ namespace Encodage_Fermette.ViewModel
             set { AssignerChamp<string>(ref _Equipe3, value, System.Reflection.MethodBase.GetCurrentMethod().Name); }
         }
     }
+    #endregion
 }
