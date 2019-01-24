@@ -29,7 +29,7 @@ namespace Encodage_Fermette.View
 
         private void Cbequipe_SelectionChanged(object sender, SelectionChangedEventArgs e)
         {
-            { if (LocalEventParam.EquipeSelectionne.ID_Equipe !=0 ) 
+            { if (LocalEventParam.EquipeSelectionne != null ) 
              LocalEventParam.RemplirdgmembreEquipe(); }
         }
     }

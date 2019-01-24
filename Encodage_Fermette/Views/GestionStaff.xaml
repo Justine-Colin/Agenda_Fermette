@@ -5,7 +5,7 @@
         xmlns:mc="http://schemas.openxmlformats.org/markup-compatibility/2006"
         xmlns:local="clr-namespace:Encodage_Fermette.View"
         mc:Ignorable="d"
-        Title="GestionStaff" Height="477.2" Width="428.2"
+        Title="GestionStaff" Height="477.2" Width="678.2"
         xmlns:system="clr-namespace:System;assembly=mscorlib"
         >
     <Grid>
@@ -16,6 +16,7 @@
             <RowDefinition Height="Auto" />
         </Grid.RowDefinitions>
         <Grid.ColumnDefinitions>
+            <ColumnDefinition Width="*"/>
             <ColumnDefinition Width="*"/>
         </Grid.ColumnDefinitions>
         <Grid Name="GridStaffData">

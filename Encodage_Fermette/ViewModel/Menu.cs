@@ -246,8 +246,8 @@ namespace Encodage_Fermette.ViewModel
                 tmpMenu.P_Descr = PlatSelectionne.Descr;
                 tmpMenu.D_Descr = DessertSelectionne.Descr;
                 tmpMenu.C_Descr = CollationSelectionne.Descr;
-
-                BcpMenu[nAjout] = tmpMenu;
+                BcpMenu.Clear();
+                ChargerMenu(chConnexion);
             }
             ActiverUneFiche = false;
         }
@@ -327,12 +327,14 @@ namespace Encodage_Fermette.ViewModel
                     ListDessert.Add(tmp);
                 else if (NouveauNourriture.No_Type == 3)
                     ListCollation.Add(tmp);
+
             }
             else // modification 
             {
                 new CoucheGestion.G_T_Nourriture(chConnexion).Modifier(NouveauNourriture.ID_Nourriture, NouveauNourriture.No_Descriptif, NouveauNourriture.No_Type);
-                ListEntree[nAjout] = new C_Vue_ID_Descr(NouveauNourriture.ID_Nourriture, NouveauNourriture.No_Descriptif);
-
+                EntreeSelectionne = ListEntree[nAjout] = new C_Vue_ID_Descr(NouveauNourriture.ID_Nourriture, NouveauNourriture.No_Descriptif);
+                BcpMenu.Clear();
+                BcpMenu = ChargerMenu(chConnexion);
             }
             ActiverFicheNourriture = false;
             ActiverUneFiche = true;
@@ -468,6 +470,7 @@ namespace Encodage_Fermette.ViewModel
             ActiverUneFiche = false;
             nNourriteAjout = -1;
         }
+
         public void ModifierCollation()
         {
             if (CollationSelectionne != null)
@@ -576,7 +579,7 @@ namespace Encodage_Fermette.ViewModel
         public class VM_Un_Menu : BasePropriete
         {
             private int _ID, _IDE, _IDP, _IDD, _IDC;
-            private string _NomE, _DescrE, _NomP, _DescrP, _NomD, _DescrD, _NomC, _DescrC;
+            private string _NomE,_NomP, _NomD, _NomC;
 
             public int ID
             {
@@ -608,40 +611,20 @@ namespace Encodage_Fermette.ViewModel
                 get { return _NomE; }
                 set { AssignerChamp<string>(ref _NomE, value, System.Reflection.MethodBase.GetCurrentMethod().Name); }
             }
-            public string DescrE
-            {
-                get { return _DescrE; }
-                set { AssignerChamp<string>(ref _DescrE, value, System.Reflection.MethodBase.GetCurrentMethod().Name); }
-            }
             public string NomP
             {
                 get { return _NomP; }
                 set { AssignerChamp<string>(ref _NomP, value, System.Reflection.MethodBase.GetCurrentMethod().Name); }
-            }
-            public string DescrP
-            {
-                get { return _DescrP; }
-                set { AssignerChamp<string>(ref _DescrP, value, System.Reflection.MethodBase.GetCurrentMethod().Name); }
             }
             public string NomD
             {
                 get { return _NomD; }
                 set { AssignerChamp<string>(ref _NomD, value, System.Reflection.MethodBase.GetCurrentMethod().Name); }
             }
-            public string DescrD
-            {
-                get { return _DescrD; }
-                set { AssignerChamp<string>(ref _DescrD, value, System.Reflection.MethodBase.GetCurrentMethod().Name); }
-            }
             public string NomC
             {
                 get { return _NomC; }
                 set { AssignerChamp<string>(ref _NomC, value, System.Reflection.MethodBase.GetCurrentMethod().Name); }
-            }
-            public string DescrC
-            {
-                get { return _DescrC; }
-                set { AssignerChamp<string>(ref _DescrC, value, System.Reflection.MethodBase.GetCurrentMethod().Name); }
             }
         }
     }

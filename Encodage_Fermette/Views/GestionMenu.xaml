@@ -52,7 +52,6 @@
                 <TextBlock  Grid.Column="0" Name="tENom" Text="Nom"  Grid.Row="0" VerticalAlignment="Center" />
                 <ComboBox Grid.Column="1" Grid.Row="0"
                   IsEnabled="{Binding Path=ActiverUneFiche}" 
-                  IsEditable="True"
                   ItemsSource="{Binding ListEntree}"
                   SelectedValuePath="ID" 
                   SelectedItem="{Binding EntreeSelectionne}"
@@ -80,7 +79,6 @@
                 <TextBlock Name="tPNom" Text="Nom"  Grid.Row="0" VerticalAlignment="Center" />
                 <ComboBox  Grid.Column="1" Grid.Row="0"
                   IsEnabled="{Binding Path=ActiverUneFiche}" 
-                  IsEditable="True"
                   ItemsSource="{Binding ListPlat}"
                   SelectedValuePath="ID" 
                   SelectedItem="{Binding PlatSelectionne}"
@@ -107,7 +105,6 @@
                 <TextBlock Name="tDNom" Text="Nom" Grid.Column="0" Grid.Row="0" VerticalAlignment="Center" />
                 <ComboBox Grid.Column="1" Grid.Row="0"
                   IsEnabled="{Binding Path=ActiverUneFiche}"
-                  IsEditable="True"
                   ItemsSource="{Binding ListDessert}"
                   SelectedValuePath="ID" 
                   SelectedItem="{Binding DessertSelectionne}"
@@ -136,7 +133,6 @@
                 <TextBlock Name="tCNom" Text="Nom"  Grid.Row="0" VerticalAlignment="Center" />
                 <ComboBox Grid.Column="1" Grid.Row="0"
                   IsEnabled="{Binding Path=ActiverUneFiche}"
-                  IsEditable="True"
                   ItemsSource="{Binding ListCollation}"
                   SelectedValuePath="ID" 
                   SelectedItem="{Binding CollationSelectionne}"

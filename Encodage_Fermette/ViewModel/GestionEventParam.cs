@@ -20,6 +20,7 @@ namespace Encodage_Fermette.ViewModel
         private string chConnexion = @"Data Source=(LocalDB)\MSSQLLocalDB;AttachDbFilename='" + System.Windows.Forms.Application.StartupPath + @"\Database1.mdf';Integrated Security=True;Connect Timeout=30";
         private int nAjoutDonne;
         private int typedonnes;
+        #region Gestion Fiches
         private bool _ActiverChampsModif;
         public bool ActiverChampsModif
         {
@@ -45,30 +46,23 @@ namespace Encodage_Fermette.ViewModel
                 ActiverChampsModif = !ActiverGestionEquipe;
             }
         }
+        #endregion
 
+        // Va nous permettre d'encoder de nouvelle données 
+        private VM_ID_Descr _NouvelleInfo;
+        public VM_ID_Descr NouvelleInfo
+        {
+            get { return _NouvelleInfo; }
+            set { AssignerChamp<VM_ID_Descr>(ref _NouvelleInfo, value, System.Reflection.MethodBase.GetCurrentMethod().Name); }
+        }
+        //#################################################
+
+        #region Gestion Titre
         private C_Vue_ID_Descr _TitreSelectionne;
         public C_Vue_ID_Descr TitreSelectionne
         {
             get { return _TitreSelectionne; }
             set { AssignerChamp<C_Vue_ID_Descr>(ref _TitreSelectionne, value, System.Reflection.MethodBase.GetCurrentMethod().Name); }
-        }
-        private C_Vue_ID_Descr _LieuxSelectionne;
-        public C_Vue_ID_Descr LieuxSelectionne
-        {
-            get { return _LieuxSelectionne; }
-            set { AssignerChamp<C_Vue_ID_Descr>(ref _LieuxSelectionne, value, System.Reflection.MethodBase.GetCurrentMethod().Name); }
-        }
-        private C_T_Equipe _EquipeSelectionne;
-        public C_T_Equipe EquipeSelectionne
-        {
-            get { return _EquipeSelectionne; }
-            set { AssignerChamp<C_T_Equipe>(ref _EquipeSelectionne, value, System.Reflection.MethodBase.GetCurrentMethod().Name); }
-        }
-        private C_Vue_ID_Descr _NouvelleInfo;
-        public C_Vue_ID_Descr NouvelleInfo
-        {
-            get { return _NouvelleInfo; }
-            set { AssignerChamp<C_Vue_ID_Descr>(ref _NouvelleInfo, value, System.Reflection.MethodBase.GetCurrentMethod().Name); }
         }
         private ObservableCollection<C_Vue_ID_Descr> _ListTitre;
         public ObservableCollection<C_Vue_ID_Descr> ListTitre
@@ -76,21 +70,46 @@ namespace Encodage_Fermette.ViewModel
             get { return _ListTitre; }
             set { AssignerChamp<ObservableCollection<C_Vue_ID_Descr>>(ref _ListTitre, value, System.Reflection.MethodBase.GetCurrentMethod().Name); }
         }
+        #endregion
+
+        #region Gestion Lieux
+        private C_Vue_ID_Descr _LieuxSelectionne;
+        public C_Vue_ID_Descr LieuxSelectionne
+        {
+            get { return _LieuxSelectionne; }
+            set { AssignerChamp<C_Vue_ID_Descr>(ref _LieuxSelectionne, value, System.Reflection.MethodBase.GetCurrentMethod().Name); }
+        }
         private ObservableCollection<C_Vue_ID_Descr> _ListLieux;
         public ObservableCollection<C_Vue_ID_Descr> ListLieux
         {
             get { return _ListLieux; }
             set { AssignerChamp<ObservableCollection<C_Vue_ID_Descr>>(ref _ListLieux, value, System.Reflection.MethodBase.GetCurrentMethod().Name); }
         }
+        #endregion
+
+        #region Gestion Equipe
+        private C_T_Equipe _EquipeSelectionne;
+        public C_T_Equipe EquipeSelectionne
+        {
+            get { return _EquipeSelectionne; }
+            set { AssignerChamp<C_T_Equipe>(ref _EquipeSelectionne, value, System.Reflection.MethodBase.GetCurrentMethod().Name); }
+        }
+        /* private C_Vue_ID_Descr _NouvelleInfo;
+         public C_Vue_ID_Descr NouvelleInfo
+         {
+             get { return _NouvelleInfo; }
+             set { AssignerChamp<C_Vue_ID_Descr>(ref _NouvelleInfo, value, System.Reflection.MethodBase.GetCurrentMethod().Name); }
+         }
+         */
         private ObservableCollection<C_T_Equipe> _ListEquipe;
         public ObservableCollection<C_T_Equipe> ListEquipe
         {
             get { return _ListEquipe; }
             set { AssignerChamp<ObservableCollection<C_T_Equipe>>(ref _ListEquipe, value, System.Reflection.MethodBase.GetCurrentMethod().Name); }
         }
-        // la list total de bénéficiaire
-         
-       
+        #endregion
+
+
         private ObservableCollection<C_Personne> _ListBeneficiaire;
         public ObservableCollection<C_Personne> ListBeneficiaire
         {
@@ -205,7 +224,10 @@ namespace Encodage_Fermette.ViewModel
         }
 
         #endregion
+
         #region Methode Bouton
+
+        #region etage supérieur
         public void ConfirmerInfo()
         {
             if (nAjoutDonne == -1) // ajout
@@ -214,22 +236,22 @@ namespace Encodage_Fermette.ViewModel
                 {
                      C_T_Titre titre = new C_T_Titre();
                     titre.ID_Titre = new CoucheGestion.G_T_Titre(chConnexion).Ajouter(NouvelleInfo.Descr);
-                    C_Vue_ID_Descr tmp = new C_Vue_ID_Descr(NouvelleInfo.ID, NouvelleInfo.Descr);
+                    C_Vue_ID_Descr tmp = new C_Vue_ID_Descr(titre.ID_Titre, NouvelleInfo.Descr);
                     ListTitre.Add(tmp);
                 }
                 else if (typedonnes == 1) // ajout lieux
                 {
                     C_T_Lieu lieux = new C_T_Lieu();
                     lieux.ID_Lieu = new CoucheGestion.G_T_Lieu(chConnexion).Ajouter(NouvelleInfo.Descr);
-                    C_Vue_ID_Descr tmp = new C_Vue_ID_Descr(NouvelleInfo.ID, NouvelleInfo.Descr);
-                    ListTitre.Add(tmp);
+                    C_Vue_ID_Descr tmp = new C_Vue_ID_Descr(lieux.ID_Lieu, NouvelleInfo.Descr);
+                    ListLieux.Add(tmp);
                 }
                 else if (typedonnes == 2) // ajout equipe
                 {
                     C_T_Equipe equipe = new C_T_Equipe();
-                    equipe.ID_Equipe = new CoucheGestion.G_T_Lieu(chConnexion).Ajouter(NouvelleInfo.Descr);
-                    C_Vue_ID_Descr tmp = new C_Vue_ID_Descr(NouvelleInfo.ID, NouvelleInfo.Descr);
-                    ListTitre.Add(tmp);
+                    equipe.ID_Equipe = new CoucheGestion.G_T_Equipe(chConnexion).Ajouter(NouvelleInfo.Descr);
+                    C_T_Equipe tmp = new C_T_Equipe(equipe.ID_Equipe, NouvelleInfo.Descr);
+                    ListEquipe.Add(tmp);
                 }
             }
             else // modification 
@@ -249,41 +271,42 @@ namespace Encodage_Fermette.ViewModel
                     new CoucheGestion.G_T_Equipe(chConnexion).Modifier(NouvelleInfo.ID, NouvelleInfo.Descr);
                     ListEquipe[nAjoutDonne] = new C_T_Equipe(NouvelleInfo.ID, NouvelleInfo.Descr);
                 }
-                NouvelleInfo = new C_Vue_ID_Descr();
             }
             ActiverNouvelleDonnées = false;
         }
         public void AnnulerInfo()
         {
             ActiverNouvelleDonnées = false;
-            NouvelleInfo = new C_Vue_ID_Descr();
         }
         public void AjouterTitre()
         {
-            NouvelleInfo = new C_Vue_ID_Descr(0, "Ajouter titre");
+            NouvelleInfo.Descr = "Ajouter Equipe";
             typedonnes = 0;
             ActiverNouvelleDonnées = true;
             nAjoutDonne = -1;
         }
         public void AjouteurLieux()
         {
-            NouvelleInfo = new C_Vue_ID_Descr(1, "Ajouter Lieux");
+            NouvelleInfo.Descr = "Ajouter Lieux";
             typedonnes = 1;
             ActiverNouvelleDonnées = true;
             nAjoutDonne = -1;
         }
         public void AjouterEquipe()
         {
-            NouvelleInfo = new C_Vue_ID_Descr(2, "Ajouter titre");
+            NouvelleInfo.Descr = "Ajouter Equipe";
+
             typedonnes = 2;
             ActiverNouvelleDonnées = true;
             nAjoutDonne = -1;
         }
         public void ModifierTitre()
         {
-            if (TitreSelectionne != null && TitreSelectionne.ID !=0)
+            if (TitreSelectionne != null )
             {
-                NouvelleInfo = new C_Vue_ID_Descr(TitreSelectionne.ID, TitreSelectionne.Descr);
+                NouvelleInfo.ID = TitreSelectionne.ID;
+                NouvelleInfo.Descr = TitreSelectionne.Descr;
+
                 nAjoutDonne = ListTitre.IndexOf(TitreSelectionne);
                 ActiverNouvelleDonnées = true;
                 typedonnes = 0;
@@ -296,9 +319,10 @@ namespace Encodage_Fermette.ViewModel
         }
         public void ModifierLieux()
         {
-            if (LieuxSelectionne != null && LieuxSelectionne.ID != 0)
+            if (LieuxSelectionne != null)
             {
-                NouvelleInfo = new C_Vue_ID_Descr(LieuxSelectionne.ID, LieuxSelectionne.Descr);
+                NouvelleInfo.ID = LieuxSelectionne.ID;
+                NouvelleInfo.Descr = LieuxSelectionne.Descr;
                 nAjoutDonne = ListLieux.IndexOf(LieuxSelectionne);
                 ActiverNouvelleDonnées = true;
                 typedonnes = 1;
@@ -310,98 +334,74 @@ namespace Encodage_Fermette.ViewModel
         }
         public void ModifierEquipe()
         {
-            if (EquipeSelectionne != null && EquipeSelectionne.ID_Equipe != 0)
+            if (EquipeSelectionne != null)
             {
-                NouvelleInfo = new C_Vue_ID_Descr(EquipeSelectionne.ID_Equipe, EquipeSelectionne.Eq_Nom);
+                NouvelleInfo.ID = EquipeSelectionne.ID_Equipe;
+                NouvelleInfo.Descr = EquipeSelectionne.Eq_Nom;
+
                 nAjoutDonne = ListEquipe.IndexOf(EquipeSelectionne);
                 ActiverNouvelleDonnées = true;
                 typedonnes = 2;
             }
             else
             {
-                System.Windows.MessageBox.Show("Il n'y a pas d'équipe ");
+                System.Windows.MessageBox.Show("Pas d'équipe selectionnée ");
             }
 
         }
         public void SupprimerTitre()
         {
-            if (TitreSelectionne != null && TitreSelectionne.ID != 0)
+            if (TitreSelectionne != null)
             {
-                bool found = false;
-                List<C_T_Titre> tmp = new CoucheGestion.G_T_Titre(chConnexion).Lire("");
-                foreach (C_T_Titre t in tmp)
-                {
-                    if (t.ID_Titre == TitreSelectionne.ID)
+                List<int> tmp = new CoucheGestion.G_Verification(chConnexion).Verification_Titre_Event(TitreSelectionne.ID);
+                    if (tmp.Count == 0)
                     {
-                        found = true;
-                        System.Windows.MessageBox.Show("Votre titre est utilisée dans un event");
+                        new CoucheGestion.G_T_Titre(chConnexion).Supprimer(TitreSelectionne.ID);
+                        ListTitre.Remove(TitreSelectionne);
                     }
-                }
-                if (!found)
-                {
-                    new CoucheGestion.G_T_Titre(chConnexion).Supprimer(TitreSelectionne.ID);
-                    ListTitre.Remove(TitreSelectionne);
-                }
-                TitreSelectionne = new C_Vue_ID_Descr(0, "");
+                    else
+                        System.Windows.MessageBox.Show("Votre titre est utilisée dans un event");
+
             }
             else
                 System.Windows.MessageBox.Show("pas de titres a supprimer");
         }
         public void SupprimerLieux()
         {
-            if (LieuxSelectionne != null && LieuxSelectionne.ID != 0)
+            if (LieuxSelectionne != null)
             {
-                bool found = false;
-                List<C_T_Lieu> tmp = new CoucheGestion.G_T_Lieu(chConnexion).Lire("");
-                foreach (C_T_Lieu t in tmp)
-                {
-                    if (t.ID_Lieu == LieuxSelectionne.ID)
-                    {
-                        found = true;
-                        System.Windows.MessageBox.Show("Votre lieu est utilisée dans un event");
-                    }
-                }
-                if (!found) // si pas trouvé
+                List<int> tmp = new CoucheGestion.G_Verification(chConnexion).Verification_Lieux_Event(LieuxSelectionne.ID);
+                if (tmp.Count == 0)
                 {
                     new CoucheGestion.G_T_Lieu(chConnexion).Supprimer(LieuxSelectionne.ID);
-                    ListTitre.Remove(LieuxSelectionne);
+                    ListLieux.Remove(LieuxSelectionne);
                 }
-                LieuxSelectionne = new C_Vue_ID_Descr(0, "Lieux");
-
+                else
+                    System.Windows.MessageBox.Show("Votre Lieux est utilisée dans un event");
             }
             else
                 System.Windows.MessageBox.Show("pas de lieux a supprimer");
+
         }
         public void SupprimerEquipe()
         {
-            if (EquipeSelectionne != null && EquipeSelectionne.ID_Equipe !=0 )
+            if (EquipeSelectionne != null)
             {
-                bool found = false;
-                List<C_T_Equipe> tmp = new G_T_Equipe(chConnexion).Lire("");
-                foreach (C_T_Equipe t in tmp)
+                List<int> tmp = new CoucheGestion.G_Verification(chConnexion).Verification_Equipe_Classement(EquipeSelectionne.ID_Equipe);
+                if (tmp.Count == 0)
                 {
-                    if (t.ID_Equipe == EquipeSelectionne.ID_Equipe)
-                    {
-                        found = true;
-                    }
-                }
-                if (!found) // si pas trouvé on peut delete l'équipe mais il faut casser la liaison avec la tables benef
-                {
-                    List<C_T_Li_Eq_Benef> tmpliaison = new CoucheGestion.G_T_Li_Eq_Benef(chConnexion).Lire("");
-                    List<C_T_Li_Eq_Benef> tmpliaisonadel = new List<C_T_Li_Eq_Benef>();
-                    foreach (C_T_Li_Eq_Benef li in tmpliaison)
-                    {
-                        if (li.ID_Equipe == EquipeSelectionne.ID_Equipe)
-                            new CoucheGestion.G_T_Li_Eq_Benef(chConnexion).Supprimer(li.ID_Li_Eq_Benef);
-                    }
                     new CoucheGestion.G_T_Equipe(chConnexion).Supprimer(EquipeSelectionne.ID_Equipe);
                     ListEquipe.Remove(EquipeSelectionne);
                 }
-                EquipeSelectionne = new C_T_Equipe(0, "Equipe");
+                else
+                    System.Windows.MessageBox.Show("Votre équipe est utilisée dans un classement");
             }
             else
                 System.Windows.MessageBox.Show("pas d'équipe a supprimer");
         }
+        #endregion
+
+        #region etage inférieur
         public void ModifierEquipeMembres()
         {
             if (EquipeSelectionne != null && EquipeSelectionne.ID_Equipe != 0)
@@ -451,16 +451,40 @@ namespace Encodage_Fermette.ViewModel
                 System.Windows.MessageBox.Show("pas de membres");
         }
         #endregion
+
+        #endregion
+        public class VM_ID_Descr : BasePropriete
+        {
+            private int _ID, _Type;
+            private string _Descr;
+           
+            public int ID
+            {
+                get { return _ID; }
+                set { AssignerChamp<int>(ref _ID, value, System.Reflection.MethodBase.GetCurrentMethod().Name); }
+            }
+            public int Type
+            {
+                get { return _Type; }
+                set { AssignerChamp<int>(ref _Type, value, System.Reflection.MethodBase.GetCurrentMethod().Name); }
+            }
+
+            public string Descr
+            {
+                get { return _Descr; }
+                set { AssignerChamp<string>(ref _Descr, value, System.Reflection.MethodBase.GetCurrentMethod().Name); }
+            }
+        }
+
         public VM_GestionEventParam()
         {
+            NouvelleInfo = new VM_ID_Descr();
+
             ListTitre = ChargerTItre(chConnexion);
             ListLieux = ChargerLieux(chConnexion);
             ListEquipe = ChargerEquipe(chConnexion);
-
             ListBeneficiaire = ChargerBenefiaires(chConnexion);
-            TitreSelectionne = new C_Vue_ID_Descr(0, "Titres");
-            LieuxSelectionne = new C_Vue_ID_Descr(0, "Lieux");
-            EquipeSelectionne = new C_T_Equipe(0, "Equipe");
+
             ActiverNouvelleDonnées = false;
 
             cConfirmerInfo = new BaseCommande(ConfirmerInfo);
@@ -482,5 +506,6 @@ namespace Encodage_Fermette.ViewModel
             cSupprimerLieux = new BaseCommande(SupprimerLieux);
             cSupprimerEquipe = new BaseCommande(SupprimerEquipe);
         }
+
     }
 }

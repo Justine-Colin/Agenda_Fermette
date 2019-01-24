@@ -110,14 +110,14 @@
                   Margin="3"
                  IsEnabled="{Binding Path=ActiverChampsModif, Mode=OneWay}"/>
                     <Button Grid.Column="1" Content="add" Margin="3" Command="{Binding cAjouterEquipe}" IsEnabled="{Binding Path=ActiverChampsModif, Mode=OneWay}"/>
-                    <Button Grid.Column="2" Content="del" Margin="3" Command="{Binding cModifierLieux}" IsEnabled="{Binding Path=ActiverChampsModif, Mode=OneWay}"/>
+                    <Button Grid.Column="2" Content="del" Margin="3" Command="{Binding cSupprimerEquipe}" IsEnabled="{Binding Path=ActiverChampsModif, Mode=OneWay}"/>
                     <Button Grid.Column="3" Content="modif" Margin="3" Command="{Binding cModifierEquipe}" IsEnabled="{Binding Path=ActiverChampsModif, Mode=OneWay}"/>
                     <Button Grid.Column="4" Content="membres" Margin="3" Command="{Binding cModifierEquipeMembres}" IsEnabled="{Binding Path=ActiverChampsModif, Mode=OneWay}"/>
                 </Grid>
                 <GroupBox Grid.Row="1" Header="Membres Equipe">
                     <Grid>
                         <Grid.RowDefinitions>
-                            <RowDefinition Height="*" />
+                            <RowDefinition Height="auto" />
                             <RowDefinition Height="*" />
                         </Grid.RowDefinitions>
                         <Grid.ColumnDefinitions>
@@ -144,7 +144,7 @@
                             <Button Margin="3" Content="del"   Grid.Column="2" Command="{Binding cSupprimerMembreEquipe}" IsEnabled="{Binding Path=ActiverGestionEquipe, Mode=OneWay}"/>
                         </Grid>
                         <GroupBox Grid.Row="1">
-                            <DataGrid Name="dgBeneficiaireEq"  Grid.Column="2"  ItemsSource="{Binding Path=ListBenefiaireEq}"  VerticalScrollBarVisibility="Visible"
+                            <DataGrid  Margin ="5" Name="dgBeneficiaireEq"  Grid.Column="2"  ItemsSource="{Binding Path=ListBenefiaireEq}"  VerticalScrollBarVisibility="Visible"
             IsReadOnly="True" AutoGenerateColumns="False"  IsEnabled="{Binding Path=ActiverGestionEquipe, Mode=OneWay}"
             SelectedItem="{Binding BeneficiaireSelectionneEq, Mode=TwoWay}">
                             <DataGrid.Columns>

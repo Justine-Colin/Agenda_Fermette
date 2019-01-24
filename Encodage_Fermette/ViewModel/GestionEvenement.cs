@@ -24,6 +24,7 @@ namespace Encodage_Fermette.ViewModel
         int najoutevent;
         int ajoutmenu;
 
+        #region Gestion affichage 
         private bool _ActiverUneFicheEvent;
         public bool ActiverUneFicheEvent
         {
@@ -33,7 +34,6 @@ namespace Encodage_Fermette.ViewModel
                 AssignerChamp<bool>(ref _ActiverUneFicheEvent, value, System.Reflection.MethodBase.GetCurrentMethod().Name);
             }
         }
-
         private bool _ActiverUneFicheDate;
         public bool ActiverUneFicheDate
         {
@@ -72,6 +72,8 @@ namespace Encodage_Fermette.ViewModel
             get { return _ActiverModifClassement; }
             set { AssignerChamp<bool>(ref _ActiverModifClassement, value, System.Reflection.MethodBase.GetCurrentMethod().Name); }
         }
+        #endregion 
+
         private VM_Un_Event _UnEvent;
         public VM_Un_Event UnEvent
         {
