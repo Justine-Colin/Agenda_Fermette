@@ -369,10 +369,10 @@
                 <StackPanel Orientation="Horizontal" HorizontalAlignment="Center" Grid.Row="3" Grid.Column="1"  Grid.ColumnSpan="2"  Margin="5">
                     <Button Name="bConforimer" Content="Ajouter Classement" Margin="3" IsEnabled="{Binding Path=ActiverbtnAjoutClassement, Mode=OneWay}"
            Command="{Binding cAjouterClassement}" />
-                    <Button Name="ModifierClassement" Content="Modifier Classement" Margin="3" IsEnabled="{Binding Path=ActiverbtnModifClassement, Mode=OneWay}"
+                    <Button Name="ModifierClassement" Content="Modifier Classement" Margin="3" IsEnabled="{Binding Path=ActiverbtnAjoutClassement, Mode=OneWay}"
            Command="{Binding cModifierClassement}" />
 
-                    <Button Name="cSupprimerClass" Content="Supprimer CLassement" Margin="3" IsEnabled="{Binding Path=ActiverModifClassement, Mode=OneWay}"
+                    <Button Name="cSupprimerClass" Content="Supprimer CLassement" Margin="3" IsEnabled="{Binding Path=ActiverbtnAjoutClassement, Mode=OneWay}"
            Command="{Binding cSupprimerClassement}" />
                 </StackPanel>
                 <ComboBox Grid.Row="4" Margin="5" 

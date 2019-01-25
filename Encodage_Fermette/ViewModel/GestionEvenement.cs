@@ -573,18 +573,24 @@ namespace Encodage_Fermette.ViewModel
 
         public void AjouterClassement()
         {
-            if (UnEvent.ID_Event > 0) // il nous faut obligatoirement un idevent
+            if (UnClassement.ID_Classement == 0)
             {
-                ajoutclassement = -1;
-                ActiverbtnAjoutClassement = false;
-                ActiverModifClassement = true;
+                if (UnEvent.ID_Event > 0) // il nous faut obligatoirement un idevent
+                {
+                    ajoutclassement = -1;
+                    ActiverModifClassement = true;
+                    ActiverbtnAjoutClassement = false;
+                }
             }
+            else
+                System.Windows.MessageBox.Show("Il existe déjà un classement");
             // a tester 
         }
         public void ModifierClassement()
         {
-            ActiverbtnModifClassement = false;
+            ajoutclassement = 1;
             ActiverModifClassement = true;
+            ActiverbtnAjoutClassement = false;
         }
         public void ConfirmerClassement()
         {
