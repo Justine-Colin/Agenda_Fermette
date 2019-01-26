@@ -333,6 +333,7 @@ namespace Encodage_Fermette.ViewModel
             ListStaffParticipant = ChargerStaffsParticipants(UnEvent.ID_Event);
             ListBenefiaireParticipant = ChargerBeneficiairesParticipants(UnEvent.ID_Event);
             ChargerClassement(UnEvent.ID_Event);
+
         }
         public ObservableCollection<C_Vue_ID_Descr> ChargerListTitres(string co)
         {
@@ -387,15 +388,10 @@ namespace Encodage_Fermette.ViewModel
                 UnClassement.ID_Equipe1 = Class.ID_Eq1;
                 UnClassement.ID_Equipe2 = Class.ID_Eq2;
                 UnClassement.ID_Equipe3 = Class.ID_Eq3;
-
-                ActiverbtnModifClassement = true;
-                ActiverbtnAjoutClassement = false;
             }
             else
             {
                 UnClassement = new VM_Un_Classement();
-                ActiverbtnModifClassement = false;
-                ActiverbtnAjoutClassement = true;
             }
 
         }
@@ -580,6 +576,7 @@ namespace Encodage_Fermette.ViewModel
                     ajoutclassement = -1;
                     ActiverModifClassement = true;
                     ActiverbtnAjoutClassement = false;
+                    ActiverUneFicheEvent = false; // on ne permet plus de valider son evenement
                 }
             }
             else
@@ -591,6 +588,7 @@ namespace Encodage_Fermette.ViewModel
             ajoutclassement = 1;
             ActiverModifClassement = true;
             ActiverbtnAjoutClassement = false;
+            ActiverUneFicheEvent = false; // on ne permet plus de valider son evenement
         }
         public void ConfirmerClassement()
         {
@@ -606,6 +604,9 @@ namespace Encodage_Fermette.ViewModel
                 UnClassement.ID_Classement = new CoucheGestion.G_T_Classement(chConnexion).Ajouter(UnEvent.ID_Event, UnClassement.ID_Equipe1, UnClassement.ID_Equipe2, UnClassement.ID_Equipe3);
                 System.Windows.MessageBox.Show("Classement Ajouté !");
             }
+            ActiverModifClassement = false;
+            ActiverbtnAjoutClassement = true;
+            ActiverUneFicheEvent = true; // on permet de pouvoir valider son evenement
         }
         public void SupprimerClassement()
         {
@@ -648,17 +649,16 @@ namespace Encodage_Fermette.ViewModel
                 System.Windows.MessageBox.Show(datetraitement.ToShortDateString());
 
 
- //on recharge le menu 
-MenuDuJour.E_Descr = MenuSelectionne.E_Descr;
-MenuDuJour.P_Descr = MenuSelectionne.P_Descr;
-MenuDuJour.D_Descr = MenuSelectionne.D_Descr;
-MenuDuJour.C_Descr = MenuSelectionne.C_Descr; 
+                 //on recharge le menu 
+                MenuDuJour.E_Descr = MenuSelectionne.E_Descr;
+                MenuDuJour.P_Descr = MenuSelectionne.P_Descr;
+                MenuDuJour.D_Descr = MenuSelectionne.D_Descr;
+                MenuDuJour.C_Descr = MenuSelectionne.C_Descr; 
 
             }
             else
                 System.Windows.MessageBox.Show("Pas de Menu sélectionné ");
             // on modif un event car il n'y en a pas
-
         }
         public void SupprimerMenu()
         {
@@ -671,7 +671,6 @@ MenuDuJour.C_Descr = MenuSelectionne.C_Descr;
                 MenuDuJour.P_Descr = "";
                 MenuDuJour.D_Descr = "";
                 MenuDuJour.C_Descr = "";
-
             }
             else
                 System.Windows.MessageBox.Show("Pas de Menu supprimable ");
@@ -688,6 +687,8 @@ MenuDuJour.C_Descr = MenuSelectionne.C_Descr;
             najoutevent = -1;
             ActiverUneFicheEvent = true;
             ActiverUneFicheDate = false;
+            ActiverbtnModifClassement = true;
+            ActiverbtnAjoutClassement = false;
 
         }
         public void ModifierEvent()
@@ -696,6 +697,8 @@ MenuDuJour.C_Descr = MenuSelectionne.C_Descr;
             {
                 ActiverUneFicheEvent = true;
                 ActiverUneFicheDate = false;
+                ActiverbtnModifClassement = true;
+                ActiverbtnAjoutClassement = false;
             }
             else
                 System.Windows.MessageBox.Show("Pas d'event a modifier");
@@ -718,7 +721,6 @@ MenuDuJour.C_Descr = MenuSelectionne.C_Descr;
         {
             if (najoutevent == -1) // ajouter
             {
-                System.Windows.MessageBox.Show("Event Ajouté !");
                 int id;
                 id = new G_T_Event(chConnexion).Ajouter(UnEvent.ID_Titre, UnEvent.Priorite, UnEvent.Recurrent, UnEvent.Descriptif, UnEvent.ID_Lieu, UnEvent.HeureDebut, UnEvent.HeureFin);
                 C_Vue_Event evenement = new C_Vue_Event();
@@ -729,10 +731,10 @@ MenuDuJour.C_Descr = MenuSelectionne.C_Descr;
                 evenement.Ev_HeureFin = UnEvent.HeureFin;
 
                 ListEvent.Add(evenement);
+                System.Windows.MessageBox.Show("Event Ajouté !");
             }
             else
             {
-                System.Windows.MessageBox.Show("Event Modifié !");
                 new CoucheGestion.G_T_Event(chConnexion).Modifier(UnEvent.ID_Event, UnEvent.ID_Titre, UnEvent.Priorite, UnEvent.Recurrent, UnEvent.Descriptif, UnEvent.ID_Lieu, UnEvent.HeureDebut, UnEvent.HeureFin);
                 C_Vue_Event evenement = new C_Vue_Event();
                 evenement.ID_Ev = UnEvent.ID_Event;
@@ -741,12 +743,14 @@ MenuDuJour.C_Descr = MenuSelectionne.C_Descr;
                 evenement.Ev_HeureDebut = UnEvent.HeureDebut;
                 evenement.Ev_HeureFin = UnEvent.HeureFin;
                 ListEvent[najoutevent] = evenement;
-
+                System.Windows.MessageBox.Show("Event Modifié !");
             }
-            ActiverUneFicheEvent = false;
-            ActiverModifClassement = false;
-            ActiverbtnAjoutClassement = false;
-            ActiverUneFicheEvent = true;
+
+            ActiverUneFicheEvent = false; // on désactive l'interaction avec event
+
+            ActiverModifClassement = false; // on désative les interactions avec le classement
+            ActiverbtnAjoutClassement = false; // on désative les interactions avec le classement
+            ActiverUneFicheDate = true;
         }
         public void AnnulerEvent()
         {
