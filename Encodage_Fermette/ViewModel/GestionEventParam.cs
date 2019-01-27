@@ -230,49 +230,54 @@ namespace Encodage_Fermette.ViewModel
         #region etage supérieur
         public void ConfirmerInfo()
         {
-            if (nAjoutDonne == -1) // ajout
+            if (NouvelleInfo.Descr.Count() > 0)
             {
-                if (typedonnes == 0) // ajout titre
+                if (nAjoutDonne == -1) // ajout
                 {
-                     C_T_Titre titre = new C_T_Titre();
-                    titre.ID_Titre = new CoucheGestion.G_T_Titre(chConnexion).Ajouter(NouvelleInfo.Descr);
-                    C_Vue_ID_Descr tmp = new C_Vue_ID_Descr(titre.ID_Titre, NouvelleInfo.Descr);
-                    ListTitre.Add(tmp);
+                    if (typedonnes == 0) // ajout titre
+                    {
+                        C_T_Titre titre = new C_T_Titre();
+                        titre.ID_Titre = new CoucheGestion.G_T_Titre(chConnexion).Ajouter(NouvelleInfo.Descr);
+                        C_Vue_ID_Descr tmp = new C_Vue_ID_Descr(titre.ID_Titre, NouvelleInfo.Descr);
+                        ListTitre.Add(tmp);
+                    }
+                    else if (typedonnes == 1) // ajout lieux
+                    {
+                        C_T_Lieu lieux = new C_T_Lieu();
+                        lieux.ID_Lieu = new CoucheGestion.G_T_Lieu(chConnexion).Ajouter(NouvelleInfo.Descr);
+                        C_Vue_ID_Descr tmp = new C_Vue_ID_Descr(lieux.ID_Lieu, NouvelleInfo.Descr);
+                        ListLieux.Add(tmp);
+                    }
+                    else if (typedonnes == 2) // ajout equipe
+                    {
+                        C_T_Equipe tmp = new C_T_Equipe(NouvelleInfo.Descr);
+                        tmp.ID_Equipe = new CoucheGestion.G_T_Equipe(chConnexion).Ajouter(NouvelleInfo.Descr);
+                        System.Windows.MessageBox.Show(tmp.ID_Equipe.ToString());
+                        ListEquipe.Add(tmp);
+                    }
                 }
-                else if (typedonnes == 1) // ajout lieux
+                else // modification 
                 {
-                    C_T_Lieu lieux = new C_T_Lieu();
-                    lieux.ID_Lieu = new CoucheGestion.G_T_Lieu(chConnexion).Ajouter(NouvelleInfo.Descr);
-                    C_Vue_ID_Descr tmp = new C_Vue_ID_Descr(lieux.ID_Lieu, NouvelleInfo.Descr);
-                    ListLieux.Add(tmp);
+                    if (typedonnes == 0) // modif titre
+                    {
+                        new CoucheGestion.G_T_Titre(chConnexion).Modifier(NouvelleInfo.ID, NouvelleInfo.Descr);
+                        ListTitre[nAjoutDonne] = new C_Vue_ID_Descr(NouvelleInfo.ID, NouvelleInfo.Descr);
+                    }
+                    else if (typedonnes == 1) // modif lieux
+                    {
+                        new CoucheGestion.G_T_Lieu(chConnexion).Modifier(NouvelleInfo.ID, NouvelleInfo.Descr);
+                        ListLieux[nAjoutDonne] = new C_Vue_ID_Descr(NouvelleInfo.ID, NouvelleInfo.Descr);
+                    }
+                    else if (typedonnes == 2) // modif equipe
+                    {
+                        new CoucheGestion.G_T_Equipe(chConnexion).Modifier(NouvelleInfo.ID, NouvelleInfo.Descr);
+                        ListEquipe[nAjoutDonne] = new C_T_Equipe(NouvelleInfo.ID, NouvelleInfo.Descr);
+                    }
                 }
-                else if (typedonnes == 2) // ajout equipe
-                {
-                    C_T_Equipe equipe = new C_T_Equipe();
-                    equipe.ID_Equipe = new CoucheGestion.G_T_Equipe(chConnexion).Ajouter(NouvelleInfo.Descr);
-                    C_T_Equipe tmp = new C_T_Equipe(equipe.ID_Equipe, NouvelleInfo.Descr);
-                    ListEquipe.Add(tmp);
-                }
+                ActiverNouvelleDonnées = false;
             }
-            else // modification 
-            {
-                if (typedonnes == 0) // modif titre
-                {
-                    new CoucheGestion.G_T_Titre(chConnexion).Modifier(NouvelleInfo.ID, NouvelleInfo.Descr);
-                    ListTitre[nAjoutDonne] = new C_Vue_ID_Descr(NouvelleInfo.ID, NouvelleInfo.Descr);
-                }
-                else if (typedonnes == 1) // modif lieux
-                {
-                    new CoucheGestion.G_T_Lieu(chConnexion).Modifier(NouvelleInfo.ID, NouvelleInfo.Descr);
-                    ListLieux[nAjoutDonne] = new C_Vue_ID_Descr(NouvelleInfo.ID, NouvelleInfo.Descr);
-                }
-                else if (typedonnes == 2) // modif equipe
-                {
-                    new CoucheGestion.G_T_Equipe(chConnexion).Modifier(NouvelleInfo.ID, NouvelleInfo.Descr);
-                    ListEquipe[nAjoutDonne] = new C_T_Equipe(NouvelleInfo.ID, NouvelleInfo.Descr);
-                }
-            }
-            ActiverNouvelleDonnées = false;
+            else
+                System.Windows.MessageBox.Show("Il faut entrer un nom");
         }
         public void AnnulerInfo()
         {
@@ -280,6 +285,7 @@ namespace Encodage_Fermette.ViewModel
         }
         public void AjouterTitre()
         {
+            NouvelleInfo = new VM_ID_Descr();
             NouvelleInfo.Descr = "Ajouter Equipe";
             typedonnes = 0;
             ActiverNouvelleDonnées = true;
@@ -287,6 +293,7 @@ namespace Encodage_Fermette.ViewModel
         }
         public void AjouteurLieux()
         {
+            NouvelleInfo = new VM_ID_Descr();
             NouvelleInfo.Descr = "Ajouter Lieux";
             typedonnes = 1;
             ActiverNouvelleDonnées = true;
@@ -294,6 +301,7 @@ namespace Encodage_Fermette.ViewModel
         }
         public void AjouterEquipe()
         {
+            NouvelleInfo = new VM_ID_Descr();
             NouvelleInfo.Descr = "Ajouter Equipe";
 
             typedonnes = 2;

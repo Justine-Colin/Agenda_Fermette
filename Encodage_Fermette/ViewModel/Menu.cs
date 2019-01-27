@@ -213,43 +213,49 @@ namespace Encodage_Fermette.ViewModel
         }
         public void Confirmer()
         {
-            if (nAjout == -1)
-            {
-                // ajout
-                //System.Windows.Forms.MessageBox.Show(EntreeSelectionne.ID.ToString() + PlatSelectionne.ID.ToString() + DessertSelectionne.ID.ToString() + CollationSelectionne.ID.ToString());
-                UnMenu.ID = new CoucheGestion.G_T_Menu(chConnexion).Ajouter((int)EntreeSelectionne.ID, (int)PlatSelectionne.ID, (int)DessertSelectionne.ID,(int)CollationSelectionne.ID);
-                // on ajout notre menu
-                C_Vue_Menu tmpMenu = new C_Vue_Menu();
-                tmpMenu.ID_Menu = UnMenu.ID;
-                tmpMenu.ID_Entree = EntreeSelectionne.ID;
-                tmpMenu.ID_Plat = PlatSelectionne.ID;
-                tmpMenu.ID_Dessert = DessertSelectionne.ID;
-                tmpMenu.ID_Collation = CollationSelectionne.ID;
-                tmpMenu.E_Descr = EntreeSelectionne.Descr;
-                tmpMenu.P_Descr = PlatSelectionne.Descr;
-                tmpMenu.D_Descr = DessertSelectionne.Descr;
-                tmpMenu.C_Descr = CollationSelectionne.Descr;
 
-                BcpMenu.Add(tmpMenu);
+            if (EntreeSelectionne != null && PlatSelectionne != null && DessertSelectionne != null && CollationSelectionne != null)
+            {
+                if (nAjout == -1)
+                {
+                    // ajout
+                    //System.Windows.Forms.MessageBox.Show(EntreeSelectionne.ID.ToString() + PlatSelectionne.ID.ToString() + DessertSelectionne.ID.ToString() + CollationSelectionne.ID.ToString());
+                    UnMenu.ID = new CoucheGestion.G_T_Menu(chConnexion).Ajouter((int)EntreeSelectionne.ID, (int)PlatSelectionne.ID, (int)DessertSelectionne.ID, (int)CollationSelectionne.ID);
+                    // on ajout notre menu
+                    C_Vue_Menu tmpMenu = new C_Vue_Menu();
+                    tmpMenu.ID_Menu = UnMenu.ID;
+                    tmpMenu.ID_Entree = EntreeSelectionne.ID;
+                    tmpMenu.ID_Plat = PlatSelectionne.ID;
+                    tmpMenu.ID_Dessert = DessertSelectionne.ID;
+                    tmpMenu.ID_Collation = CollationSelectionne.ID;
+                    tmpMenu.E_Descr = EntreeSelectionne.Descr;
+                    tmpMenu.P_Descr = PlatSelectionne.Descr;
+                    tmpMenu.D_Descr = DessertSelectionne.Descr;
+                    tmpMenu.C_Descr = CollationSelectionne.Descr;
+
+                    BcpMenu.Add(tmpMenu);
+                }
+                else
+                {
+                    // modification
+                    new CoucheGestion.G_T_Menu(chConnexion).Modifier(MenuSelectionne.ID_Menu, EntreeSelectionne.ID, PlatSelectionne.ID, DessertSelectionne.ID, CollationSelectionne.ID);
+                    C_Vue_Menu tmpMenu = new C_Vue_Menu();
+                    tmpMenu.ID_Menu = MenuSelectionne.ID_Menu;
+                    tmpMenu.ID_Entree = EntreeSelectionne.ID;
+                    tmpMenu.ID_Plat = PlatSelectionne.ID;
+                    tmpMenu.ID_Dessert = DessertSelectionne.ID;
+                    tmpMenu.ID_Collation = CollationSelectionne.ID;
+                    tmpMenu.E_Descr = EntreeSelectionne.Descr;
+                    tmpMenu.P_Descr = PlatSelectionne.Descr;
+                    tmpMenu.D_Descr = DessertSelectionne.Descr;
+                    tmpMenu.C_Descr = CollationSelectionne.Descr;
+                    BcpMenu.Clear();
+                    ChargerMenu(chConnexion);
+                }
+                ActiverUneFiche = false;
             }
             else
-            {
-                // modification
-                new CoucheGestion.G_T_Menu(chConnexion).Modifier(MenuSelectionne.ID_Menu, EntreeSelectionne.ID, PlatSelectionne.ID, DessertSelectionne.ID, CollationSelectionne.ID);
-                C_Vue_Menu tmpMenu = new C_Vue_Menu();
-                tmpMenu.ID_Menu = MenuSelectionne.ID_Menu;
-                tmpMenu.ID_Entree = EntreeSelectionne.ID;
-                tmpMenu.ID_Plat = PlatSelectionne.ID;
-                tmpMenu.ID_Dessert = DessertSelectionne.ID;
-                tmpMenu.ID_Collation = CollationSelectionne.ID;
-                tmpMenu.E_Descr = EntreeSelectionne.Descr;
-                tmpMenu.P_Descr = PlatSelectionne.Descr;
-                tmpMenu.D_Descr = DessertSelectionne.Descr;
-                tmpMenu.C_Descr = CollationSelectionne.Descr;
-                BcpMenu.Clear();
-                ChargerMenu(chConnexion);
-            }
-            ActiverUneFiche = false;
+                System.Windows.MessageBox.Show("Il faut que le menu soit complet !");
         }
         public void Annuler()
         { ActiverUneFiche = false; }
@@ -315,29 +321,36 @@ namespace Encodage_Fermette.ViewModel
         }
         public void ConfirmerNourriture()
         {
-            if (nNourriteAjout == -1) // ajout
+            if (NouveauNourriture.No_Descriptif != null)
             {
-                NouveauNourriture.ID_Nourriture = new CoucheGestion.G_T_Nourriture(chConnexion).Ajouter(NouveauNourriture.No_Descriptif, NouveauNourriture.No_Type);
-                C_Vue_ID_Descr tmp = new C_Vue_ID_Descr(NouveauNourriture.ID_Nourriture, NouveauNourriture.No_Descriptif);
-                if (NouveauNourriture.No_Type == 0)
-                    ListEntree.Add(tmp);
-                else if (NouveauNourriture.No_Type == 1)
-                    ListPlat.Add(tmp);
-                else if (NouveauNourriture.No_Type == 2)
-                    ListDessert.Add(tmp);
-                else if (NouveauNourriture.No_Type == 3)
-                    ListCollation.Add(tmp);
+                if (nNourriteAjout == -1) // ajout
+                {
+                    NouveauNourriture.ID_Nourriture = new CoucheGestion.G_T_Nourriture(chConnexion).Ajouter(NouveauNourriture.No_Descriptif, NouveauNourriture.No_Type);
+                    C_Vue_ID_Descr tmp = new C_Vue_ID_Descr(NouveauNourriture.ID_Nourriture, NouveauNourriture.No_Descriptif);
+                    if (NouveauNourriture.No_Type == 0)
+                        ListEntree.Add(tmp);
+                    else if (NouveauNourriture.No_Type == 1)
+                        ListPlat.Add(tmp);
+                    else if (NouveauNourriture.No_Type == 2)
+                        ListDessert.Add(tmp);
+                    else if (NouveauNourriture.No_Type == 3)
+                        ListCollation.Add(tmp);
+                    System.Windows.MessageBox.Show("Votre Nourriture a été ajoutée");
 
+                }
+                else // modification 
+                {
+                    new CoucheGestion.G_T_Nourriture(chConnexion).Modifier(NouveauNourriture.ID_Nourriture, NouveauNourriture.No_Descriptif, NouveauNourriture.No_Type);
+                    EntreeSelectionne = ListEntree[nAjout] = new C_Vue_ID_Descr(NouveauNourriture.ID_Nourriture, NouveauNourriture.No_Descriptif);
+                    BcpMenu.Clear();
+                    BcpMenu = ChargerMenu(chConnexion);
+                }
+                ActiverFicheNourriture = false;
+                ActiverUneFiche = true;
             }
-            else // modification 
-            {
-                new CoucheGestion.G_T_Nourriture(chConnexion).Modifier(NouveauNourriture.ID_Nourriture, NouveauNourriture.No_Descriptif, NouveauNourriture.No_Type);
-                EntreeSelectionne = ListEntree[nAjout] = new C_Vue_ID_Descr(NouveauNourriture.ID_Nourriture, NouveauNourriture.No_Descriptif);
-                BcpMenu.Clear();
-                BcpMenu = ChargerMenu(chConnexion);
-            }
-            ActiverFicheNourriture = false;
-            ActiverUneFiche = true;
+            else
+                System.Windows.MessageBox.Show("Il faut un nom pour votre nouveaux plat");
+
 
         }
         public void AnnulerNourriture()
@@ -348,7 +361,7 @@ namespace Encodage_Fermette.ViewModel
         }
         public void AjouteurEntree()
         {
-            NouveauNourriture = new C_T_Nourriture("Ajouter Entree",0);
+            NouveauNourriture = new C_T_Nourriture();
             ActiverFicheNourriture = true;
             ActiverUneFiche = false;
                 nNourriteAjout = -1;
@@ -387,7 +400,7 @@ namespace Encodage_Fermette.ViewModel
 
         public void AjouterPlat()
         {
-            NouveauNourriture = new C_T_Nourriture("Ajouter Plat", 1);
+            NouveauNourriture = new C_T_Nourriture();
             ActiverFicheNourriture = true;
             ActiverUneFiche = false;
             nNourriteAjout = -1;
@@ -426,7 +439,7 @@ namespace Encodage_Fermette.ViewModel
 
         public void AjouteDessert()
         {
-            NouveauNourriture = new C_T_Nourriture("Ajouter Dessert", 2);
+            NouveauNourriture = new C_T_Nourriture();
             ActiverFicheNourriture = true;
             ActiverUneFiche = false;
             nNourriteAjout = -1;
@@ -465,7 +478,7 @@ namespace Encodage_Fermette.ViewModel
 
         public void AjouteCollation()
         {
-            NouveauNourriture = new C_T_Nourriture("Ajouter Collation", 0);
+            NouveauNourriture = new C_T_Nourriture();
             ActiverFicheNourriture = true;
             ActiverUneFiche = false;
             nNourriteAjout = -1;

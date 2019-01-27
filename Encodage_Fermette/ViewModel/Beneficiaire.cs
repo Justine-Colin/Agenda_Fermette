@@ -93,23 +93,29 @@ namespace Encodage_Fermette.ViewModel
         }
         public void Confirmer()
         {
-            if (nAjout == -1)
-            {
-                UnBeneficiaire.ID = new G_T_Beneficiaire(chConnexion).Ajouter(UnBeneficiaire.Nom, UnBeneficiaire.Pre, UnBeneficiaire.Nai, UnBeneficiaire.Sexe);
-                BcpBeneficiaire.Add(new C_T_Beneficiaire(UnBeneficiaire.ID, UnBeneficiaire.Nom, UnBeneficiaire.Pre, UnBeneficiaire.Nai, UnBeneficiaire.Sexe));
+            if ( UnBeneficiaire.Nom != null && UnBeneficiaire.Pre != null)
+                {
+                if (nAjout == -1)
+                {
+                    UnBeneficiaire.ID = new G_T_Beneficiaire(chConnexion).Ajouter(UnBeneficiaire.Nom, UnBeneficiaire.Pre, UnBeneficiaire.Nai, UnBeneficiaire.Sexe);
+                    BcpBeneficiaire.Add(new C_T_Beneficiaire(UnBeneficiaire.ID, UnBeneficiaire.Nom, UnBeneficiaire.Pre, UnBeneficiaire.Nai, UnBeneficiaire.Sexe));
+                }
+                else
+                {
+                    new CoucheGestion.G_T_Beneficiaire(chConnexion).Modifier(UnBeneficiaire.ID, UnBeneficiaire.Nom, UnBeneficiaire.Pre, UnBeneficiaire.Nai, UnBeneficiaire.Sexe);
+                    BcpBeneficiaire[nAjout] = new C_T_Beneficiaire(UnBeneficiaire.ID, UnBeneficiaire.Nom, UnBeneficiaire.Pre, UnBeneficiaire.Nai, UnBeneficiaire.Sexe);
+                }
+                ActiverUneFiche = false;
             }
             else
-            {
-                new CoucheGestion.G_T_Beneficiaire(chConnexion).Modifier(UnBeneficiaire.ID, UnBeneficiaire.Nom, UnBeneficiaire.Pre, UnBeneficiaire.Nai, UnBeneficiaire.Sexe);
-                BcpBeneficiaire[nAjout] = new C_T_Beneficiaire(UnBeneficiaire.ID, UnBeneficiaire.Nom, UnBeneficiaire.Pre, UnBeneficiaire.Nai, UnBeneficiaire.Sexe);
-            }
-            ActiverUneFiche = false;
+                System.Windows.MessageBox.Show("Veuillez remplir les champs Nom/Prenom");
         }
         public void Annuler()
         { ActiverUneFiche = false; }
         public void Ajouter()
         {
             UnBeneficiaire = new VM_Un_Beneficiaire();
+            UnBeneficiaire.Nai = new DateTime(1999,01,01);
             nAjout = -1;
             ActiverUneFiche = true;
         }

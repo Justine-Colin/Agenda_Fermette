@@ -50,13 +50,16 @@
     <WarningLevel>4</WarningLevel>
   </PropertyGroup>
   <ItemGroup>
-    <Reference Include="CoucheAcces">
+    <Reference Include="CoucheAcces, Version=1.0.0.0, Culture=neutral, processorArchitecture=MSIL">
+      <SpecificVersion>False</SpecificVersion>
       <HintPath>..\..\BD\CAG\CoucheGestion\CoucheGestion\bin\Debug\CoucheAcces.dll</HintPath>
     </Reference>
-    <Reference Include="CoucheClasse">
+    <Reference Include="CoucheClasse, Version=1.0.0.0, Culture=neutral, processorArchitecture=MSIL">
+      <SpecificVersion>False</SpecificVersion>
       <HintPath>..\..\BD\CAG\CoucheGestion\CoucheGestion\bin\Debug\CoucheClasse.dll</HintPath>
     </Reference>
-    <Reference Include="CoucheGestion">
+    <Reference Include="CoucheGestion, Version=1.0.0.0, Culture=neutral, processorArchitecture=MSIL">
+      <SpecificVersion>False</SpecificVersion>
       <HintPath>..\..\BD\CAG\CoucheGestion\CoucheGestion\bin\Debug\CoucheGestion.dll</HintPath>
     </Reference>
     <Reference Include="System" />

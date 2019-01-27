@@ -40,7 +40,14 @@
 
             <TextBlock Name="tNaissance" Grid.Row="2" Text="Date Naissance" VerticalAlignment="Center" />
             <DatePicker Name="dpNai" Grid.Row="2" Grid.Column="1" Margin="3" 
-               SelectedDate="{Binding Path=UnBeneficiaire.Nai, Mode=TwoWay, StringFormat='dd/mm/yyyy'}" />
+               SelectedDate="{Binding Path=UnBeneficiaire.Nai, Mode=TwoWay, StringFormat='dd/mm/yyyy'}" >
+                <DatePicker.Resources>
+                    <Style TargetType="DatePickerTextBox">
+                        <Setter Property="IsReadOnly" Value="True"/>
+                    </Style>
+                </DatePicker.Resources>
+
+            </DatePicker>
 
             <TextBlock Name="tSexe" Text="Sexe" Grid.Row="3" VerticalAlignment="Center" />
             <ComboBox Grid.Row="3" Grid.Column="1" SelectedValuePath="Tag" Margin="3"

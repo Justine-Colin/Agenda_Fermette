@@ -87,11 +87,11 @@ namespace Encodage_Fermette.ViewModel
             get { return _EventSelectionne; }
             set { AssignerChamp<C_Vue_Event>(ref _EventSelectionne, value, System.Reflection.MethodBase.GetCurrentMethod().Name); }
         }
-        private List<C_Vue_Event> _ListEvent;
-        public List<C_Vue_Event> ListEvent
+        private ObservableCollection<C_Vue_Event> _ListEvent;
+        public ObservableCollection<C_Vue_Event> ListEvent
         {
             get { return _ListEvent; }
-            set { AssignerChamp<List<C_Vue_Event>>(ref _ListEvent, value, System.Reflection.MethodBase.GetCurrentMethod().Name); }
+            set { AssignerChamp<ObservableCollection<C_Vue_Event>>(ref _ListEvent, value, System.Reflection.MethodBase.GetCurrentMethod().Name); }
         }
 
         private C_Vue_ID_Descr _Titre;
@@ -276,10 +276,14 @@ namespace Encodage_Fermette.ViewModel
         public void ChargementEvenementDujour(DateTime Datetime)
         {
             datetraitement = Datetime;
-             var date = Datetime.Date;
-            // il nous faut l'id date 
+            var date = Datetime.Date;
 
-            ListEvent = new CoucheGestion.G_Vue_Event(chConnexion).Lire_Event_Dujour(date);
+            ObservableCollection<C_Vue_Event> rep = new ObservableCollection<C_Vue_Event>();
+            List<C_Vue_Event> lTmp = new CoucheGestion.G_Vue_Event(chConnexion).Lire_Event_Dujour(date);
+            foreach (C_Vue_Event Tmp in lTmp)
+                rep.Add(Tmp);
+            ListEvent =  rep;
+
             C_Vue_Menu tmpmenu = new C_Vue_Menu();
             tmpmenu = new CoucheGestion.G_Vue_Menu(chConnexion).Lire_Menu_DuJour(date);
 
@@ -290,10 +294,12 @@ namespace Encodage_Fermette.ViewModel
             MenuDuJour.D_Descr = tmpmenu.D_Descr;
             MenuDuJour.C_Descr = tmpmenu.C_Descr;
         }
+
         public void ChargementEvenement()
         {
             // on charge l'event
-            C_T_Event tmp = new CoucheGestion.G_T_Event(chConnexion).Lire_ID(EventSelectionne.ID_Ev);
+
+            UnEvent.ID_Event = EventSelectionne.ID_Date;
             UnEvent.ID_Event = EventSelectionne.ID_Ev;
             UnEvent.Lieu = EventSelectionne.Li_Descr;
             UnEvent.Titre = EventSelectionne.Ti_Descr;
@@ -340,7 +346,6 @@ namespace Encodage_Fermette.ViewModel
             {
                 C_Vue_Menu menu = new C_Vue_Menu(Tmp.ID_Menu, Tmp.E_Descr, Tmp.P_Descr, Tmp.D_Descr, Tmp.C_Descr);
                 rep.Add(menu);
-                C_T_Event ev;
             }
             return rep;
         }
@@ -419,11 +424,19 @@ namespace Encodage_Fermette.ViewModel
         #region Bouton
         public void GestionEvent()
         {
+            ListeTitre = ChargerListTitres(chConnexion);
+            ListLieux = ChargerListLieux();
+            ListBeneficiaire = ChargerBeneficiaires();
+            ListStaff = ChargerStaffs();
+            ListEquipe = ChargerEquipe();
+
             ActiverUneFicheDate = true;
             ActiverCalendrierDate = false;
         }
         public void GestionMenu()
         {
+            ListMenu = ChargerMenu();
+
             ActiverFicheMenu = true;
             ActiverCalendrierDate = false;
         }
@@ -445,13 +458,15 @@ namespace Encodage_Fermette.ViewModel
         {
             if (StaffSelectionneList != null) // on va envoyer dans l'équipe
             {
-                if ( UnEvent.ID_Event!=0  && ListStaffParticipant.FirstOrDefault(item => item.ID_Personne1 == StaffSelectionneList.ID_Personne1) == null) // si il n'est pas présent dans l'équipe
+                if ( UnEvent.ID_Event!=0  && ListStaffParticipant.FirstOrDefault(item => item.ID_Personne1 == StaffSelectionneList.ID_Personne1) == null) 
+                    // si il n'est pas présent dans l'équipe
                 {
                     // ici l'event est crée, on est en modification
                     StaffSelectionneList.ID_Personne1 = new CoucheGestion.G_T_Li_Staff(chConnexion).Ajouter(UnEvent.ID_Event, StaffSelectionneList.ID_Personne1);
                     ListStaffParticipant.Add(StaffSelectionneList);
                 }
-                else if (UnEvent.ID_Event == 0 && ListStaffParticipant.FirstOrDefault(item => item.ID_Personne1 == StaffSelectionneList.ID_Personne1) == null) // si il n'est pas présent dans l'équipe
+                else if (UnEvent.ID_Event == 0 && ListStaffParticipant.FirstOrDefault(item => item.ID_Personne1 == StaffSelectionneList.ID_Personne1) == null)
+                    // si il n'est pas présent dans l'équipe
                     {
                     // ici l'event n'est pas encore céer on est en ajout 
                         ListStaffParticipant.Add(StaffSelectionneList);
@@ -601,7 +616,7 @@ namespace Encodage_Fermette.ViewModel
                 // l'event existe déjà
                 if (UnClassement.ID_Classement != 0)
                 {
-                    // new CoucheGestion.G_T_Classement(chConnexion).Supprimer(UnClassement.ID_Classement);
+                    new CoucheGestion.G_T_Classement(chConnexion).Supprimer(UnClassement.ID_Classement);
                     UnClassement = new VM_Un_Classement();
                     ActiverModifClassement = false;
                     System.Windows.MessageBox.Show("Classement supprimé !");
@@ -657,8 +672,7 @@ namespace Encodage_Fermette.ViewModel
                     {
                         // On doit Créer le jour avec la table date
                         // on renvoit le nouvel id 
-                        MenuDuJour.ID_Date = new G_T_Date(chConnexion).Ajouter(MenuDuJour.ID_Menu);
-
+                        MenuDuJour.ID_Date = new G_T_Date(chConnexion).Ajouter(MenuDuJour.ID_Menu,datetraitement);
                     }
                     else
                     {
@@ -726,65 +740,86 @@ namespace Encodage_Fermette.ViewModel
             if (EventSelectionne != null)
             {
                 // il nous faut supprimer la liaison 
+                /*
                 List<C_T_Li_Event> Lev =  new CoucheGestion.G_T_Li_Event(chConnexion).Lire("");
                 foreach( C_T_Li_Event l in Lev)
                     if ( l.ID_Event ==  EventSelectionne.ID_Ev && l.ID_Date == EventSelectionne.ID_Date)
                 new CoucheGestion.G_T_Event(chConnexion).Supprimer(EventSelectionne.ID_Ev);
+                */
+                new CoucheGestion.G_Verification(chConnexion).Suppresion_Event_Dependances(EventSelectionne.ID_Ev);
                 ListEvent.Remove(EventSelectionne);
+                System.Windows.MessageBox.Show("Event Supprimer");
+
             }
             else
                 System.Windows.MessageBox.Show("Pas d'event a supprimer");
         }
         public void ConfirmerEvent()
         {
-            if (najoutevent == -1) // ajouter
+            if (TitreSelectionne != null && UnEvent.Descriptif.Count()>0 && LieuxSelectionne != null)
             {
-                C_Vue_Event evenement = new C_Vue_Event();
-                int id = new G_T_Event(chConnexion).Ajouter(UnEvent.ID_Titre, UnEvent.Priorite, UnEvent.Recurrent, UnEvent.Descriptif, UnEvent.ID_Lieu, UnEvent.HeureDebut, UnEvent.HeureFin);
-                
-                // on veut ajouter un classement 
-                if (ajoutclassement <0)  
-                    new G_T_Classement(chConnexion).Ajouter(id,UnClassement.ID_Equipe1, UnClassement.ID_Equipe2, UnClassement.ID_Equipe3);
-                // On ajoute les staff participant
-                foreach (C_Personne ps in ListStaffParticipant)
-                    new CoucheGestion.G_T_Li_Staff(chConnexion).Ajouter(id, ps.ID_Personne1);
-                // On ajoute les bénéficiaires Participant 
-                foreach (C_Personne pb in ListBenefiaireParticipant)
-                    new CoucheGestion.G_T_Li_Ben(chConnexion).Ajouter(id, pb.ID_Personne1);
-                List<C_T_Date> Ldate = new CoucheGestion.G_T_Date(chConnexion).Lire("");
-                if (Ldate.FirstOrDefault(item => item.D_Date == datetraitement) == null) // il n'y a pas d'id date correspondant a la date
+                if (najoutevent == -1) // ajouter
                 {
-                   // UnEvent.ID_Date =  new CoucheGestion.G_T_Date(chConnexion).()
+                    C_Vue_Event evenement = new C_Vue_Event();
+                    int id = new G_T_Event(chConnexion).Ajouter(TitreSelectionne.ID, UnEvent.Priorite, UnEvent.Recurrent, UnEvent.Descriptif, LieuxSelectionne.ID, UnEvent.HeureDebut, UnEvent.HeureFin);
+
+                    // on veut ajouter un classement 
+                    if (ajoutclassement < 0)
+                        new G_T_Classement(chConnexion).Ajouter(id, UnClassement.ID_Equipe1, UnClassement.ID_Equipe2, UnClassement.ID_Equipe3);
+                    // On ajoute les staff participant
+                    foreach (C_Personne ps in ListStaffParticipant)
+                        new CoucheGestion.G_T_Li_Staff(chConnexion).Ajouter(id, ps.ID_Personne1);
+                    // On ajoute les bénéficiaires Participant 
+                    foreach (C_Personne pb in ListBenefiaireParticipant)
+                        new CoucheGestion.G_T_Li_Ben(chConnexion).Ajouter(id, pb.ID_Personne1);
+                    List<C_T_Date> Ldate = new CoucheGestion.G_T_Date(chConnexion).Lire("");
+                    if (Ldate.FirstOrDefault(item => item.D_Date == datetraitement) == null) 
+                        // il n'y a pas d'id date correspondant a la date
+                    {
+                        evenement.ID_Date = new CoucheGestion.G_T_Date(chConnexion).Ajouter(0, datetraitement);
+                    }
+                    else if (Ldate.FirstOrDefault(item => item.D_Date == datetraitement) != null) 
+                        // il y a un id date correspondant a la date
+                    {
+                        // on renvoie l'id de la date dans l'event 
+                        evenement.ID_Date = Ldate.FirstOrDefault(item => item.D_Date == datetraitement).ID_Date;
+                    }
+                   
+                    evenement.ID_Ev = id;
+                    evenement.Ti_Descr = UnEvent.Titre;
+                    evenement.Li_Descr = UnEvent.Lieu;
+                    evenement.Ev_HeureDebut = UnEvent.HeureDebut;
+                    evenement.Ev_HeureFin = UnEvent.HeureFin;
+                    ListEvent.Add(evenement);
+                    // une fois l'event crée, on le lie 
+                    int t = new CoucheGestion.G_T_Li_Event(chConnexion).Ajouter(evenement.ID_Date, evenement.ID_Ev);
+                    System.Windows.MessageBox.Show(t.ToString()+ evenement.ID_Date.ToString() + evenement.ID_Ev.ToString() + datetraitement.ToShortDateString());
+                    System.Windows.MessageBox.Show("Event Ajouté !");
+
                 }
-                evenement.ID_Ev = id;
-                evenement.Ti_Descr = UnEvent.Descriptif;
-                evenement.Li_Descr = UnEvent.Lieu;
-                evenement.Ev_HeureDebut = UnEvent.HeureDebut;
-                evenement.Ev_HeureFin = UnEvent.HeureFin;
-                if (ListEvent == null)
-                    ListEvent = new List<C_Vue_Event>();
-                ListEvent.Add(evenement);
-                System.Windows.MessageBox.Show("Event Ajouté !");
-            }
 
-            // modification d'event
+                // modification d'event
+                else
+                {
+                    najoutevent = new CoucheGestion.G_T_Event(chConnexion).Modifier(UnEvent.ID_Event, TitreSelectionne.ID, UnEvent.Priorite, UnEvent.Recurrent, UnEvent.Descriptif, LieuxSelectionne.ID, UnEvent.HeureDebut, UnEvent.HeureFin);
+                    C_Vue_Event evenement = new C_Vue_Event();
+                    evenement.ID_Ev = UnEvent.ID_Date;
+                    evenement.ID_Ev = UnEvent.ID_Event;
+                    evenement.Ti_Descr = UnEvent.Descriptif;
+                    evenement.Li_Descr = UnEvent.Lieu;
+                    evenement.Ev_HeureDebut = UnEvent.HeureDebut;
+                    evenement.Ev_HeureFin = UnEvent.HeureFin;
+                    ListEvent[najoutevent] = evenement;
+                    System.Windows.MessageBox.Show("Event Modifié !");
+                }
+
+                ActiverUneFicheEvent = false; // on désactive l'interaction avec event
+
+                ActiverModifClassement = false; // on désative les interactions avec le classement
+                ActiverUneFicheDate = true;
+            }
             else
-            {
-                new CoucheGestion.G_T_Event(chConnexion).Modifier(UnEvent.ID_Event, UnEvent.ID_Titre, UnEvent.Priorite, UnEvent.Recurrent, UnEvent.Descriptif, UnEvent.ID_Lieu, UnEvent.HeureDebut, UnEvent.HeureFin);
-                C_Vue_Event evenement = new C_Vue_Event();
-                evenement.ID_Ev = UnEvent.ID_Event;
-                evenement.Ti_Descr = UnEvent.Descriptif;
-                evenement.Li_Descr = UnEvent.Lieu;
-                evenement.Ev_HeureDebut = UnEvent.HeureDebut;
-                evenement.Ev_HeureFin = UnEvent.HeureFin;
-                ListEvent[najoutevent] = evenement;
-                System.Windows.MessageBox.Show("Event Modifié !");
-            }
-
-            ActiverUneFicheEvent = false; // on désactive l'interaction avec event
-
-            ActiverModifClassement = false; // on désative les interactions avec le classement
-            ActiverUneFicheDate = true;
+                System.Windows.MessageBox.Show("Il faut un titre/descriptif/lieu pour votre fiche evenement");
         }
         public void AnnulerEvent()
         {
@@ -809,20 +844,11 @@ namespace Encodage_Fermette.ViewModel
             UnClassement = new VM_Un_Classement();
             ActiverUneFicheDate = false;
             ActiverCalendrierDate = true;
-            ListEquipe = ChargerEquipe();
 
             StaffSelectionneList = new C_Personne();
             StaffParticipantSelectionne = new C_Personne();
             BeneficiaireSelectionneList = new C_Personne();
             BeneficiaireParticipantSelectionne = new C_Personne();
-
-            #region Chargement Liste
-            ListeTitre = ChargerListTitres(chConnexion);
-            ListLieux = ChargerListLieux();
-            ListMenu = ChargerMenu();
-            ListBeneficiaire = ChargerBeneficiaires();
-            ListStaff = ChargerStaffs();
-            #endregion
 
             #region Commandes
             cAjouterStaffParticipant = new BaseCommande(AjouterStaffParticipant);

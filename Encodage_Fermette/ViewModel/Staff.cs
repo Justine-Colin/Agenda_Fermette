@@ -88,23 +88,29 @@ namespace Encodage_Fermette.ViewModel
         }
         public void Confirmer()
         {
-            if (nAjout == -1)
+            if (UnStaff.Nom != null && UnStaff.Pre != null && UnStaff.Poste != null)
             {
-                UnStaff.ID = new CoucheGestion.G_T_Staff(chConnexion).Ajouter(UnStaff.Nom,UnStaff.Pre,UnStaff.Nai,UnStaff.Sexe,UnStaff.Poste);
-                BcpStaff.Add(new C_T_Staff(UnStaff.ID, UnStaff.Nom, UnStaff.Pre, UnStaff.Nai, UnStaff.Sexe, UnStaff.Poste));
+                if (nAjout == -1)
+                {
+                    UnStaff.ID = new CoucheGestion.G_T_Staff(chConnexion).Ajouter(UnStaff.Nom, UnStaff.Pre, UnStaff.Nai, UnStaff.Sexe, UnStaff.Poste);
+                    BcpStaff.Add(new C_T_Staff(UnStaff.ID, UnStaff.Nom, UnStaff.Pre, UnStaff.Nai, UnStaff.Sexe, UnStaff.Poste));
+                }
+                else
+                {
+                    new CoucheGestion.G_T_Staff(chConnexion).Modifier(UnStaff.ID, UnStaff.Nom, UnStaff.Pre, UnStaff.Nai, UnStaff.Sexe, UnStaff.Poste);
+                    BcpStaff[nAjout] = new C_T_Staff(UnStaff.ID, UnStaff.Nom, UnStaff.Pre, UnStaff.Nai, UnStaff.Sexe, UnStaff.Poste);
+                }
+                ActiverUneFiche = false;
             }
             else
-            {
-                new CoucheGestion.G_T_Staff(chConnexion).Modifier(UnStaff.ID, UnStaff.Nom, UnStaff.Pre, UnStaff.Nai, UnStaff.Sexe, UnStaff.Poste);
-                BcpStaff[nAjout] = new C_T_Staff(UnStaff.ID, UnStaff.Nom, UnStaff.Pre, UnStaff.Nai, UnStaff.Sexe, UnStaff.Poste);
-            }
-            ActiverUneFiche = false;
+                System.Windows.MessageBox.Show("Veuillez remplir tous les champs Nom-Prenom_Poste");
         }
         public void Annuler()
         { ActiverUneFiche = false; }
         public void Ajouter()
         {
             UnStaff = new VM_Un_Staff();
+            UnStaff.Nai = new DateTime(1999, 01, 01);
             nAjout = -1;
             ActiverUneFiche = true;
         }

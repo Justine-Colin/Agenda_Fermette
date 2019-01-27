@@ -24,13 +24,14 @@
                     <RowDefinition Height="auto" />
                 </Grid.RowDefinitions>
                 <Grid.ColumnDefinitions>
-                    <ColumnDefinition Width="*"/>
+                    <ColumnDefinition Width="40*"/>
+                    <ColumnDefinition Width="67*"/>
                     <ColumnDefinition Width="auto"/>
                     <ColumnDefinition Width="auto"/>
                 </Grid.ColumnDefinitions>
-                <TextBox Grid.Column="0" Text="{Binding NouvelleInfo.Descr, Mode=TwoWay}" IsEnabled="{Binding Path=ActiverNouvelleDonnées, Mode=OneWay}"/>
-                <Button Grid.Column="1" Content="V" Margin="3" Command="{Binding cConfirmerInfo}" IsEnabled="{Binding Path=ActiverNouvelleDonnées, Mode=OneWay}"/>
-                <Button Grid.Column="2" Content="X" Margin="3" Command="{Binding cAnnulerInfo}" IsEnabled="{Binding Path=ActiverNouvelleDonnées, Mode=OneWay}"/>
+                <TextBox Grid.Column="0" Text="{Binding NouvelleInfo.Descr, Mode=TwoWay}" IsEnabled="{Binding Path=ActiverNouvelleDonnées, Mode=OneWay}" Grid.ColumnSpan="3" HorizontalAlignment="Left" Margin="0,0,0,0.4" Width="322"/>
+                <Button Grid.Column="2" Content="V" Margin="3.4,3,3.2,3.4" Command="{Binding cConfirmerInfo}" IsEnabled="{Binding Path=ActiverNouvelleDonnées, Mode=OneWay}"/>
+                <Button Grid.Column="3" Content="X" Margin="2.8,3,2.8,3.4" Command="{Binding cAnnulerInfo}" IsEnabled="{Binding Path=ActiverNouvelleDonnées, Mode=OneWay}"/>
             </Grid>
         </GroupBox>
         <GroupBox Grid.Row="1" Header="Titre" Grid.ColumnSpan="2" Margin="0,0.2,0,0">
@@ -147,12 +148,12 @@
                             <DataGrid  Margin ="5" Name="dgBeneficiaireEq"  Grid.Column="2"  ItemsSource="{Binding Path=ListBenefiaireEq}"  VerticalScrollBarVisibility="Visible"
             IsReadOnly="True" AutoGenerateColumns="False"  IsEnabled="{Binding Path=ActiverGestionEquipe, Mode=OneWay}"
             SelectedItem="{Binding BeneficiaireSelectionneEq, Mode=TwoWay}">
-                            <DataGrid.Columns>
-                                <DataGridTextColumn Visibility="Hidden" Binding="{Binding Path=ID_Personne1}" />
-                                <DataGridTextColumn Header="Prénom" Binding="{Binding Path=Nom1}" Width="*" />
-                                <DataGridTextColumn Header="Nom" Binding="{Binding Path=Pre1}" Width="*" />
-                            </DataGrid.Columns>
-                        </DataGrid>
+                                <DataGrid.Columns>
+                                    <DataGridTextColumn Visibility="Hidden" Binding="{Binding Path=ID_Personne1}" />
+                                    <DataGridTextColumn Header="Prénom" Binding="{Binding Path=Nom1}" Width="*" />
+                                    <DataGridTextColumn Header="Nom" Binding="{Binding Path=Pre1}" Width="*" />
+                                </DataGrid.Columns>
+                            </DataGrid>
                         </GroupBox>
                     </Grid>
 
