@@ -382,6 +382,9 @@
            Command="{Binding cModifierClassement}" />
                     <Button Name="cSupprimerClass" Content="Supprimer CLassement" Margin="3" IsEnabled="{Binding Path=ActiverModifClassement, Mode=OneWay}"
            Command="{Binding cSupprimerClassement}" />
+                    <Button Name="retourmenu" Content="annuler" Margin="3" IsEnabled="{Binding Path=ActiverModifClassement, Mode=OneWay}"
+           Command="{Binding cAnnulerClassement}" />
+
                 </StackPanel>
                 <ComboBox Grid.Row="4" Margin="5" 
                   ItemsSource="{Binding ListEquipe}"

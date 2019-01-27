@@ -367,9 +367,7 @@ namespace Encodage_Fermette.ViewModel
             C_Vue_Classement Class = new CoucheGestion.G_Vue_Event(chConnexion).Lire_Classement_Nom_Equipe(idev);
 
             if (Class.ID_Classement !=0) // il y a un classement 
-            {
-                System.Windows.MessageBox.Show(Class.Eq1_Nom);
-                
+            {                
                 UnClassement.ID_Classement = Class.ID_Classement;
                 UnClassement.Equipe1 = Class.Eq1_Nom;
                 UnClassement.Equipe2 = Class.Eq2_Nom;
@@ -872,7 +870,7 @@ namespace Encodage_Fermette.ViewModel
                     ListEvent.Add(evenement);
                     // une fois l'event crée, on le lie 
                     int t = new CoucheGestion.G_T_Li_Event(chConnexion).Ajouter(evenement.ID_Date, evenement.ID_Ev);
-                    System.Windows.MessageBox.Show(t.ToString()+ evenement.ID_Date.ToString() + evenement.ID_Ev.ToString() + datetraitement.ToShortDateString());
+                    // System.Windows.MessageBox.Show(t.ToString()+ evenement.ID_Date.ToString() + evenement.ID_Ev.ToString() + datetraitement.ToShortDateString());
                     System.Windows.MessageBox.Show("Event Ajouté !");
                 }
 
