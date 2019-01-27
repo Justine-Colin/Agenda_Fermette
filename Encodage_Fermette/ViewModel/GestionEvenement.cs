@@ -610,8 +610,9 @@ namespace Encodage_Fermette.ViewModel
             if (UnClassement.ID_Classement == 0)
             {
                     ajoutclassement = -1;
-                    ActiverModifClassement = true;
+                    ActiverModifClassement = false;
                     ActiverUneFicheEvent = false; // on ne permet plus de valider son evenement
+                ActiverficheClassement = true;
             }
             else
                 System.Windows.MessageBox.Show("Il existe déjà un classement");
@@ -624,9 +625,10 @@ namespace Encodage_Fermette.ViewModel
                 if (UnClassement.ID_Equipe1 != 0 || UnClassement.ID_Equipe2 != 0 || UnClassement.ID_Equipe3 != 0)
                 {       // UnClassement = new VM_Un_Classement();
                     ajoutclassement = 1;
-                    ActiverModifClassement = true;
-                    ActiverUneFicheEvent = false; // on ne permet plus de valider son evenement
+                    ActiverModifClassement = false;
+                    ActiverficheClassement = true;
                 }
+                else
                 System.Windows.MessageBox.Show("Il manque une équipe");
             }
             else
@@ -641,6 +643,7 @@ namespace Encodage_Fermette.ViewModel
                     new CoucheGestion.G_T_Classement(chConnexion).Supprimer(UnClassement.ID_Classement);
                     UnClassement = new VM_Un_Classement();
                     ActiverModifClassement = false;
+                    ActiverUneFicheDate = true;
                     System.Windows.MessageBox.Show("Classement supprimé !");
                 }
                 else
@@ -730,7 +733,7 @@ namespace Encodage_Fermette.ViewModel
                     {
                         // on cree le lien avec l'id date
                         MenuDuJour.ID_Date = Ldate.FirstOrDefault(item => item.D_Date == datetraitement).ID_Date;
-                        MenuDuJour.ID_Date = new CoucheGestion.G_T_Date(chConnexion).Modifier(MenuDuJour.ID_Date, datetraitement, MenuSelectionne.ID_Menu);
+                        new CoucheGestion.G_T_Date(chConnexion).Modifier(MenuDuJour.ID_Date, datetraitement, MenuSelectionne.ID_Menu);
                         System.Windows.MessageBox.Show("date modifiée");
                     }
 
@@ -748,21 +751,26 @@ namespace Encodage_Fermette.ViewModel
         }
         public void ModifierMenu()
         {
-            if (MenuSelectionne != null)
+            if (MenuDuJour.ID_Date != 0)
             {
-                // modification du menu
-                new G_T_Date(chConnexion).Modifier(MenuDuJour.ID_Date, datetraitement, MenuSelectionne.ID_Menu);
-                System.Windows.MessageBox.Show(datetraitement.ToShortDateString());
+                if (MenuSelectionne != null)
+                {
+                    // modification du menu
+                    new G_T_Date(chConnexion).Modifier(MenuDuJour.ID_Date, datetraitement, MenuSelectionne.ID_Menu);
+                    System.Windows.MessageBox.Show(datetraitement.ToShortDateString());
 
-
-                //on recharge le menu 
-                MenuDuJour.E_Descr = MenuSelectionne.E_Descr;
-                MenuDuJour.P_Descr = MenuSelectionne.P_Descr;
-                MenuDuJour.D_Descr = MenuSelectionne.D_Descr;
-                MenuDuJour.C_Descr = MenuSelectionne.C_Descr;
+                    //on recharge le menu 
+                    MenuDuJour.E_Descr = MenuSelectionne.E_Descr;
+                    MenuDuJour.P_Descr = MenuSelectionne.P_Descr;
+                    MenuDuJour.D_Descr = MenuSelectionne.D_Descr;
+                    MenuDuJour.C_Descr = MenuSelectionne.C_Descr;
+                }
+                else
+                    System.Windows.MessageBox.Show("Pas de Menu du jour a modifier ");
             }
             else
-                System.Windows.MessageBox.Show("Pas de Menu du jour a modifier ");
+                System.Windows.MessageBox.Show("pas de menu du jour a ajouter ");
+
             // on modif un event car il n'y en a pas
         }
         public void SupprimerMenu()
@@ -828,9 +836,11 @@ namespace Encodage_Fermette.ViewModel
             {
                 if (najoutevent == -1) // ajouter
                 {
+                    // ajout de l'evenement
                     C_Vue_Event evenement = new C_Vue_Event();
                     int id = new G_T_Event(chConnexion).Ajouter(TitreSelectionne.ID, UnEvent.Priorite, UnEvent.Recurrent, UnEvent.Descriptif, LieuxSelectionne.ID, UnEvent.HeureDebut, UnEvent.HeureFin);
 
+                    // Membres participant
                     // On ajoute les staff participant
                     foreach (C_Personne ps in ListStaffParticipant)
                         new CoucheGestion.G_T_Li_Staff(chConnexion).Ajouter(id, ps.ID_Personne1);
@@ -869,7 +879,8 @@ namespace Encodage_Fermette.ViewModel
                 // modification d'event
                 else
                 {
-                    // on modifie juste la table event les autres étant gérée directement dans les fenetres
+                    // on écrit djuste dans la table event
+                    //  les autres sont gérées dans les fenetres
                     najoutevent = new CoucheGestion.G_T_Event(chConnexion).Modifier(UnEvent.ID_Event, TitreSelectionne.ID, UnEvent.Priorite, UnEvent.Recurrent, UnEvent.Descriptif, LieuxSelectionne.ID, UnEvent.HeureDebut, UnEvent.HeureFin);
                     C_Vue_Event evenement = new C_Vue_Event();
                     evenement.ID_Ev = UnEvent.ID_Date;
@@ -913,7 +924,11 @@ namespace Encodage_Fermette.ViewModel
                 ActiverModifClassement = true;
                 ActiverficheClassement = false;
                 ActiverUneFicheDate = false;
+
+                // on recharge
+                ChargerClassement(EventSelectionne.ID_Ev);
             }
+            else 
             System.Windows.MessageBox.Show("Veuillez sélectionner un event ");
         }
         #endregion
