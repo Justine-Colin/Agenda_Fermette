@@ -345,6 +345,7 @@ namespace Encodage_Fermette.ViewModel
         public void AjouteurEntree()
         {
             NouveauNourriture = new C_T_Nourriture();
+            NouveauNourriture.No_Type = 0;
             ActiverFicheNourriture = true;
             ActiverUneFiche = false;
                 nNourriteAjout = -1;
@@ -384,6 +385,7 @@ namespace Encodage_Fermette.ViewModel
         public void AjouterPlat()
         {
             NouveauNourriture = new C_T_Nourriture();
+            NouveauNourriture.No_Type = 1;
             ActiverFicheNourriture = true;
             ActiverUneFiche = false;
             nNourriteAjout = -1;
@@ -424,6 +426,8 @@ namespace Encodage_Fermette.ViewModel
         {
             NouveauNourriture = new C_T_Nourriture();
             ActiverFicheNourriture = true;
+            NouveauNourriture.No_Type = 2;
+
             ActiverUneFiche = false;
             nNourriteAjout = -1;
         }
@@ -431,7 +435,7 @@ namespace Encodage_Fermette.ViewModel
         {
             if (DessertSelectionne != null)
             {
-                NouveauNourriture = new C_T_Nourriture(DessertSelectionne.ID, DessertSelectionne.Descr, 0);
+                NouveauNourriture = new C_T_Nourriture(DessertSelectionne.ID, DessertSelectionne.Descr, 2);
                 nAjout = ListDessert.IndexOf(DessertSelectionne);
                 ActiverFicheNourriture = true;
                 ActiverUneFiche = false;
@@ -464,6 +468,8 @@ namespace Encodage_Fermette.ViewModel
             NouveauNourriture = new C_T_Nourriture();
             ActiverFicheNourriture = true;
             ActiverUneFiche = false;
+            NouveauNourriture.No_Type = 3;
+
             nNourriteAjout = -1;
         }
 
@@ -471,7 +477,7 @@ namespace Encodage_Fermette.ViewModel
         {
             if (CollationSelectionne != null)
             {
-                NouveauNourriture = new C_T_Nourriture(CollationSelectionne.ID, CollationSelectionne.Descr, 0);
+                NouveauNourriture = new C_T_Nourriture(CollationSelectionne.ID, CollationSelectionne.Descr, 3);
                 nAjout = ListCollation.IndexOf(CollationSelectionne);
                 ActiverFicheNourriture = true;
                 ActiverUneFiche = false;
