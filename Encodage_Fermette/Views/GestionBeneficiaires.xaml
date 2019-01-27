@@ -86,6 +86,9 @@
            Command="{Binding cModifier}" />
             <Button Name="bSupprimer" Content="Supprimer" Margin="3" IsEnabled="{Binding Path=ActiverBcpFiche, Mode=OneWay}"
            Command="{Binding cSupprimer}" />
+            <Button Name="bphoto" Content="Photo" Margin="3,3,3,0" IsEnabled="{Binding Path=ActiverBcpFiche, Mode=OneWay}"
+           Command="{Binding cAjouterPhoto}" Height="20" VerticalAlignment="Top" />
+
         </StackPanel>
     </Grid>
 </Window>

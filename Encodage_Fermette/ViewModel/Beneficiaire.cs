@@ -9,6 +9,11 @@ using CoucheAcces;
 using CoucheGestion;
 using System.Data;
 using System.Data.SqlClient;
+//using System.Windows.Forms;
+using Microsoft.Win32;
+using System.Windows;
+using
+    System.IO;
 
 
 namespace Encodage_Fermette.ViewModel
@@ -64,7 +69,8 @@ namespace Encodage_Fermette.ViewModel
         public BaseCommande cAjouter { get; set; }
         public BaseCommande cModifier { get; set; }
         public BaseCommande cSupprimer { get; set; }
-        #endregion
+        public BaseCommande cAjouterPhoto { get; set; }
+             #endregion
 
         public VM_Beneficiaire()
         {
@@ -81,6 +87,7 @@ namespace Encodage_Fermette.ViewModel
             cAjouter = new BaseCommande(Ajouter);
             cModifier = new BaseCommande(Modifier);
             cSupprimer = new BaseCommande(Supprimer);
+            cAjouterPhoto = new BaseCommande(AjouterPhoto);
         }
 
         private ObservableCollection<C_T_Beneficiaire> ChargerBeneficaire(string chConn)
@@ -93,8 +100,8 @@ namespace Encodage_Fermette.ViewModel
         }
         public void Confirmer()
         {
-            if ( UnBeneficiaire.Nom != null && UnBeneficiaire.Pre != null)
-                {
+            if (UnBeneficiaire.Nom != null && UnBeneficiaire.Pre != null)
+            {
                 if (nAjout == -1)
                 {
                     UnBeneficiaire.ID = new G_T_Beneficiaire(chConnexion).Ajouter(UnBeneficiaire.Nom, UnBeneficiaire.Pre, UnBeneficiaire.Nai, UnBeneficiaire.Sexe);
@@ -115,7 +122,7 @@ namespace Encodage_Fermette.ViewModel
         public void Ajouter()
         {
             UnBeneficiaire = new VM_Un_Beneficiaire();
-            UnBeneficiaire.Nai = new DateTime(1999,01,01);
+            UnBeneficiaire.Nai = new DateTime(1999, 01, 01);
             nAjout = -1;
             ActiverUneFiche = true;
         }
@@ -190,6 +197,43 @@ namespace Encodage_Fermette.ViewModel
                 get { return _Sexe; }
                 set { AssignerChamp<bool>(ref _Sexe, value, System.Reflection.MethodBase.GetCurrentMethod().Name); }
             }
+        }
+
+        public void AjouterPhoto()
+        {
+            if (BeneficiairefSelectionne != null)
+            {
+                OpenFileDialog PicDlg = new OpenFileDialog
+                { Filter = "Photo (*.PNG;*.JPG;*.jpeg)|*.PNG;*.JPG;*.jpeg" };
+                if (PicDlg.ShowDialog() == true)
+                {
+                    // Sauvegarde de la photo dans le dossier "~\Pictures\Beneficiaires\"
+                    string PicFullPath = PicDlg.FileName;
+                    string FileName = Path.GetFileName(PicFullPath); // On récupère uniquement le nom du fichier et son extension du chemin entré dans le dialog
+                    string path = Path.Combine(AppDomain.CurrentDomain.BaseDirectory, "Resources\\Pictures\\Beneficiaires"); // On génère le chemin du dossier "~\Images\Evenements\"
+                    Directory.CreateDirectory(path); // Si les dossiers n'existent pas encore, ils sont créés
+                    path = Path.Combine(path, FileName); // On rajoute le nom du fichier au path
+                                                         // Vérification qu'un fichier du même nom n'existe pas déjà
+                    string TestPath = path;
+                    int Count = 0;
+                    while (File.Exists(TestPath))
+                    {
+                        string tempFileName = string.Format("{0}({1})", Path.GetFileNameWithoutExtension(path), Count++);
+                        TestPath = Path.Combine(Path.GetDirectoryName(path), tempFileName + Path.GetExtension(path));
+                    }
+                    path = TestPath;
+                    File.Copy(PicFullPath, path); // Et on copie le fichier sélectionné dans "~\Images\Personnes\"
+
+                    /*
+                    // MàJ de la DB
+                    int ID = new G_PhotoEvenement(sChConn).Ajouter(this.IDevenement, path, false);
+                    // MàJ locale
+                    PhotosEvenement.Add(new C_PhotoEvenement(ID, this.IDevenement, path, false));
+                    */
+                }
+            }
+            else
+                System.Windows.MessageBox.Show("Veuillez choisir un beneficiaire !");
         }
     }
 }

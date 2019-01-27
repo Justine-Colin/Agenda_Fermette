@@ -81,6 +81,9 @@
            Command="{Binding cModifierEvent}" />
             <Button Name="bSupprimer" Content="Supprimer" Margin="3" IsEnabled="{Binding Path=ActiverUneFicheDate, Mode=OneWay}"
            Command="{Binding cSupprimerEvent}" />
+            <Button Name="bClassement" Content="Gerer Classement" Margin="3" IsEnabled="{Binding Path=ActiverUneFicheDate, Mode=OneWay}"
+           Command="{Binding cGestionClassement}" />
+
             <Button Name="bRetourDateevent" Content="RetourDate" Margin="3" IsEnabled="{Binding Path=ActiverUneFicheDate, Mode=OneWay}"
            Command="{Binding cGestionRetourDateEvent}" />
 
@@ -227,9 +230,9 @@
 
                 </DataGrid>
                 <StackPanel  Grid.Row="2" Orientation="Horizontal" HorizontalAlignment="Center">
+                    <Button Content="Ajouter" Margin="3" Command="{Binding cAjouterMenu}" IsEnabled="{Binding Path=ActiverFicheMenu, Mode=OneWay}"/>
                     <Button Content="Modifier" Margin="3" Command="{Binding cModifierMenu}" IsEnabled="{Binding Path=ActiverFicheMenu, Mode=OneWay}"/>
                     <Button Content="Supprimer" Margin="3" Command="{Binding cSupprimerMenu}" IsEnabled="{Binding Path=ActiverFicheMenu, Mode=OneWay}"/>
-                    <Button Content="Annuler" Margin="3" Command="{Binding cAnnulerMenu}" IsEnabled="{Binding Path=ActiverFicheMenu, Mode=OneWay}"/>
                     <Button Name="bRetourDateMenu" Content="RetourDate" Margin="3" IsEnabled="{Binding Path=ActiverFicheMenu, Mode=OneWay}"
            Command="{Binding cGestionRetourDateMenu}" />
 
@@ -339,7 +342,7 @@
                             <ColumnDefinition Width="auto" />
                         </Grid.ColumnDefinitions>
                         <TextBlock Margin="3" Text="{Binding Path=UnClassement.Equipe1, Mode=TwoWay}" />
-                        <Button Grid.Column="1" Content=" modifier" Margin="3" Command="{Binding cModifierEquipe1}" IsEnabled="{Binding Path=ActiverModifClassement, Mode=OneWay}" />
+                        <Button Grid.Column="1" Content=" modifier" Margin="3" Command="{Binding cModifierEquipe1}" IsEnabled="{Binding Path=ActiverficheClassement, Mode=OneWay}" />
                         <TextBlock/>
 
                     </Grid>
@@ -354,7 +357,7 @@
                             <ColumnDefinition Width="auto" />
                         </Grid.ColumnDefinitions>
                         <TextBlock Margin="3" Text="{Binding Path=UnClassement.Equipe2, Mode=TwoWay}" />
-                        <Button Grid.Column="1" Content=" modifier" Margin="3" Command="{Binding cModifierEquipe2}" IsEnabled="{Binding Path=ActiverModifClassement, Mode=OneWay}" />
+                        <Button Grid.Column="1" Content=" modifier" Margin="3" Command="{Binding cModifierEquipe2}" IsEnabled="{Binding Path=ActiverficheClassement, Mode=OneWay}" />
 
                     </Grid>
                 </GroupBox>
@@ -368,16 +371,16 @@
                             <ColumnDefinition Width="auto"/>
                         </Grid.ColumnDefinitions>
                         <TextBlock Margin="3" Text="{Binding Path=UnClassement.Equipe3, Mode=TwoWay}"  />
-                        <Button Grid.Column="1" Content=" modifier" Margin="3" Command="{Binding cModifierEquipe3}"  IsEnabled="{Binding Path=ActiverModifClassement, Mode=OneWay}" />
+                        <Button Grid.Column="1" Content=" modifier" Margin="3" Command="{Binding cModifierEquipe3}"  IsEnabled="{Binding Path=ActiverficheClassement, Mode=OneWay}" />
 
                     </Grid>
                 </GroupBox>
                 <StackPanel Orientation="Horizontal" HorizontalAlignment="Center" Grid.Row="3" Grid.Column="1"  Grid.ColumnSpan="2"  Margin="5">
-                    <Button Name="bConforimer" Content="Ajouter Classement" Margin="3,3,3,0" IsEnabled="{Binding Path=ActiverUneFicheEvent, Mode=OneWay}"
+                    <Button Name="bConforimer" Content="Ajouter Classement" Margin="3,3,3,0" IsEnabled="{Binding Path=ActiverModifClassement, Mode=OneWay}"
            Command="{Binding cAjouterClassement}" Height="20" VerticalAlignment="Top" />
-                    <Button Name="ModifierClassement" Content="Modifier Classement" Margin="3" IsEnabled="{Binding Path=ActiverUneFicheEvent, Mode=OneWay}"
+                    <Button Name="ModifierClassement" Content="Modifier Classement" Margin="3" IsEnabled="{Binding Path=ActiverModifClassement, Mode=OneWay}"
            Command="{Binding cModifierClassement}" />
-                    <Button Name="cSupprimerClass" Content="Supprimer CLassement" Margin="3" IsEnabled="{Binding Path=ActiverUneFicheEvent, Mode=OneWay}"
+                    <Button Name="cSupprimerClass" Content="Supprimer CLassement" Margin="3" IsEnabled="{Binding Path=ActiverModifClassement, Mode=OneWay}"
            Command="{Binding cSupprimerClassement}" />
                 </StackPanel>
                 <ComboBox Grid.Row="4" Margin="5" 
@@ -386,9 +389,9 @@
                   SelectedValuePath="ID" 
                   DisplayMemberPath="Eq_Nom"/>
                 <StackPanel  Orientation="Horizontal" HorizontalAlignment="Center" Grid.Row="5" Grid.Column="1"  Grid.ColumnSpan="2"  Margin="3">
-                    <Button Name="cConfirmer" Content="Confirmer Classement " Margin="3,0,3,2.6" IsEnabled="{Binding Path=ActiverModifClassement, Mode=OneWay}"
+                    <Button Name="cConfirmer" Content="Confirmer Classement " Margin="3,0,3,2.6" IsEnabled="{Binding Path=ActiverficheClassement, Mode=OneWay}"
            Command="{Binding cConfirmerClassement}" Height="20" VerticalAlignment="Bottom" />
-                    <Button Name="cAnnulerClassement" Content="Annuler Classement " Margin="3,0,3,2.6" IsEnabled="{Binding Path=ActiverModifClassement, Mode=OneWay}"
+                    <Button Name="cAnnulerClassement" Content="Annuler Classement " Margin="3,0,3,2.6" IsEnabled="{Binding Path=ActiverficheClassement, Mode=OneWay}"
            Command="{Binding cAnnulerClassement}" Height="20" VerticalAlignment="Bottom" />
 
                 </StackPanel>

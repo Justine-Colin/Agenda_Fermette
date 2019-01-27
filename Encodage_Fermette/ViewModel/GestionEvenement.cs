@@ -23,6 +23,7 @@ namespace Encodage_Fermette.ViewModel
         int najoutevent;
 
         #region Gestion affichage 
+
         private bool _ActiverUneFicheEvent;
         public bool ActiverUneFicheEvent
         {
@@ -50,6 +51,13 @@ namespace Encodage_Fermette.ViewModel
                 AssignerChamp<bool>(ref _ActiverFicheMenu, value, System.Reflection.MethodBase.GetCurrentMethod().Name);
                 ActiverCalendrierDate = !ActiverFicheMenu;
             }
+        }
+        private bool _ActiverficheClassement;
+        public bool ActiverficheClassement
+        {
+            get { return _ActiverficheClassement; }
+            set
+            { AssignerChamp<bool>(ref _ActiverficheClassement, value, System.Reflection.MethodBase.GetCurrentMethod().Name); }
         }
         private bool _ActiverCalendrierDate;
         public bool ActiverCalendrierDate
@@ -247,6 +255,8 @@ namespace Encodage_Fermette.ViewModel
         public BaseCommande cAjouterBeneficiaireParticipant { get; set; }
         public BaseCommande cSupprimerBeneficiaireParticipan { get; set; }
 
+        public BaseCommande cGestionClassement { get; set; }
+
         public BaseCommande cModifierEquipe1 { get; set; }
         public BaseCommande cModifierEquipe2 { get; set; }
         public BaseCommande cModifierEquipe3 { get; set; }
@@ -259,6 +269,7 @@ namespace Encodage_Fermette.ViewModel
 
         public BaseCommande cModifierMenu { get; set; }
         public BaseCommande cSupprimerMenu { get; set; }
+        public BaseCommande cAjouterMenu { get; set; }
 
         public BaseCommande cGestionMenu { get; set; }
         public BaseCommande cGestionEvent { get; set; }
@@ -298,13 +309,14 @@ namespace Encodage_Fermette.ViewModel
         public void ChargementEvenement()
         {
             // on charge l'event
+            C_T_Event ev = new CoucheGestion.G_T_Event(chConnexion).Lire_ID(EventSelectionne.ID_Ev);
 
             UnEvent.ID_Event = EventSelectionne.ID_Date;
             UnEvent.ID_Event = EventSelectionne.ID_Ev;
             UnEvent.Lieu = EventSelectionne.Li_Descr;
             UnEvent.Titre = EventSelectionne.Ti_Descr;
             UnEvent.Lieu = EventSelectionne.Li_Descr;
-            UnEvent.Descriptif = EventSelectionne.Ev_Descr;
+            UnEvent.Descriptif = ev.Ev_Descriptif;
             UnEvent.Recurrent = EventSelectionne.Recurent;
             UnEvent.Priorite = EventSelectionne.Prio;
             UnEvent.HeureDebut = EventSelectionne.Ev_HeureDebut;
@@ -429,7 +441,6 @@ namespace Encodage_Fermette.ViewModel
             ListBeneficiaire = ChargerBeneficiaires();
             ListStaff = ChargerStaffs();
             ListEquipe = ChargerEquipe();
-
             ActiverUneFicheDate = true;
             ActiverCalendrierDate = false;
         }
@@ -456,7 +467,7 @@ namespace Encodage_Fermette.ViewModel
         }
         public void AjouterStaffParticipant()
         {
-            if (StaffSelectionneList != null) // on va envoyer dans l'équipe
+            if (StaffSelectionneList != null && StaffSelectionneList.ID_Personne1 != 0) // on va envoyer dans l'équipe
             {
                 if ( UnEvent.ID_Event!=0  && ListStaffParticipant.FirstOrDefault(item => item.ID_Personne1 == StaffSelectionneList.ID_Personne1) == null) 
                     // si il n'est pas présent dans l'équipe
@@ -475,6 +486,9 @@ namespace Encodage_Fermette.ViewModel
                 else
                     System.Windows.MessageBox.Show("Il est dans l'event dans l'équipe");
             }
+            else
+                System.Windows.MessageBox.Show("Pas de staff selectionné");
+
         }
         public void SupprimerStaffParticipan()
         {
@@ -486,7 +500,7 @@ namespace Encodage_Fermette.ViewModel
                 {
                     if (t.ID_Event == UnEvent.ID_Event && t.ID_Staff == StaffParticipantSelectionne.ID_Personne1)
                     {
-                        new CoucheGestion.G_T_Li_Eq_Benef(chConnexion).Supprimer(t.ID_Li_Staff);
+                        new CoucheGestion.G_T_Li_Staff(chConnexion).Supprimer(t.ID_Li_Staff);
                         ListStaffParticipant.Remove(StaffParticipantSelectionne);
                         System.Windows.MessageBox.Show("Liaison supprimé");
                         // StaffParticipantSelectionne = new C_Personne();
@@ -605,14 +619,22 @@ namespace Encodage_Fermette.ViewModel
         }
         public void ModifierClassement()
         {
-            ajoutclassement = 1;
-            ActiverModifClassement = true;
-            ActiverUneFicheEvent = false; // on ne permet plus de valider son evenement
+            if (UnClassement.ID_Classement != 0)
+            {
+                if (UnClassement.ID_Equipe1 != 0 || UnClassement.ID_Equipe2 != 0 || UnClassement.ID_Equipe3 != 0)
+                {       // UnClassement = new VM_Un_Classement();
+                    ajoutclassement = 1;
+                    ActiverModifClassement = true;
+                    ActiverUneFicheEvent = false; // on ne permet plus de valider son evenement
+                }
+                System.Windows.MessageBox.Show("Il manque une équipe");
+            }
+            else
+                System.Windows.MessageBox.Show("Il n'y pas de classement a modifier ");
+
         }
         public void SupprimerClassement()
         {
-            if (UnEvent.ID_Event > 0)
-            { 
                 // l'event existe déjà
                 if (UnClassement.ID_Classement != 0)
                 {
@@ -623,35 +645,61 @@ namespace Encodage_Fermette.ViewModel
                 }
                 else
                     System.Windows.MessageBox.Show("Pas de classement a supprimer!");
-            }
-            else if ( UnEvent.ID_Event ==0)
-            {
-                UnClassement = new VM_Un_Classement();
-                System.Windows.MessageBox.Show("Classement supprimé sans écriture table !");
-
-            }
         }
 
         public void ConfirmerClassement()
         {
-            if (UnEvent.ID_Event > 0)
-                // l'event existe déjà, il ne faut pas le créer 
+            if (UnClassement.ID_Equipe1 != 0 && UnClassement.ID_Equipe2 != 0 && UnClassement.ID_Equipe3 != 0)
             {
-                if (ajoutclassement > 0) //modif
+                if (ajoutclassement <0) // ajout
                 {
-                    new CoucheGestion.G_T_Classement(chConnexion).Modifier(UnClassement.ID_Classement, UnEvent.ID_Event, UnClassement.ID_Equipe1, UnClassement.ID_Equipe2, UnClassement.ID_Equipe3);
-                    System.Windows.MessageBox.Show("Classement Modifié !" + UnClassement.ID_Classement.ToString());
+                    UnClassement.ID_Classement = new CoucheGestion.G_T_Classement(chConnexion).Ajouter(UnEvent.ID_Event, UnClassement.ID_Equipe1, UnClassement.ID_Equipe2, UnClassement.ID_Equipe3);
+                    System.Windows.MessageBox.Show("Classement ajouté");
+                    UnClassement = new VM_Un_Classement();
+                }
+                else if (ajoutclassement>0) // modification
+                {
+                    UnClassement.ID_Classement = new CoucheGestion.G_T_Classement(chConnexion).Modifier(UnClassement.ID_Classement, UnEvent.ID_Event, UnClassement.ID_Equipe1, UnClassement.ID_Equipe2, UnClassement.ID_Equipe3);
+                    System.Windows.MessageBox.Show("Classement modifié !");
+                    UnClassement = new VM_Un_Classement();
+                }
+                ActiverModifClassement = false;
+                ActiverficheClassement = false;
+                ActiverUneFicheDate = true;
+            }
+
+            else
+                System.Windows.MessageBox.Show("Il faut trois équipes selectionnées");
+
+            /*
+            if (UnClassement.ID_Equipe1 != 0 && UnClassement.ID_Equipe2 != 0 && UnClassement.ID_Equipe3 != 0 )
+            {
+                if (UnEvent.ID_Event > 0)
+                // l'event existe déjà, il ne faut pas le créer 
+                {
+                    if (ajoutclassement > 0) //modif
+                    {
+                        new CoucheGestion.G_T_Classement(chConnexion).Modifier(UnClassement.ID_Classement, UnEvent.ID_Event, UnClassement.ID_Equipe1, UnClassement.ID_Equipe2, UnClassement.ID_Equipe3);
+                        System.Windows.MessageBox.Show("Classement Modifié !" + UnClassement.ID_Classement.ToString());
+                    }
+                    else
+                    {
+                        UnClassement.ID_Classement = new CoucheGestion.G_T_Classement(chConnexion).Ajouter(UnEvent.ID_Event, UnClassement.ID_Equipe1, UnClassement.ID_Equipe2, UnClassement.ID_Equipe3);
+                        System.Windows.MessageBox.Show("Classement Ajouté !");
+                    }
                 }
                 else
                 {
-                    UnClassement.ID_Classement = new CoucheGestion.G_T_Classement(chConnexion).Ajouter(UnEvent.ID_Event, UnClassement.ID_Equipe1, UnClassement.ID_Equipe2, UnClassement.ID_Equipe3);
-                    System.Windows.MessageBox.Show("Classement Ajouté !");
+                    System.Windows.MessageBox.Show("Classement Ajoute/modifié sans écriture table !");
+                    ajoutclassement = -1; // on remodifie la variable pour aller direct ajouter
                 }
+                ActiverModifClassement = false;
+                ActiverUneFicheEvent = true; // on permet de pouvoir valider son evenement
             }
             else
-                System.Windows.MessageBox.Show("Classement Ajoute/modifié sans écriture table !");
-            ActiverModifClassement = false;
-            ActiverUneFicheEvent = true; // on permet de pouvoir valider son evenement
+                System.Windows.MessageBox.Show("Il faut trois équipe selectionnées");
+                */
+
         }
         public void AnnulerClassement()
         {
@@ -659,55 +707,71 @@ namespace Encodage_Fermette.ViewModel
             ActiverUneFicheEvent = true; // on permet de pouvoir valider son evenement
             ChargerClassement(UnEvent.ID_Event);
         }
+        public void AjouterMenu()
+        {
+            if (MenuSelectionne != null)
+            {
+                if (MenuDuJour.ID_Menu == 0)
+                {
+                    // on ajout un menu
+                    // il faut vérifier que le jour existe via son id
+                    List<C_T_Date> Ldate = new CoucheGestion.G_T_Date(chConnexion).Lire("");
+                    if (Ldate.FirstOrDefault(item => item.D_Date == datetraitement) == null)
+                    // il n'y a pas d'id date correspondant a la date
+                    {
+                        // on cree le lien avec la date et le menu
+                        MenuDuJour.ID_Date = new CoucheGestion.G_T_Date(chConnexion).Ajouter(MenuSelectionne.ID_Menu, datetraitement);
 
+                        System.Windows.MessageBox.Show("date ajotuée");
+
+                    }
+                    else if (Ldate.FirstOrDefault(item => item.D_Date == datetraitement) != null)
+                    // il y a un id date correspondant a la date
+                    {
+                        // on cree le lien avec l'id date
+                        MenuDuJour.ID_Date = Ldate.FirstOrDefault(item => item.D_Date == datetraitement).ID_Date;
+                        MenuDuJour.ID_Date = new CoucheGestion.G_T_Date(chConnexion).Modifier(MenuDuJour.ID_Date, datetraitement, MenuSelectionne.ID_Menu);
+                        System.Windows.MessageBox.Show("date modifiée");
+                    }
+
+                    MenuDuJour.ID_Menu = MenuSelectionne.ID_Menu;
+                    MenuDuJour.E_Descr = MenuSelectionne.E_Descr;
+                    MenuDuJour.P_Descr = MenuSelectionne.P_Descr;
+                    MenuDuJour.D_Descr = MenuSelectionne.D_Descr;
+                    MenuDuJour.C_Descr = MenuSelectionne.C_Descr;
+                }
+                else
+                    System.Windows.MessageBox.Show("Il existe déjà un menu");
+            }
+            else
+                System.Windows.MessageBox.Show("Veuillez selectionner un menu");
+        }
         public void ModifierMenu()
         {
             if (MenuSelectionne != null)
             {
-                if (MenuDuJour.ID_Menu == 0) // ajout du menu a la date
-                {
-                    // on ajout un menu
-                    // il faut vérifier que le jour existe via son id
-                    if (MenuDuJour.ID_Date == 0)
-                    {
-                        // On doit Créer le jour avec la table date
-                        // on renvoit le nouvel id 
-                        MenuDuJour.ID_Date = new G_T_Date(chConnexion).Ajouter(MenuDuJour.ID_Menu,datetraitement);
-                    }
-                    else
-                    {
-                        // la date existe il faut créer le menu et modifier la date
-                        new G_T_Date(chConnexion).Modifier(MenuDuJour.ID_Date, datetraitement, MenuDuJour.ID_Menu);
-                    }
-                }
-                else 
-                    // il n'existe un menu du jour, on modifier les id de la date
-                    new G_T_Date(chConnexion).Modifier(MenuDuJour.ID_Date, datetraitement, MenuSelectionne.ID_Menu);
+                // modification du menu
+                new G_T_Date(chConnexion).Modifier(MenuDuJour.ID_Date, datetraitement, MenuSelectionne.ID_Menu);
                 System.Windows.MessageBox.Show(datetraitement.ToShortDateString());
 
 
-                 //on recharge le menu 
+                //on recharge le menu 
                 MenuDuJour.E_Descr = MenuSelectionne.E_Descr;
                 MenuDuJour.P_Descr = MenuSelectionne.P_Descr;
                 MenuDuJour.D_Descr = MenuSelectionne.D_Descr;
-                MenuDuJour.C_Descr = MenuSelectionne.C_Descr; 
-
+                MenuDuJour.C_Descr = MenuSelectionne.C_Descr;
             }
             else
-                System.Windows.MessageBox.Show("Pas de Menu sélectionné ");
+                System.Windows.MessageBox.Show("Pas de Menu du jour a modifier ");
             // on modif un event car il n'y en a pas
         }
         public void SupprimerMenu()
         {
             if (MenuDuJour.ID_Menu != 0)
             {
-                new G_T_Date(chConnexion).Supprimer(datetraitement);
+                new G_T_Date(chConnexion).Modifier(MenuDuJour.ID_Date,datetraitement,0);
                 System.Windows.MessageBox.Show("Menu supprimé");
-                MenuDuJour.ID_Menu = 0;
-                MenuDuJour.E_Descr = "";
-                MenuDuJour.P_Descr = "";
-                MenuDuJour.D_Descr = "";
-                MenuDuJour.C_Descr = "";
+                MenuDuJour = new VM_Un_Menu();
             }
             else
                 System.Windows.MessageBox.Show("Pas de Menu supprimable ");
@@ -731,6 +795,7 @@ namespace Encodage_Fermette.ViewModel
             {
                 ActiverUneFicheEvent = true;
                 ActiverUneFicheDate = false;
+                najoutevent = ListEvent.IndexOf(EventSelectionne);
             }
             else
                 System.Windows.MessageBox.Show("Pas d'event a modifier");
@@ -749,7 +814,10 @@ namespace Encodage_Fermette.ViewModel
                 new CoucheGestion.G_Verification(chConnexion).Suppresion_Event_Dependances(EventSelectionne.ID_Ev);
                 ListEvent.Remove(EventSelectionne);
                 System.Windows.MessageBox.Show("Event Supprimer");
-
+                UnEvent = new VM_Un_Event();
+                UnClassement = new VM_Un_Classement();
+                ListStaffParticipant = new ObservableCollection<C_Personne>();
+                ListBenefiaireParticipant = new ObservableCollection<C_Personne>();
             }
             else
                 System.Windows.MessageBox.Show("Pas d'event a supprimer");
@@ -763,15 +831,14 @@ namespace Encodage_Fermette.ViewModel
                     C_Vue_Event evenement = new C_Vue_Event();
                     int id = new G_T_Event(chConnexion).Ajouter(TitreSelectionne.ID, UnEvent.Priorite, UnEvent.Recurrent, UnEvent.Descriptif, LieuxSelectionne.ID, UnEvent.HeureDebut, UnEvent.HeureFin);
 
-                    // on veut ajouter un classement 
-                    if (ajoutclassement < 0)
-                        new G_T_Classement(chConnexion).Ajouter(id, UnClassement.ID_Equipe1, UnClassement.ID_Equipe2, UnClassement.ID_Equipe3);
                     // On ajoute les staff participant
                     foreach (C_Personne ps in ListStaffParticipant)
                         new CoucheGestion.G_T_Li_Staff(chConnexion).Ajouter(id, ps.ID_Personne1);
                     // On ajoute les bénéficiaires Participant 
                     foreach (C_Personne pb in ListBenefiaireParticipant)
                         new CoucheGestion.G_T_Li_Ben(chConnexion).Ajouter(id, pb.ID_Personne1);
+
+                    // gesiton de l'id_date 
                     List<C_T_Date> Ldate = new CoucheGestion.G_T_Date(chConnexion).Lire("");
                     if (Ldate.FirstOrDefault(item => item.D_Date == datetraitement) == null) 
                         // il n'y a pas d'id date correspondant a la date
@@ -790,28 +857,35 @@ namespace Encodage_Fermette.ViewModel
                     evenement.Li_Descr = UnEvent.Lieu;
                     evenement.Ev_HeureDebut = UnEvent.HeureDebut;
                     evenement.Ev_HeureFin = UnEvent.HeureFin;
+                    if (ListEvent == null)
+                        ListEvent = new ObservableCollection<C_Vue_Event>();
                     ListEvent.Add(evenement);
                     // une fois l'event crée, on le lie 
                     int t = new CoucheGestion.G_T_Li_Event(chConnexion).Ajouter(evenement.ID_Date, evenement.ID_Ev);
                     System.Windows.MessageBox.Show(t.ToString()+ evenement.ID_Date.ToString() + evenement.ID_Ev.ToString() + datetraitement.ToShortDateString());
                     System.Windows.MessageBox.Show("Event Ajouté !");
-
                 }
 
                 // modification d'event
                 else
                 {
+                    // on modifie juste la table event les autres étant gérée directement dans les fenetres
                     najoutevent = new CoucheGestion.G_T_Event(chConnexion).Modifier(UnEvent.ID_Event, TitreSelectionne.ID, UnEvent.Priorite, UnEvent.Recurrent, UnEvent.Descriptif, LieuxSelectionne.ID, UnEvent.HeureDebut, UnEvent.HeureFin);
                     C_Vue_Event evenement = new C_Vue_Event();
                     evenement.ID_Ev = UnEvent.ID_Date;
                     evenement.ID_Ev = UnEvent.ID_Event;
-                    evenement.Ti_Descr = UnEvent.Descriptif;
+                    evenement.Ti_Descr = UnEvent.Titre;
                     evenement.Li_Descr = UnEvent.Lieu;
                     evenement.Ev_HeureDebut = UnEvent.HeureDebut;
                     evenement.Ev_HeureFin = UnEvent.HeureFin;
                     ListEvent[najoutevent] = evenement;
                     System.Windows.MessageBox.Show("Event Modifié !");
                 }
+
+                UnEvent = new VM_Un_Event();
+                UnClassement = new VM_Un_Classement();
+                ListStaffParticipant = new ObservableCollection<C_Personne>();
+                ListBenefiaireParticipant = new ObservableCollection<C_Personne>();
 
                 ActiverUneFicheEvent = false; // on désactive l'interaction avec event
 
@@ -825,20 +899,31 @@ namespace Encodage_Fermette.ViewModel
         {
             ActiverUneFicheEvent = false;
             ActiverModifClassement = false;
-            ActiverUneFicheEvent = true;
+            ActiverUneFicheDate = true;
 
             UnEvent = new VM_Un_Event();
             UnClassement = new VM_Un_Classement();
             ListStaffParticipant = new ObservableCollection<C_Personne>();
             ListBenefiaireParticipant = new ObservableCollection<C_Personne>();
         }
-
+        public void GestionClassement()
+        {
+            if(EventSelectionne != null)
+            {
+                ActiverModifClassement = true;
+                ActiverficheClassement = false;
+                ActiverUneFicheDate = false;
+            }
+            System.Windows.MessageBox.Show("Veuillez sélectionner un event ");
+        }
         #endregion
         #endregion
 
-        #region Constructeur
         public VM_GestionEvenement()
         {
+            // on met la date du jour
+            datetraitement = DateTime.Today;
+
             UnEvent = new VM_Un_Event();
             MenuDuJour = new VM_Un_Menu();
             UnClassement = new VM_Un_Classement();
@@ -855,7 +940,9 @@ namespace Encodage_Fermette.ViewModel
             cSupprimerStaffParticipan = new BaseCommande(SupprimerStaffParticipan);
             cAjouterBeneficiaireParticipant = new BaseCommande(AjouterBeneficiaireParticipant);
             cSupprimerBeneficiaireParticipan = new BaseCommande(SupprimerBeneficiaireParticipan);
+            cAjouterMenu = new BaseCommande(AjouterMenu);
 
+            cGestionClassement = new BaseCommande(GestionClassement);
             cAjouterClassement = new BaseCommande(AjouterClassement);
             cModifierClassement = new BaseCommande(ModifierClassement);
             cConfirmerClassement = new BaseCommande(ConfirmerClassement);
@@ -882,7 +969,6 @@ namespace Encodage_Fermette.ViewModel
             cAnnulerEvent = new BaseCommande(AnnulerEvent);
             #endregion
         }
-        #endregion
     }
     #region VM
     public class VM_Un_Menu : BasePropriete
