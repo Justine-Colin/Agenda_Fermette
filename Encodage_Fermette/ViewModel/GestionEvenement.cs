@@ -22,10 +22,6 @@ namespace Encodage_Fermette.ViewModel
         int ajoutclassement;
         int najoutevent;
 
-        #region gestion couleur bouton 
-
-        #endregion
-
         #region Gestion affichage 
 
         private bool _ActiverUneFicheEvent;
