@@ -53,9 +53,47 @@
             </Viewbox>
             <StackPanel Orientation="Horizontal" Grid.Row="3" HorizontalAlignment="Center" Margin="3">
                 <Button Name="btnEvent" Content="Event" Margin="3,3,3,0" IsEnabled="{Binding Path=ActiverCalendrierDate, Mode=OneWay}"
-           Command="{Binding cGestionEvent}" Height="20" VerticalAlignment="Top" />
+           Command="{Binding cGestionEvent}" Height="20" VerticalAlignment="Top">
+                    <Button.Style>
+                        <Style TargetType="Button">
+                            <Setter Property="Background" Value="LightGray" />
+                            <Style.Triggers>
+                                <DataTrigger Binding="{Binding Path=ActiverCalendrierDate}"
+                             Value="True">
+                                    <Setter Property="Background" Value="LightBlue" />
+                                </DataTrigger>
+                            </Style.Triggers>
+                        </Style>
+                    </Button.Style>
+                </Button>
                 <Button Name="btnMenu" Content="Menu" Margin="3" IsEnabled="{Binding Path=ActiverCalendrierDate, Mode=OneWay}"
-           Command="{Binding cGestionMenu}" />
+           Command="{Binding cGestionMenu}">
+                    <Button.Style>
+                        <Style TargetType="Button">
+                            <Setter Property="Background" Value="LightGray" />
+                            <Style.Triggers>
+                                <DataTrigger Binding="{Binding Path=ActiverCalendrierDate}"
+                             Value="True">
+                                    <Setter Property="Background" Value="LightBlue" />
+                                </DataTrigger>
+                            </Style.Triggers>
+                        </Style>
+                    </Button.Style>
+                </Button>
+
+                <Button Margin="0,0,0,-0.4" Width="44">
+                    <Button.Style>
+                        <Style TargetType="Button">
+                            <Setter Property="Background" Value="LightGray" />
+                            <Style.Triggers>
+                                <DataTrigger Binding="{Binding Path=ActiverCalendrierDate}"
+                             Value="True">
+                                    <Setter Property="Background" Value="Pink" />
+                                </DataTrigger>
+                            </Style.Triggers>
+                        </Style>
+                    </Button.Style>
+                </Button>
             </StackPanel>
 
         </Grid>
@@ -76,16 +114,76 @@
         </GroupBox>
         <StackPanel Orientation="Horizontal" Grid.Row="3" HorizontalAlignment="Center" Margin="3">
             <Button Name="bAjouter" Content="Ajouter" Margin="3,3,3,2.6" IsEnabled="{Binding Path=ActiverUneFicheDate, Mode=OneWay}"
-           Command="{Binding cAjouterEvent}" />
+           Command="{Binding cAjouterEvent}" >
+                <Button.Style>
+                    <Style TargetType="Button">
+                        <Setter Property="Background" Value="LightGray" />
+                        <Style.Triggers>
+                            <DataTrigger Binding="{Binding Path=ActiverUneFicheDate}"
+                             Value="True">
+                                <Setter Property="Background" Value="LightBlue" />
+                            </DataTrigger>
+                        </Style.Triggers>
+                    </Style>
+                </Button.Style>
+            </Button>
             <Button Name="bModifier" Content="Modifier" Margin="3" IsEnabled="{Binding Path=ActiverUneFicheDate, Mode=OneWay}"
-           Command="{Binding cModifierEvent}" />
+           Command="{Binding cModifierEvent}" >
+                <Button.Style>
+                    <Style TargetType="Button">
+                        <Setter Property="Background" Value="LightGray" />
+                        <Style.Triggers>
+                            <DataTrigger Binding="{Binding Path=ActiverUneFicheDate}"
+                             Value="True">
+                                <Setter Property="Background" Value="LightBlue" />
+                            </DataTrigger>
+                        </Style.Triggers>
+                    </Style>
+                </Button.Style>
+            </Button>
             <Button Name="bSupprimer" Content="Supprimer" Margin="3" IsEnabled="{Binding Path=ActiverUneFicheDate, Mode=OneWay}"
-           Command="{Binding cSupprimerEvent}" />
+           Command="{Binding cSupprimerEvent}" >
+                <Button.Style>
+                    <Style TargetType="Button">
+                        <Setter Property="Background" Value="LightGray" />
+                        <Style.Triggers>
+                            <DataTrigger Binding="{Binding Path=ActiverUneFicheDate}"
+                             Value="True">
+                                <Setter Property="Background" Value="LightBlue" />
+                            </DataTrigger>
+                        </Style.Triggers>
+                    </Style>
+                </Button.Style>
+            </Button>
             <Button Name="bClassement" Content="Gerer Classement" Margin="3" IsEnabled="{Binding Path=ActiverUneFicheDate, Mode=OneWay}"
-           Command="{Binding cGestionClassement}" />
+           Command="{Binding cGestionClassement}" >
+                <Button.Style>
+                    <Style TargetType="Button">
+                        <Setter Property="Background" Value="LightGray" />
+                        <Style.Triggers>
+                            <DataTrigger Binding="{Binding Path=ActiverUneFicheDate}"
+                             Value="True">
+                                <Setter Property="Background" Value="LightBlue" />
+                            </DataTrigger>
+                        </Style.Triggers>
+                    </Style>
+                </Button.Style>
+            </Button>
 
             <Button Name="bRetourDateevent" Content="RetourDate" Margin="3" IsEnabled="{Binding Path=ActiverUneFicheDate, Mode=OneWay}"
-           Command="{Binding cGestionRetourDateEvent}" />
+           Command="{Binding cGestionRetourDateEvent}">
+                <Button.Style>
+                    <Style TargetType="Button">
+                        <Setter Property="Background" Value="LightGray" />
+                        <Style.Triggers>
+                            <DataTrigger Binding="{Binding Path=ActiverUneFicheDate}"
+                             Value="True">
+                                <Setter Property="Background" Value="LightBlue" />
+                            </DataTrigger>
+                        </Style.Triggers>
+                    </Style>
+                </Button.Style>
+            </Button>
 
         </StackPanel>
         <Grid Name="GridEvenement" Grid.Row="2" Grid.Column="1">
@@ -230,11 +328,59 @@
 
                 </DataGrid>
                 <StackPanel  Grid.Row="2" Orientation="Horizontal" HorizontalAlignment="Center">
-                    <Button Content="Ajouter" Margin="3" Command="{Binding cAjouterMenu}" IsEnabled="{Binding Path=ActiverFicheMenu, Mode=OneWay}"/>
-                    <Button Content="Modifier" Margin="3" Command="{Binding cModifierMenu}" IsEnabled="{Binding Path=ActiverFicheMenu, Mode=OneWay}"/>
-                    <Button Content="Supprimer" Margin="3" Command="{Binding cSupprimerMenu}" IsEnabled="{Binding Path=ActiverFicheMenu, Mode=OneWay}"/>
+                    <Button Content="Ajouter" Margin="3" Command="{Binding cAjouterMenu}" IsEnabled="{Binding Path=ActiverFicheMenu, Mode=OneWay}">
+                        <Button.Style>
+                            <Style TargetType="Button">
+                                <Setter Property="Background" Value="LightGray" />
+                                <Style.Triggers>
+                                    <DataTrigger Binding="{Binding Path=ActiverFicheMenu}"
+                             Value="True">
+                                        <Setter Property="Background" Value="LightBlue" />
+                                    </DataTrigger>
+                                </Style.Triggers>
+                            </Style>
+                        </Button.Style>
+                    </Button>
+                    <Button Content="Modifier" Margin="3" Command="{Binding cModifierMenu}" IsEnabled="{Binding Path=ActiverFicheMenu, Mode=OneWay}">
+                        <Button.Style>
+                            <Style TargetType="Button">
+                                <Setter Property="Background" Value="LightGray" />
+                                <Style.Triggers>
+                                    <DataTrigger Binding="{Binding Path=ActiverFicheMenu}"
+                             Value="True">
+                                        <Setter Property="Background" Value="LightBlue" />
+                                    </DataTrigger>
+                                </Style.Triggers>
+                            </Style>
+                        </Button.Style>
+                    </Button>
+                    <Button Content="Supprimer" Margin="3" Command="{Binding cSupprimerMenu}" IsEnabled="{Binding Path=ActiverFicheMenu, Mode=OneWay}">
+                        <Button.Style>
+                            <Style TargetType="Button">
+                                <Setter Property="Background" Value="LightGray" />
+                                <Style.Triggers>
+                                    <DataTrigger Binding="{Binding Path=ActiverFicheMenu}"
+                             Value="True">
+                                        <Setter Property="Background" Value="LightBlue" />
+                                    </DataTrigger>
+                                </Style.Triggers>
+                            </Style>
+                        </Button.Style>
+                    </Button>
                     <Button Name="bRetourDateMenu" Content="RetourDate" Margin="3" IsEnabled="{Binding Path=ActiverFicheMenu, Mode=OneWay}"
-           Command="{Binding cGestionRetourDateMenu}" />
+           Command="{Binding cGestionRetourDateMenu}">
+                        <Button.Style>
+                            <Style TargetType="Button">
+                                <Setter Property="Background" Value="LightGray" />
+                                <Style.Triggers>
+                                    <DataTrigger Binding="{Binding Path=ActiverFicheMenu}"
+                             Value="True">
+                                        <Setter Property="Background" Value="LightBlue" />
+                                    </DataTrigger>
+                                </Style.Triggers>
+                            </Style>
+                        </Button.Style>
+                    </Button>
 
                 </StackPanel>
             </Grid>
@@ -268,8 +414,33 @@
                         </DataGrid.Columns>
                     </DataGrid>
                     <StackPanel  VerticalAlignment="Center" Orientation="Vertical" HorizontalAlignment="Center" Grid.Row="0" Grid.Column="1"  Margin="3">
-                        <Button Width="40" Content="add"  Name="btnaddstaff" Margin="3" IsEnabled="{Binding Path=ActiverUneFicheEvent, Mode=OneWay}" Command="{Binding cAjouterStaffParticipant}"/>
-                        <Button Width="40" Content="del"  Name="btndel" Margin="3" IsEnabled="{Binding Path=ActiverUneFicheEvent, Mode=OneWay}" Command="{Binding cSupprimerStaffParticipan}"/>
+                        <Button Width="40" Content="add"  Name="btnaddstaff" Margin="3" IsEnabled="{Binding Path=ActiverUneFicheEvent, Mode=OneWay}" Command="{Binding cAjouterStaffParticipant}">
+                            <Button.Style>
+                                <Style TargetType="Button">
+                                    <Setter Property="Background" Value="LightGray" />
+                                    <Style.Triggers>
+                                        <DataTrigger Binding="{Binding Path=ActiverUneFicheEvent}"
+                             Value="True">
+                                            <Setter Property="Background" Value="LightBlue" />
+                                        </DataTrigger>
+                                    </Style.Triggers>
+                                </Style>
+                            </Button.Style>
+
+                        </Button>
+                        <Button Width="40" Content="del"  Name="btndel" Margin="3" IsEnabled="{Binding Path=ActiverUneFicheEvent, Mode=OneWay}" Command="{Binding cSupprimerStaffParticipan}">
+                            <Button.Style>
+                                <Style TargetType="Button">
+                                    <Setter Property="Background" Value="LightGray" />
+                                    <Style.Triggers>
+                                        <DataTrigger Binding="{Binding Path=ActiverUneFicheEvent}"
+                             Value="True">
+                                            <Setter Property="Background" Value="LightBlue" />
+                                        </DataTrigger>
+                                    </Style.Triggers>
+                                </Style>
+                            </Button.Style>
+                        </Button>
                     </StackPanel>
                     <DataGrid Name="dgStaffParticipant" Grid.Column="2" ItemsSource="{Binding Path=ListStaffParticipant}"  VerticalScrollBarVisibility="Visible"
             IsReadOnly="True" AutoGenerateColumns="False" IsEnabled="{Binding Path=ActiverUneFicheEvent, Mode=OneWay}"
@@ -302,8 +473,32 @@
                         </DataGrid.Columns>
                     </DataGrid>
                     <StackPanel  VerticalAlignment="Center" Orientation="Vertical" HorizontalAlignment="Center" Grid.Row="0" Grid.Column="1"  Margin="3">
-                        <Button Width="40" Content="add"  Name="btnaddbene" Margin="3" IsEnabled="{Binding Path=ActiverUneFicheEvent, Mode=OneWay}" Command="{Binding cAjouterBeneficiaireParticipant}"/>
-                        <Button Width="40" Content="del"  Name="btndelbene" Margin="3" IsEnabled="{Binding Path=ActiverUneFicheEvent, Mode=OneWay}" Command="{Binding cSupprimerBeneficiaireParticipan}"/>
+                        <Button Width="40" Content="add"  Name="btnaddbene" Margin="3" IsEnabled="{Binding Path=ActiverUneFicheEvent, Mode=OneWay}" Command="{Binding cAjouterBeneficiaireParticipant}">
+                            <Button.Style>
+                                <Style TargetType="Button">
+                                    <Setter Property="Background" Value="LightGray" />
+                                    <Style.Triggers>
+                                        <DataTrigger Binding="{Binding Path=ActiverUneFicheEvent}"
+                             Value="True">
+                                            <Setter Property="Background" Value="LightBlue" />
+                                        </DataTrigger>
+                                    </Style.Triggers>
+                                </Style>
+                            </Button.Style>
+                        </Button>
+                        <Button Width="40" Content="del"  Name="btndelbene" Margin="3" IsEnabled="{Binding Path=ActiverUneFicheEvent, Mode=OneWay}" Command="{Binding cSupprimerBeneficiaireParticipan}">
+                            <Button.Style>
+                                <Style TargetType="Button">
+                                    <Setter Property="Background" Value="LightGray" />
+                                    <Style.Triggers>
+                                        <DataTrigger Binding="{Binding Path=ActiverUneFicheEvent}"
+                             Value="True">
+                                            <Setter Property="Background" Value="LightBlue" />
+                                        </DataTrigger>
+                                    </Style.Triggers>
+                                </Style>
+                            </Button.Style>
+                        </Button>
                     </StackPanel>
                     <DataGrid Name="dgBeneficiaireParticipant" Grid.Column="2"  ItemsSource="{Binding Path=ListBenefiaireParticipant}"  VerticalScrollBarVisibility="Visible"
             IsReadOnly="True" AutoGenerateColumns="False" IsEnabled="{Binding Path=ActiverUneFicheEvent, Mode=OneWay}"
@@ -342,7 +537,20 @@
                             <ColumnDefinition Width="auto" />
                         </Grid.ColumnDefinitions>
                         <TextBlock Margin="3" Text="{Binding Path=UnClassement.Equipe1, Mode=TwoWay}" />
-                        <Button Grid.Column="1" Content=" modifier" Margin="3" Command="{Binding cModifierEquipe1}" IsEnabled="{Binding Path=ActiverficheClassement, Mode=OneWay}" />
+                        <Button Grid.Column="1" Content=" modifier" Margin="3" Command="{Binding cModifierEquipe1}" IsEnabled="{Binding Path=ActiverficheClassement, Mode=OneWay}">
+                            <Button.Style>
+                                <Style TargetType="Button">
+                                    <Setter Property="Background" Value="LightGray" />
+                                    <Style.Triggers>
+                                        <DataTrigger Binding="{Binding Path=ActiverficheClassement}"
+                             Value="True">
+                                            <Setter Property="Background" Value="LightBlue" />
+                                        </DataTrigger>
+                                    </Style.Triggers>
+                                </Style>
+                            </Button.Style>
+
+                        </Button>
                         <TextBlock/>
 
                     </Grid>
@@ -357,7 +565,19 @@
                             <ColumnDefinition Width="auto" />
                         </Grid.ColumnDefinitions>
                         <TextBlock Margin="3" Text="{Binding Path=UnClassement.Equipe2, Mode=TwoWay}" />
-                        <Button Grid.Column="1" Content=" modifier" Margin="3" Command="{Binding cModifierEquipe2}" IsEnabled="{Binding Path=ActiverficheClassement, Mode=OneWay}" />
+                        <Button Grid.Column="1" Content=" modifier" Margin="3" Command="{Binding cModifierEquipe2}" IsEnabled="{Binding Path=ActiverficheClassement, Mode=OneWay}">
+                            <Button.Style>
+                                <Style TargetType="Button">
+                                    <Setter Property="Background" Value="LightGray" />
+                                    <Style.Triggers>
+                                        <DataTrigger Binding="{Binding Path=ActiverficheClassement}"
+                             Value="True">
+                                            <Setter Property="Background" Value="LightBlue" />
+                                        </DataTrigger>
+                                    </Style.Triggers>
+                                </Style>
+                            </Button.Style>
+                        </Button>
 
                     </Grid>
                 </GroupBox>
@@ -371,19 +591,79 @@
                             <ColumnDefinition Width="auto"/>
                         </Grid.ColumnDefinitions>
                         <TextBlock Margin="3" Text="{Binding Path=UnClassement.Equipe3, Mode=TwoWay}"  />
-                        <Button Grid.Column="1" Content=" modifier" Margin="3" Command="{Binding cModifierEquipe3}"  IsEnabled="{Binding Path=ActiverficheClassement, Mode=OneWay}" />
+                        <Button Grid.Column="1" Content=" modifier" Margin="3" Command="{Binding cModifierEquipe3}"  IsEnabled="{Binding Path=ActiverficheClassement, Mode=OneWay}">
+                            <Button.Style>
+                                <Style TargetType="Button">
+                                    <Setter Property="Background" Value="LightGray" />
+                                    <Style.Triggers>
+                                        <DataTrigger Binding="{Binding Path=ActiverficheClassement}"
+                             Value="True">
+                                            <Setter Property="Background" Value="LightBlue" />
+                                        </DataTrigger>
+                                    </Style.Triggers>
+                                </Style>
+                            </Button.Style>
+                        </Button>
 
                     </Grid>
                 </GroupBox>
                 <StackPanel Orientation="Horizontal" HorizontalAlignment="Center" Grid.Row="3" Grid.Column="1"  Grid.ColumnSpan="2"  Margin="5">
                     <Button Name="bConforimer" Content="Ajouter Classement" Margin="3,3,3,0" IsEnabled="{Binding Path=ActiverModifClassement, Mode=OneWay}"
-           Command="{Binding cAjouterClassement}" Height="20" VerticalAlignment="Top" />
+           Command="{Binding cAjouterClassement}" Height="20" VerticalAlignment="Top">
+                        <Button.Style>
+                            <Style TargetType="Button">
+                                <Setter Property="Background" Value="LightGray" />
+                                <Style.Triggers>
+                                    <DataTrigger Binding="{Binding Path=ActiverModifClassement}"
+                             Value="True">
+                                        <Setter Property="Background" Value="LightBlue" />
+                                    </DataTrigger>
+                                </Style.Triggers>
+                            </Style>
+                        </Button.Style>
+                    </Button>
                     <Button Name="ModifierClassement" Content="Modifier Classement" Margin="3" IsEnabled="{Binding Path=ActiverModifClassement, Mode=OneWay}"
-           Command="{Binding cModifierClassement}" />
+           Command="{Binding cModifierClassement}">
+                        <Button.Style>
+                            <Style TargetType="Button">
+                                <Setter Property="Background" Value="LightGray" />
+                                <Style.Triggers>
+                                    <DataTrigger Binding="{Binding Path=ActiverModifClassement}"
+                             Value="True">
+                                        <Setter Property="Background" Value="LightBlue" />
+                                    </DataTrigger>
+                                </Style.Triggers>
+                            </Style>
+                        </Button.Style>
+                    </Button>
                     <Button Name="cSupprimerClass" Content="Supprimer CLassement" Margin="3" IsEnabled="{Binding Path=ActiverModifClassement, Mode=OneWay}"
-           Command="{Binding cSupprimerClassement}" />
+           Command="{Binding cSupprimerClassement}" >
+                        <Button.Style>
+                            <Style TargetType="Button">
+                                <Setter Property="Background" Value="LightGray" />
+                                <Style.Triggers>
+                                    <DataTrigger Binding="{Binding Path=ActiverModifClassement}"
+                             Value="True">
+                                        <Setter Property="Background" Value="LightBlue" />
+                                    </DataTrigger>
+                                </Style.Triggers>
+                            </Style>
+                        </Button.Style>
+                    </Button>
                     <Button Name="retourmenu" Content="retour event" Margin="3" IsEnabled="{Binding Path=ActiverModifClassement, Mode=OneWay}"
-           Command="{Binding cRetourGestionEvent}" />
+           Command="{Binding cRetourGestionEvent}">
+                        <Button.Style>
+                            <Style TargetType="Button">
+                                <Setter Property="Background" Value="LightGray" />
+                                <Style.Triggers>
+                                    <DataTrigger Binding="{Binding Path=ActiverModifClassement}"
+                             Value="True">
+                                        <Setter Property="Background" Value="LightBlue" />
+                                    </DataTrigger>
+                                </Style.Triggers>
+                            </Style>
+                        </Button.Style>
+                    </Button>
 
                 </StackPanel>
                 <ComboBox Grid.Row="4" Margin="5" 
@@ -393,9 +673,33 @@
                   DisplayMemberPath="Eq_Nom"/>
                 <StackPanel  Orientation="Horizontal" HorizontalAlignment="Center" Grid.Row="5" Grid.Column="1"  Grid.ColumnSpan="2"  Margin="3">
                     <Button Name="cConfirmer" Content="Confirmer Classement " Margin="3,0,3,2.6" IsEnabled="{Binding Path=ActiverficheClassement, Mode=OneWay}"
-           Command="{Binding cConfirmerClassement}" Height="20" VerticalAlignment="Bottom" />
+           Command="{Binding cConfirmerClassement}" Height="20" VerticalAlignment="Bottom" >
+                        <Button.Style>
+                            <Style TargetType="Button">
+                                <Setter Property="Background" Value="LightGray" />
+                                <Style.Triggers>
+                                    <DataTrigger Binding="{Binding Path=ActiverficheClassement}"
+                             Value="True">
+                                        <Setter Property="Background" Value="LightBlue" />
+                                    </DataTrigger>
+                                </Style.Triggers>
+                            </Style>
+                        </Button.Style>
+                    </Button>
                     <Button Name="cAnnulerClassement" Content="Annuler Classement " Margin="3,0,3,2.6" IsEnabled="{Binding Path=ActiverficheClassement, Mode=OneWay}"
-           Command="{Binding cAnnulerClassement}" Height="20" VerticalAlignment="Bottom" />
+           Command="{Binding cAnnulerClassement}" Height="20" VerticalAlignment="Bottom">
+                        <Button.Style>
+                            <Style TargetType="Button">
+                                <Setter Property="Background" Value="LightGray" />
+                                <Style.Triggers>
+                                    <DataTrigger Binding="{Binding Path=ActiverficheClassement}"
+                             Value="True">
+                                        <Setter Property="Background" Value="LightBlue" />
+                                    </DataTrigger>
+                                </Style.Triggers>
+                            </Style>
+                        </Button.Style>
+                    </Button>
 
                 </StackPanel>
 
@@ -403,9 +707,34 @@
         </GroupBox>
         <StackPanel Orientation="Horizontal" HorizontalAlignment="Center" Grid.Row="3" Grid.Column="1"  Grid.ColumnSpan="2"  Margin="3">
             <Button Name="cAjouteurClassement" Content="Confirmer Event" Margin="3" IsEnabled="{Binding Path=ActiverUneFicheEvent, Mode=OneWay}"
-           Command="{Binding cConfirmerEvent}" />
+           Command="{Binding cConfirmerEvent}" >
+                <Button.Style>
+                    <Style TargetType="Button">
+                        <Setter Property="Background" Value="LightGray" />
+                        <Style.Triggers>
+                            <DataTrigger Binding="{Binding Path=ActiverUneFicheEvent}"
+                             Value="True">
+                                <Setter Property="Background" Value="LightBlue" />
+                            </DataTrigger>
+                        </Style.Triggers>
+                    </Style>
+                </Button.Style>
+            </Button>
+
             <Button Name="cSupprimerClassement" Content="Annuler Event" Margin="3" IsEnabled="{Binding Path=ActiverUneFicheEvent, Mode=OneWay}"
-           Command="{Binding cAnnulerEvent}" />
+           Command="{Binding cAnnulerEvent}" >
+                <Button.Style>
+                    <Style TargetType="Button">
+                        <Setter Property="Background" Value="LightGray" />
+                        <Style.Triggers>
+                            <DataTrigger Binding="{Binding Path=ActiverUneFicheEvent}"
+                             Value="True">
+                                <Setter Property="Background" Value="LightBlue" />
+                            </DataTrigger>
+                        </Style.Triggers>
+                    </Style>
+                </Button.Style>
+            </Button>
         </StackPanel>
     </Grid>
 </Window>
