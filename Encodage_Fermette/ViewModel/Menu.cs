@@ -362,13 +362,25 @@ namespace Encodage_Fermette.ViewModel
                     NouveauNourriture.ID_Nourriture = new CoucheGestion.G_T_Nourriture(chConnexion).Ajouter(NouveauNourriture.No_Descriptif, NouveauNourriture.No_Type);
                     C_Vue_ID_Descr tmp = new C_Vue_ID_Descr(NouveauNourriture.ID_Nourriture, NouveauNourriture.No_Descriptif);
                     if (NouveauNourriture.No_Type == 0)
+                    {
                         ListEntree.Add(tmp);
+                        EntreeSelectionne = tmp;
+                    }
                     else if (NouveauNourriture.No_Type == 1)
+                    {
                         ListPlat.Add(tmp);
+                        PlatSelectionne = tmp;
+                    }
                     else if (NouveauNourriture.No_Type == 2)
+                    {
                         ListDessert.Add(tmp);
+                        DessertSelectionne = tmp;
+                    }
                     else if (NouveauNourriture.No_Type == 3)
+                    {
                         ListCollation.Add(tmp);
+                        CollationSelectionne = tmp;
+                    }
                     System.Windows.MessageBox.Show("Votre Nourriture a été ajoutée");
 
                 }
