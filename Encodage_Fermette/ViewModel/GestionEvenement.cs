@@ -266,6 +266,7 @@ namespace Encodage_Fermette.ViewModel
         public BaseCommande cConfirmerClassement { get; set; }
         public BaseCommande cSupprimerClassement { get; set; }
         public BaseCommande cAnnulerClassement { get; set; }
+        public BaseCommande cRetourGestionEvent { get; set; }
 
         public BaseCommande cModifierMenu { get; set; }
         public BaseCommande cSupprimerMenu { get; set; }
@@ -559,7 +560,6 @@ namespace Encodage_Fermette.ViewModel
             else
                 System.Windows.MessageBox.Show("pas de membres");
         }
-
         public void ModifierEquipe1()
         {
             if ( EquipeListSelectionne != null)
@@ -620,14 +620,9 @@ namespace Encodage_Fermette.ViewModel
         {
             if (UnClassement.ID_Classement != 0)
             {
-                if (UnClassement.ID_Equipe1 != 0 || UnClassement.ID_Equipe2 != 0 || UnClassement.ID_Equipe3 != 0)
-                {       // UnClassement = new VM_Un_Classement();
                     ajoutclassement = 1;
                     ActiverModifClassement = false;
                     ActiverficheClassement = true;
-                }
-                else
-                System.Windows.MessageBox.Show("Il manque une équipe");
             }
             else
                 System.Windows.MessageBox.Show("Il n'y pas de classement a modifier ");
@@ -929,6 +924,12 @@ namespace Encodage_Fermette.ViewModel
             else 
             System.Windows.MessageBox.Show("Veuillez sélectionner un event ");
         }
+        public void RetourGestionEvent()
+        {
+            ActiverModifClassement = ActiverficheClassement = false;
+            ActiverUneFicheDate = true;
+            UnClassement = new  VM_Un_Classement();
+        }
         #endregion
         #endregion
 
@@ -961,6 +962,7 @@ namespace Encodage_Fermette.ViewModel
             cConfirmerClassement = new BaseCommande(ConfirmerClassement);
             cSupprimerClassement = new BaseCommande(SupprimerClassement);
             cAnnulerClassement = new BaseCommande(AnnulerClassement);
+            cRetourGestionEvent = new BaseCommande(RetourGestionEvent);
 
             cModifierEquipe1 = new BaseCommande(ModifierEquipe1);
             cModifierEquipe2 = new BaseCommande(ModifierEquipe2);

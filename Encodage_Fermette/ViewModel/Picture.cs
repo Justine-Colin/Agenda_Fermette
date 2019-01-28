@@ -23,7 +23,6 @@ namespace Encodage_Fermette.ViewModel
                 string FileName = Path.GetFileName(PicFullPath); // On récupère uniquement le nom du fichier et son extension du chemin entré dans le dialog
                 string path = Path.Combine(AppDomain.CurrentDomain.BaseDirectory, "Resources\\Pictures\\" + NomDossier); // On génère le chemin du dossier "~\Images\Evenements\"
                 Directory.CreateDirectory(path); // Si les dossiers n'existent pas encore, ils sont créés
-                path = Path.Combine(path, NomFichier + Path.GetExtension(PicFullPath)); // On rajoute le nom du fichier au path
                 // Vérification qu'un fichier du même nom n'existe pas déjà
                 if (File.Exists(path))
                 {
