@@ -48,6 +48,8 @@
                     <ColumnDefinition Width="auto" />
                     <ColumnDefinition Width="auto" />
                     <ColumnDefinition Width="auto" />
+                    <ColumnDefinition Width="auto" />
+
                 </Grid.ColumnDefinitions>
                 <TextBlock  Grid.Column="0" Name="tENom" Text="Nom"  Grid.Row="0" VerticalAlignment="Center" />
                 <ComboBox Grid.Column="1" Grid.Row="0"
@@ -61,6 +63,8 @@
                 <Button Margin="3,3,3,3" Grid.Column="2" Name="cAjouterEntree" Content="Add"  IsEnabled="{Binding Path=ActiverUneFiche, Mode=OneWay}" Command="{Binding cAjouterEntree}" />
                 <Button Margin="3,3,3,3" Grid.Column="3" Name="cSupprimerEntree" Content="Del"  IsEnabled="{Binding Path=ActiverUneFiche, Mode=OneWay}" Command="{Binding cSupprimerEntree}" />
                 <Button Margin="3,3,3,3" Grid.Column="4" Name="cModifierEntree" Content="Modif"  IsEnabled="{Binding Path=ActiverUneFiche, Mode=OneWay}" Command="{Binding cModifierEntree}" />
+                <Button Margin="3,3,3,3" Grid.Column="5" Name="bphotoEntree" Content="photo"  IsEnabled="{Binding Path=ActiverUneFiche, Mode=OneWay}" Command="{Binding CAjouterPhotoEntree}" />
+
             </Grid>
         </GroupBox>
 
@@ -75,6 +79,8 @@
                     <ColumnDefinition Width="auto" />
                     <ColumnDefinition Width="auto" />
                     <ColumnDefinition Width="auto" />
+                    <ColumnDefinition Width="auto" />
+
                 </Grid.ColumnDefinitions>
                 <TextBlock Name="tPNom" Text="Nom"  Grid.Row="0" VerticalAlignment="Center" />
                 <ComboBox  Grid.Column="1" Grid.Row="0"
@@ -87,6 +93,8 @@
                 <Button Margin="3,3,3,3" Grid.Column="2" Name="cAjouterPlat" Content="Add"  IsEnabled="{Binding Path=ActiverUneFiche, Mode=OneWay}" Command="{Binding cAjouterPlat}" />
                 <Button Margin="3,3,3,3" Grid.Column="3" Name="cSupprimerPlat" Content="Del"  IsEnabled="{Binding Path=ActiverUneFiche, Mode=OneWay}" Command="{Binding cSupprimerPlat}" />
                 <Button Margin="3,3,3,3" Grid.Column="4" Name="cModifierPlat" Content="Modif"  IsEnabled="{Binding Path=ActiverUneFiche, Mode=OneWay}" Command="{Binding cModifierPlat}" />
+                <Button Margin="3,3,3,3" Grid.Column="5" Name="bphotoPlat" Content="photo"  IsEnabled="{Binding Path=ActiverUneFiche, Mode=OneWay}" Command="{Binding CAjouterPhotoPlat}" />
+
             </Grid>
         </GroupBox>
 
@@ -101,6 +109,8 @@
                     <ColumnDefinition Width="auto" />
                     <ColumnDefinition Width="auto" />
                     <ColumnDefinition Width="auto" />
+                    <ColumnDefinition Width="auto" />
+
                 </Grid.ColumnDefinitions>
                 <TextBlock Name="tDNom" Text="Nom" Grid.Column="0" Grid.Row="0" VerticalAlignment="Center" />
                 <ComboBox Grid.Column="1" Grid.Row="0"
@@ -113,6 +123,8 @@
                 <Button Margin="3,3,3,3" Grid.Column="2" Name="cAjouterDessert" Content="Add"  IsEnabled="{Binding Path=ActiverUneFiche, Mode=OneWay}" Command="{Binding cAjouterDessert}" />
                 <Button Margin="3,3,3,3" Grid.Column="3" Name="cSupprimerDessert" Content="Del"  IsEnabled="{Binding Path=ActiverUneFiche, Mode=OneWay}" Command="{Binding cSupprimerDessert}" />
                 <Button Margin="3,3,3,3" Grid.Column="4" Name="cModifierDessert" Content="Modif"  IsEnabled="{Binding Path=ActiverUneFiche, Mode=OneWay}" Command="{Binding cModifierDessert}" />
+                <Button Margin="3,3,3,3" Grid.Column="5" Name="bphotoDessert" Content="photo"  IsEnabled="{Binding Path=ActiverUneFiche, Mode=OneWay}" Command="{Binding CAjouterPhotoDessert}" />
+
 
             </Grid>
         </GroupBox>
@@ -125,6 +137,7 @@
                 <Grid.ColumnDefinitions>
                     <ColumnDefinition Width="auto" />
                     <ColumnDefinition Width="*" />
+                    <ColumnDefinition Width="auto" />
                     <ColumnDefinition Width="auto" />
                     <ColumnDefinition Width="auto" />
                     <ColumnDefinition Width="auto" />
@@ -141,7 +154,7 @@
                 <Button Margin="3,3,3,3" Grid.Column="2" Name="cAjouterCollation" Content="Add"  IsEnabled="{Binding Path=ActiverUneFiche, Mode=OneWay}" Command="{Binding cAjouterCollation}" />
                 <Button Margin="3,3,3,3" Grid.Column="3" Name="cSupprimerCollation" Content="Del"  IsEnabled="{Binding Path=ActiverUneFiche, Mode=OneWay}" Command="{Binding cSupprimerCollation}" />
                 <Button Margin="3,3,3,3" Grid.Column="4" Name="cModifierCollation" Content="Modif"  IsEnabled="{Binding Path=ActiverUneFiche, Mode=OneWay}" Command="{Binding cModifierCollation}" />
-
+                <Button Margin="3,3,3,3" Grid.Column="5" Name="bphotoCollation" Content="photo"  IsEnabled="{Binding Path=ActiverUneFiche, Mode=OneWay}" Command="{Binding CAjouterPhotoCollation}" />
             </Grid>
         </GroupBox>
         

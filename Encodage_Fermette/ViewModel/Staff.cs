@@ -60,6 +60,7 @@ namespace Encodage_Fermette.ViewModel
         public BaseCommande cAjouter { get; set; }
         public BaseCommande cModifier { get; set; }
         public BaseCommande cSupprimer { get; set; }
+        public BaseCommande cAjouterPhoto { get; set; }
         #endregion
 
         public VM_Staff()
@@ -77,6 +78,17 @@ namespace Encodage_Fermette.ViewModel
             cAjouter = new BaseCommande(Ajouter);
             cModifier = new BaseCommande(Modifier);
             cSupprimer = new BaseCommande(Supprimer);
+            cAjouterPhoto = new BaseCommande(AjouterPhoto);
+        }
+        private void AjouterPhoto()
+        {
+            if (StaffSelectionne != null)
+            {
+                Picture p = new Picture();
+                p.AjouterPhoto("Staffs", UnStaff.ID.ToString());
+            }
+            else
+                System.Windows.MessageBox.Show("Veuillez Selectionner un Staff");
         }
         private ObservableCollection<C_T_Staff> ChargerStaff(string chConn)
         {

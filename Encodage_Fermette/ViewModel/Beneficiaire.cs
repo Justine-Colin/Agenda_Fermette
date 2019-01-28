@@ -203,7 +203,10 @@ namespace Encodage_Fermette.ViewModel
         {
             if (BeneficiairefSelectionne != null)
             {
-                OpenFileDialog PicDlg = new OpenFileDialog
+                Picture p = new Picture();
+                p.AjouterPhoto("Beneficiaires", BeneficiairefSelectionne.ID_Beneficiaire.ToString());
+
+               /* OpenFileDialog PicDlg = new OpenFileDialog
                 { Filter = "Photo (*.PNG;*.JPG;*.jpeg)|*.PNG;*.JPG;*.jpeg" };
                 if (PicDlg.ShowDialog() == true)
                 {
@@ -229,8 +232,9 @@ namespace Encodage_Fermette.ViewModel
                     int ID = new G_PhotoEvenement(sChConn).Ajouter(this.IDevenement, path, false);
                     // MàJ locale
                     PhotosEvenement.Add(new C_PhotoEvenement(ID, this.IDevenement, path, false));
+                  }
                     */
-                }
+                
             }
             else
                 System.Windows.MessageBox.Show("Veuillez choisir un beneficiaire !");

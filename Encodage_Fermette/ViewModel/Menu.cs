@@ -163,8 +163,55 @@ namespace Encodage_Fermette.ViewModel
         public BaseCommande cModifierPlat { get; set; }
         public BaseCommande cModifierDessert { get; set; }
         public BaseCommande cModifierCollation { get; set; }
+
+        public BaseCommande CAjouterPhotoEntree { get; set; }
+        public BaseCommande CAjouterPhotoPlat { get; set; }
+        public BaseCommande CAjouterPhotoDessert { get; set; }
+        public BaseCommande CAjouterPhotoCollation { get; set; }
+
         #endregion
 
+        public void AjouterPhotoEntree()
+        {
+            if (EntreeSelectionne != null)
+            {
+                Picture p = new Picture();
+                p.AjouterPhoto("Entrees", EntreeSelectionne.ID.ToString());
+            }
+            else
+                System.Windows.MessageBox.Show("Veuillez Selectionner une Entree");
+        }
+        public void AjouterPhotoPlat()
+        {
+            if (PlatSelectionne != null)
+            {
+                Picture p = new Picture();
+                p.AjouterPhoto("Plats", PlatSelectionne.ID.ToString());
+            }
+            else
+                System.Windows.MessageBox.Show("Veuillez Selectionner un Plat");
+        }
+        public void AjouterPhotoDessert()
+        {
+            if (DessertSelectionne != null)
+            {
+                Picture p = new Picture();
+                p.AjouterPhoto("Desserts", DessertSelectionne.ID.ToString());
+            }
+            else
+                System.Windows.MessageBox.Show("Veuillez Selectionner un Dessert");
+        }
+        public void AjouterPhotoCollation()
+        {
+            if (CollationSelectionne != null)
+            {
+                Picture p = new Picture();
+                p.AjouterPhoto("Collations", CollationSelectionne.ID.ToString());
+            }
+            else
+                System.Windows.MessageBox.Show("Veuillez Selectionner un Collations");
+
+        }
         public VM_Menu()
         {
             UnMenu = new VM_Un_Menu();
@@ -192,6 +239,11 @@ namespace Encodage_Fermette.ViewModel
             cModifier = new BaseCommande(Modifier);
             cSupprimer = new BaseCommande(Supprimer);
 
+            CAjouterPhotoEntree = new BaseCommande(AjouterPhotoEntree);
+            CAjouterPhotoPlat = new BaseCommande(AjouterPhotoPlat);
+            CAjouterPhotoDessert = new BaseCommande(AjouterPhotoDessert);
+            CAjouterPhotoCollation = new BaseCommande(AjouterPhotoCollation);
+
             cAjouterEntree = new BaseCommande(AjouteurEntree);
             cSupprimerEntree = new BaseCommande(SupprimerEntree);
             cModifierEntree = new BaseCommande(ModifierEntree);
@@ -213,7 +265,6 @@ namespace Encodage_Fermette.ViewModel
         }
         public void Confirmer()
         {
-
             if (EntreeSelectionne != null && PlatSelectionne != null && DessertSelectionne != null && CollationSelectionne != null)
             {
                 if (nAjout == -1)
