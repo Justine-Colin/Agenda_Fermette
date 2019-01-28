@@ -104,13 +104,13 @@ namespace Encodage_Fermette.ViewModel
             {
                 if (nAjout == -1)
                 {
-                    UnBeneficiaire.ID = new G_T_Beneficiaire(chConnexion).Ajouter(UnBeneficiaire.Nom, UnBeneficiaire.Pre, UnBeneficiaire.Nai, UnBeneficiaire.Sexe);
-                    BcpBeneficiaire.Add(new C_T_Beneficiaire(UnBeneficiaire.ID, UnBeneficiaire.Nom, UnBeneficiaire.Pre, UnBeneficiaire.Nai, UnBeneficiaire.Sexe));
+                    UnBeneficiaire.ID = new G_T_Beneficiaire(chConnexion).Ajouter(UnBeneficiaire.Nom, UnBeneficiaire.Pre, UnBeneficiaire.Nai, UnBeneficiaire.Sexe, UnBeneficiaire.Adresse);
+                    BcpBeneficiaire.Add(new C_T_Beneficiaire(UnBeneficiaire.ID, UnBeneficiaire.Nom, UnBeneficiaire.Pre, UnBeneficiaire.Nai, UnBeneficiaire.Sexe, UnBeneficiaire.Adresse));
                 }
                 else
                 {
-                    new CoucheGestion.G_T_Beneficiaire(chConnexion).Modifier(UnBeneficiaire.ID, UnBeneficiaire.Nom, UnBeneficiaire.Pre, UnBeneficiaire.Nai, UnBeneficiaire.Sexe);
-                    BcpBeneficiaire[nAjout] = new C_T_Beneficiaire(UnBeneficiaire.ID, UnBeneficiaire.Nom, UnBeneficiaire.Pre, UnBeneficiaire.Nai, UnBeneficiaire.Sexe);
+                    new CoucheGestion.G_T_Beneficiaire(chConnexion).Modifier(UnBeneficiaire.ID, UnBeneficiaire.Nom, UnBeneficiaire.Pre, UnBeneficiaire.Nai, UnBeneficiaire.Sexe, UnBeneficiaire.Adresse);
+                    BcpBeneficiaire[nAjout] = new C_T_Beneficiaire(UnBeneficiaire.ID, UnBeneficiaire.Nom, UnBeneficiaire.Pre, UnBeneficiaire.Nai, UnBeneficiaire.Sexe, UnBeneficiaire.Adresse);
                 }
                 ActiverUneFiche = false;
             }
@@ -136,6 +136,8 @@ namespace Encodage_Fermette.ViewModel
                 UnBeneficiaire.Pre = Tmp.B_Prenom;
                 UnBeneficiaire.Nom = Tmp.B_Nom;
                 UnBeneficiaire.Nai = Tmp.B_Annif;
+                UnBeneficiaire.Adresse = Tmp.B_Adresse;
+
                 nAjout = BcpBeneficiaire.IndexOf(BeneficiairefSelectionne);
                 ActiverUneFiche = true;
             }
@@ -165,6 +167,7 @@ namespace Encodage_Fermette.ViewModel
             UnBeneficiaire.Pre = BeneficiairefSelectionne.B_Prenom;
             UnBeneficiaire.Nai = BeneficiairefSelectionne.B_Annif;
             UnBeneficiaire.Sexe = BeneficiairefSelectionne.B_Sexe;
+            UnBeneficiaire.Adresse = BeneficiairefSelectionne.B_Adresse;
         }
         public class VM_Un_Beneficiaire : BasePropriete
         {
@@ -172,6 +175,7 @@ namespace Encodage_Fermette.ViewModel
             private string _Nom, _Pre;
             private DateTime _Nai;
             private bool _Sexe;
+            private string _Adresse;
             public int ID
             {
                 get { return _ID; }
@@ -197,6 +201,12 @@ namespace Encodage_Fermette.ViewModel
                 get { return _Sexe; }
                 set { AssignerChamp<bool>(ref _Sexe, value, System.Reflection.MethodBase.GetCurrentMethod().Name); }
             }
+            public string Adresse
+            {
+                get { return _Adresse; }
+                set { AssignerChamp<string>(ref _Adresse, value, System.Reflection.MethodBase.GetCurrentMethod().Name); }
+            }
+
         }
 
         public void AjouterPhoto()
@@ -204,37 +214,7 @@ namespace Encodage_Fermette.ViewModel
             if (BeneficiairefSelectionne != null)
             {
                 Picture p = new Picture();
-                p.AjouterPhoto("Beneficiaires", BeneficiairefSelectionne.ID_Beneficiaire.ToString());
-
-               /* OpenFileDialog PicDlg = new OpenFileDialog
-                { Filter = "Photo (*.PNG;*.JPG;*.jpeg)|*.PNG;*.JPG;*.jpeg" };
-                if (PicDlg.ShowDialog() == true)
-                {
-                    // Sauvegarde de la photo dans le dossier "~\Pictures\Beneficiaires\"
-                    string PicFullPath = PicDlg.FileName;
-                    string FileName = Path.GetFileName(PicFullPath); // On récupère uniquement le nom du fichier et son extension du chemin entré dans le dialog
-                    string path = Path.Combine(AppDomain.CurrentDomain.BaseDirectory, "Resources\\Pictures\\Beneficiaires"); // On génère le chemin du dossier "~\Images\Evenements\"
-                    Directory.CreateDirectory(path); // Si les dossiers n'existent pas encore, ils sont créés
-                    path = Path.Combine(path, FileName); // On rajoute le nom du fichier au path
-                                                         // Vérification qu'un fichier du même nom n'existe pas déjà
-                    string TestPath = path;
-                    int Count = 0;
-                    while (File.Exists(TestPath))
-                    {
-                        string tempFileName = string.Format("{0}({1})", Path.GetFileNameWithoutExtension(path), Count++);
-                        TestPath = Path.Combine(Path.GetDirectoryName(path), tempFileName + Path.GetExtension(path));
-                    }
-                    path = TestPath;
-                    File.Copy(PicFullPath, path); // Et on copie le fichier sélectionné dans "~\Images\Personnes\"
-
-                    /*
-                    // MàJ de la DB
-                    int ID = new G_PhotoEvenement(sChConn).Ajouter(this.IDevenement, path, false);
-                    // MàJ locale
-                    PhotosEvenement.Add(new C_PhotoEvenement(ID, this.IDevenement, path, false));
-                  }
-                    */
-                
+                p.AjouterPhoto("Beneficiaires", BeneficiairefSelectionne.ID_Beneficiaire.ToString());                
             }
             else
                 System.Windows.MessageBox.Show("Veuillez choisir un beneficiaire !");

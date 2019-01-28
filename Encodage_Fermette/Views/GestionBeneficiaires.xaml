@@ -63,6 +63,12 @@
                     </ComboBoxItem.Tag>
                 </ComboBoxItem>
             </ComboBox>
+            <TextBlock Name="tAdresse" Text="Adresse"  Grid.Row="5" VerticalAlignment="Center" />
+
+            <TextBox Name="tbAdresse" Grid.Row="4" Grid.Column="1" Margin="3"
+            Text="{Binding Path=UnBeneficiaire.Adresse, Mode=TwoWay}" />
+
+
         </Grid>
         <StackPanel Orientation="Horizontal" Grid.Row="1" HorizontalAlignment="Center" Margin="3">
             <Button Name="bConfirmer" Content="Confirmer" Margin="3" IsEnabled="{Binding Path=ActiverUneFiche, Mode=OneWay}"
